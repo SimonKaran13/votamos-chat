@@ -1,4 +1,5 @@
 import type { AgentUserData, AgentTopic, ConversationStage } from '@/lib/stores/agent-store';
+import type { Source } from '@/lib/stores/chat-store.types';
 
 // Use Next.js API routes as proxy to avoid CORS issues
 const API_BASE_URL = '/api/agent';
@@ -15,6 +16,7 @@ export interface ConversationMessagesResponse {
     messages: Array<{
         role: string;
         content: string;
+        sources?: SourcesReadyPayload[];
     }>;
 }
 
@@ -22,9 +24,15 @@ export interface ConversationTopicResponse {
     topic: AgentTopic;
 }
 
+export interface SourcesReadyPayload {
+    party_id: string;
+    sources: Source[];
+}
+
 export interface StreamEvent {
-    type: 'message_start' | 'message_chunk' | 'message_end' | 'end' | 'progress_update';
+    type: 'message_start' | 'message_chunk' | 'message_end' | 'end' | 'progress_update' | 'sources_ready';
     content?: string;
+    sources?: SourcesReadyPayload[];
 }
 
 /**

@@ -10,7 +10,9 @@ import {
     getConversationMessages,
     getConversationTopic,
     getConversationStage,
+    type SourcesReadyPayload,
 } from '@/lib/agent/agent-api';
+import type { Source } from '@/lib/stores/chat-store.types';
 import {
     saveConversationId,
     clearStoredConversation,
@@ -19,6 +21,20 @@ import {
 interface PageProps {
     params: Promise<{ conversationId: string }>;
 }
+
+// Helper to flatten per-party sources into a single array with party_id on each source
+const flattenSources = (sourcesPayload: SourcesReadyPayload[]): Source[] => {
+    const flattened: Source[] = [];
+    for (const partyGroup of sourcesPayload) {
+        for (const source of partyGroup.sources) {
+            flattened.push({
+                ...source,
+                party_id: partyGroup.party_id,
+            });
+        }
+    }
+    return flattened;
+};
 
 export default function ConversationPage({ params }: PageProps) {
     const { conversationId } = use(params);
@@ -56,6 +72,7 @@ export default function ConversationPage({ params }: PageProps) {
                         | 'user'
                         | 'assistant',
                     content: msg.content,
+                    sources: msg.sources ? flattenSources(msg.sources) : undefined,
                 }));
 
                 // Restore the conversation in the store

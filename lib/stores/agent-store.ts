@@ -2,6 +2,7 @@
 
 import { createStore } from 'zustand/vanilla';
 import { generateUuid } from '@/lib/utils';
+import type { Source } from '@/lib/stores/chat-store.types';
 
 // Types
 export type AgentStep =
@@ -54,6 +55,7 @@ export interface AgentMessage {
     id: string;
     role: 'user' | 'assistant';
     content: string;
+    sources?: Source[];
 }
 
 export interface AgentState {
@@ -84,7 +86,7 @@ export interface AgentActions {
     startNewConversation: () => void;
     restoreConversation: (
         conversationId: string,
-        messages: Array<{ role: 'user' | 'assistant'; content: string }>,
+        messages: Array<{ role: 'user' | 'assistant'; content: string; sources?: Source[] }>,
         topic: AgentTopic,
         stage: ConversationStage
     ) => void;
@@ -101,6 +103,7 @@ export interface AgentActions {
     setPendingUserMessage: (message: string | null) => void;
     setInitialMessageReceived: (received: boolean) => void;
     updateLastAssistantMessage: (content: string) => void;
+    updateLastAssistantSources: (sources: Source[]) => void;
 
     // Input actions
     setInput: (input: string) => void;
@@ -148,8 +151,10 @@ export const createAgentStore = (initState: Partial<AgentState> = {}) => {
             set({
                 conversationId,
                 messages: messages.map((msg) => ({
-                    ...msg,
                     id: generateUuid(),
+                    role: msg.role,
+                    content: msg.content,
+                    sources: msg.sources,
                 })),
                 topic,
                 conversationStage: stage,
@@ -196,6 +201,16 @@ export const createAgentStore = (initState: Partial<AgentState> = {}) => {
                 const lastIndex = messages.length - 1;
                 if (lastIndex >= 0 && messages[lastIndex].role === 'assistant') {
                     messages[lastIndex] = { ...messages[lastIndex], content };
+                }
+                return { messages };
+            }),
+
+        updateLastAssistantSources: (sources) =>
+            set((state) => {
+                const messages = [...state.messages];
+                const lastIndex = messages.length - 1;
+                if (lastIndex >= 0 && messages[lastIndex].role === 'assistant') {
+                    messages[lastIndex] = { ...messages[lastIndex], sources };
                 }
                 return { messages };
             }),

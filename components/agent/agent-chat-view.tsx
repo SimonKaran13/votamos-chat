@@ -9,7 +9,9 @@ import {
     createConversation,
     streamChatEvents,
     getConversationStage,
+    type SourcesReadyPayload,
 } from '@/lib/agent/agent-api';
+import type { Source } from '@/lib/stores/chat-store.types';
 import { saveConversationId } from '@/lib/agent/conversation-storage';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 import AiDisclaimer from '@/components/legal/ai-disclaimer';
@@ -39,6 +41,9 @@ export default function AgentChatView() {
     const updateLastAssistantMessage = useAgentStore(
         (state) => state.updateLastAssistantMessage
     );
+    const updateLastAssistantSources = useAgentStore(
+        (state) => state.updateLastAssistantSources
+    );
 
     const isConversationEnded = conversationStage === 'end';
 
@@ -67,6 +72,20 @@ export default function AgentChatView() {
         [setConversationStage]
     );
 
+    // Helper to flatten per-party sources into a single array with party_id on each source
+    const flattenSources = (sourcesPayload: SourcesReadyPayload[]): Source[] => {
+        const flattened: Source[] = [];
+        for (const partyGroup of sourcesPayload) {
+            for (const source of partyGroup.sources) {
+                flattened.push({
+                    ...source,
+                    party_id: partyGroup.party_id,
+                });
+            }
+        }
+        return flattened;
+    };
+
     // Stream assistant response
     const streamAssistantResponse = useCallback(
         async (convId: string, userMessage: string) => {
@@ -75,10 +94,14 @@ export default function AgentChatView() {
 
             try {
                 let currentContent = '';
+                let pendingSources: Source[] = [];
 
                 for await (const event of streamChatEvents(convId, userMessage)) {
                     if (event.type === 'progress_update' && event.content) {
                         setProgressMessage(event.content);
+                    } else if (event.type === 'sources_ready' && event.sources) {
+                        // Store sources to attach when message completes
+                        pendingSources = flattenSources(event.sources);
                     } else if (event.type === 'message_start') {
                         setProgressMessage(null);
                         addMessage({ role: 'assistant', content: '' });
@@ -87,7 +110,11 @@ export default function AgentChatView() {
                         currentContent += event.content;
                         updateLastAssistantMessage(currentContent);
                     } else if (event.type === 'message_end') {
-                        // Message complete
+                        // Attach sources if we received any
+                        if (pendingSources.length > 0) {
+                            updateLastAssistantSources(pendingSources);
+                            pendingSources = [];
+                        }
                     } else if (event.type === 'end') {
                         break;
                     }
@@ -107,7 +134,7 @@ export default function AgentChatView() {
                 setProgressMessage(null);
             }
         },
-        [addMessage, setIsStreaming, updateLastAssistantMessage, fetchConversationStage]
+        [addMessage, setIsStreaming, updateLastAssistantMessage, updateLastAssistantSources, fetchConversationStage]
     );
 
     // Initialize conversation and get first message
