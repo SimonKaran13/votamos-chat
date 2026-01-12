@@ -1,5 +1,6 @@
 'use client';
 
+import { exportHowToPDF } from '@/lib/how-to-pdf-export';
 import {
   DownloadIcon,
   MessageCircleQuestionIcon,
@@ -21,28 +22,6 @@ import {
   AccordionTrigger,
 } from './ui/accordion';
 import { Button } from './ui/button';
-
-// Type declaration for jsPDF
-type JsPDFConstructor = new (options?: {
-  orientation?: 'portrait' | 'landscape';
-  unit?: string;
-  format?: string;
-}) => {
-  internal: {
-    pageSize: {
-      getWidth: () => number;
-      getHeight: () => number;
-    };
-  };
-  setFontSize: (size: number) => void;
-  setFont: (font: string, style: string) => void;
-  splitTextToSize: (text: string, maxWidth: number) => string[];
-  text: (text: string, x: number, y: number) => void;
-  getTextWidth: (text: string) => number;
-  line: (x1: number, y1: number, x2: number, y2: number) => void;
-  addPage: () => void;
-  save: (filename: string) => void;
-};
 
 // Content configuration - single source of truth
 const PARTY_SPECIFIC_QUESTIONS = [
@@ -76,7 +55,8 @@ const PROCESS_STEPS = [
   'Du stellst eine Frage',
   'wahl.chat durchsucht relevante Dokumente wie Wahl- und Grundsatzprogramme, um die passenden Informationen zu finden.',
   'Die relevanten Informationen werden dann genutzt, um eine verständliche und quellenbasierte Antwort zu generieren.',
-  'Du kannst dir nun die Position der Partei einordnen lassen indem du auf den Knopf unter der Antwort klickst. Zusätzlich kannst du die Antwort auf Basis des Abstimmungsverhaltens der Partei analysieren lassen, sofern uns diese Informationen bei der jeweiligen Wahl zur Verfügung standen.',
+  'Du kannst dir nun die Position der Partei einordnen lassen, indem du auf den Knopf unter der Antwort klickst.',
+  'Falls uns das Abstimmungsverhalten der Partei vorliegt, kannst du die Antwort auch mit passenden Gesetzesvorschlägen abgleichen.',
 ];
 
 const ACCORDION_CONTENT = [
@@ -85,7 +65,7 @@ const ACCORDION_CONTENT = [
     title: 'Welche Fragen kann ich stellen?',
     content: {
       intro:
-        'Grundsätzlich kannst du alle Fragen stellen, die du zu den Positionen der Parteien hast. Falls du mehrere Parteien miteinander vergleichen willst, kannst sie entweder dem Chat hinzufügen oder sie einfach in der Frage erwähnen. Desweiteren kannst du auch Fragen zu generellen Themen wie dem Ablauf einer Wahl stellen.',
+        'Grundsätzlich kannst du alle Fragen stellen, die du zu den Positionen der Parteien hast. Falls du mehrere Parteien miteinander vergleichen willst, kannst du sie entweder dem Chat hinzufügen oder sie einfach in der Frage erwähnen. Des Weiteren kannst du auch Fragen zu generellen Themen wie dem Ablauf einer Wahl stellen.',
       sections: [
         {
           subtitle: 'Beispiele für Partei-spezifische Fragen:',
@@ -113,7 +93,7 @@ const ACCORDION_CONTENT = [
         'Kommunalwahl München - 8. März 2026',
       ],
       outro:
-        'Zusätzlich bieten wir einen bundesweiten Kontext an, der allgemeine Informationen über die Parteien auf Bundesebene enthält.',
+        'Zusätzlich können im Bereich **Bundesebene** allgemeine Informationen über die Positionen der Parteien beantwortet werden.',
     },
   },
   {
@@ -121,17 +101,17 @@ const ACCORDION_CONTENT = [
     title: 'Mit wie vielen Parteien kann ich chatten?',
     content: {
       paragraphs: [
-        `Du kannst den Chat mit bis zu ${MAX_SELECTABLE_PARTIES} Parteien gleichzeitig starten, hast aber die Möglichkeit während des chattens noch weitere Parteien anzusprechen.`,
-        'Desweiteren, kannst du ganz einfach durch den Plus-Knopf über dem Textfeld weitere Parteien zum Chat hinzufügen, oder auch wieder entfernen.',
+        `Du kannst den Chat mit bis zu ${MAX_SELECTABLE_PARTIES} Parteien gleichzeitig starten, hast aber die Möglichkeit, während des Chattens noch weitere Parteien anzusprechen.`,
+        'Des Weiteren kannst du ganz einfach durch den Plus-Knopf über dem Textfeld weitere Parteien zum Chat hinzufügen oder auch wieder entfernen.',
       ],
     },
   },
   {
     id: 'position',
-    title: 'Position Einordnen',
+    title: 'Position einordnen',
     content: {
       paragraphs: [
-        'Wenn du diesen Knopf unter einer der Nachrichten klickst, wird die Position der Nachricht eingeordnet. Dabei werden die folgenden Kriterien berücksichtigt: Machbarkeit, Kurzfristige und Langfristige Effekte.',
+        'Wenn du diesen Knopf unter einer der Nachrichten klickst, wird die Position der Nachricht eingeordnet. Dabei werden die folgenden Kriterien berücksichtigt: Machbarkeit, kurzfristige und langfristige Effekte.',
         'Hierbei nutzen wir aktuelle Informationen und Quellen aus dem Internet, die uns von Perplexity.ai zur Verfügung gestellt werden.',
       ],
     },
@@ -157,7 +137,7 @@ const ACCORDION_CONTENT = [
         'Internetquellen für die Einordnung von Positionen: Für die differenzierte Einordnung von Positionen nutzt wahl.chat den Dienst Perplexity.ai, der hochwertige Internetquellen wie Nachrichtenseiten verwendet.',
       ],
       outro:
-        'Wir haben alle Quellen die wahl.chat nutzt auf unserer Webseite unter /sources aufgelistet.',
+        'Wir haben alle Quellen, die wahl.chat nutzt, auf unserer Webseite unter /sources aufgelistet.',
     },
   },
   {
@@ -178,7 +158,82 @@ const ACCORDION_CONTENT = [
     content: {
       paragraphs: [
         'Die ursprüngliche Auswahl der Parteien für den bundesweiten Kontext erfolgte vor der Bundestagswahl 2025 und orientierte sich an der Veröffentlichung ihrer Wahlprogramme. Wir wollen nun nach und nach auch für die anderen unterstützten Wahlen eine möglichst vollständige Parteienauswahl anbieten und freuen uns dafür über deine Mithilfe.',
-        'Solltest du eine Partei vermissen, schreibe uns gerne eine E-Mail mit ihrem Grundsatzprogramm als PDF im Anhang an info@wahl.chat, und wir werden sie so schnell wie möglich ergänzen.',
+        'Solltest du eine Partei vermissen, schreibe uns gerne eine E-Mail mit ihrem Wahl- oder Grundsatzprogramm oder anderen relevanten Dokumenten als PDF an info@wahl.chat, und wir werden sie so schnell wie möglich ergänzen.',
+      ],
+    },
+  },
+  {
+    id: 'about-founders',
+    title: 'Wer steckt hinter wahl.chat und wie kam es dazu?',
+    content: {
+      intro:
+        'Gegründet wurde wahl.chat von fünf Studierenden der LMU, TUM und University of Cambridge. Sie kamen für ein gemeinsames Forschungsprojekt zum Thema KI in Cambridge zusammen und haben mittlerweile ihre Studien abgeschlossen.',
+      sections: [
+        {
+          subtitle: 'Die Gründungsmitglieder und ihre heutigen Positionen:',
+          list: [
+            'Sebastian Maier - Doktorand an der LMU München',
+            'Anton Wyrowski - Entwickler bei Perplexity',
+            'Michel Schimpf - Doktorand an der University of Cambridge',
+            'Robin Frasch - Doktorand an der Uni Hamburg',
+            'Roman Mayr - Entwickler bei Knowunity',
+          ],
+        },
+      ],
+      origin:
+        'Ende November 2024 saß das Team in Cambridge beim Mittagessen zusammen. Beim Gespräch kam das Thema auf, dass der Opa des Deutschrappers Ski Aggu am Wahl-O-Mat gearbeitet hat. Es kam die Idee auf, einen neuen Wahl-O-Mat mit KI für die Einordnung der eigenen Meinung zu den Wahlkampfthemen zu bauen. Doch wäre es nicht noch spannender, den Spieß umzudrehen und mit den für einen selbst relevanten Parteien ausführlicher zu chatten? Und nicht nur eine Aussage zu vorgeschriebenen Thesen zu erhalten, sondern ganz individuelle Anliegen klären zu können? Und so war Ende November 2024 die Idee für wahl.chat geboren.',
+      outro: 'Weitere Infos können auch unter /about-us nachgelesen werden.',
+    },
+  },
+  {
+    id: 'wahl-o-mat-difference',
+    title: 'Wie unterscheidet sich wahl.chat vom Wahl-O-Mat?',
+    content: {
+      intro:
+        'Beim Wahl-O-Mat entscheidet man zu vorgegebenen Thesen "finde ich gut", "hier bin ich neutral", oder "hier bin ich dagegen". wahl.chat ist dagegen wie ein offenes Gespräch, um besser zu verstehen, was die Parteien fordern.',
+      orderedList: [
+        'Fragen zu den Themen stellen, die einen selbst am meisten interessieren.',
+        'Ins Detail gehen, um die Begriffe, Vorstellungen und Pläne der Parteien genau zu verstehen.',
+        'Positionen kritisch einordnen, um Für- und Wider abzuwägen.',
+      ],
+    },
+  },
+  {
+    id: 'data-privacy',
+    title: 'Sind meine Daten bei der Verwendung von wahl.chat sicher?',
+    content: {
+      paragraphs: [
+        'Ja, wahl.chat kommt ohne Cookies und ohne die Erfassung persönlicher Daten aus. Lediglich die Chats werden anonymisiert gespeichert. Durch Zugriffskontrollen verhindern wir unbefugten Zugriff auf die Chats anderer.',
+        'Man sollte dennoch vermeiden, sensible persönliche Daten in die Chats zu schreiben.',
+      ],
+    },
+  },
+  {
+    id: 'usage-statistics',
+    title: 'Werden Nutzungsstatistiken erfasst?',
+    content: {
+      paragraphs: [
+        'Um wahl.chat kontinuierlich zu verbessern, werden die Webseitenanfragen und die anonymisierten Chatverläufe verwendet, um aggregierte Statistiken, wie die Anzahl der beantworteten Fragen oder die Parteien, mit denen am meisten gechattet wird, zu bestimmen.',
+        'Da wir die Entwicklung von wahl.chat wissenschaftlich begleiten, werden wir von Zeit zu Zeit unseren Nutzerinnen und Nutzern die Möglichkeit geben, an Studien teilzunehmen. Diese werden 100% freiwillig sein und eine Ablehnung wird keinen Einfluss auf die weitere Verwendbarkeit von wahl.chat haben. In diesen Studien werden wir die anonymisierten Nutzungsstatistiken verwenden, um die Wirkung von wahl.chat zu analysieren und den positiven Impact weiter zu verbessern.',
+      ],
+    },
+  },
+  {
+    id: 'learning',
+    title: 'Lernt wahl.chat mit der Zeit selbstständig dazu?',
+    content: {
+      paragraphs: [
+        'Nein, die Chatverläufe werden nicht für weiteres Training der LLMs verwendet. Wir arbeiten allerdings kontinuierlich daran, die Qualität der Antworten zu verbessern, halten unsere Datenbasis stets aktuell und planen, weitere relevante Dokumente zur Antwortgenerierung hinzuzufügen.',
+      ],
+    },
+  },
+  {
+    id: 'contribute',
+    title: 'Wie kann ich zu wahl.chat beitragen?',
+    content: {
+      paragraphs: [
+        'wahl.chat ist ein Open-Source-Projekt und unser Code ist öffentlich auf GitHub einsehbar unter https://github.com/wahl-chat.',
+        'Wir freuen uns über Unterstützung und sind immer auf der Suche nach Freiwilligen, die mit uns gemeinsam die Demokratie stärken möchten. Wenn du Interesse hast, dich einzubringen, kontaktiere uns gerne unter info@wahl.chat.',
       ],
     },
   },
@@ -201,133 +256,11 @@ function HowTo() {
   const exportToPDF = async () => {
     setIsExporting(true);
     try {
-      // Dynamic import to avoid SSR issues
-      const jsPDFModule = (await import('jspdf')) as {
-        default: JsPDFConstructor;
-      };
-      const jsPDF = jsPDFModule.default;
-
-      const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
+      await exportHowToPDF({
+        introText: INTRO_TEXT,
+        processSteps: PROCESS_STEPS,
+        accordionContent: ACCORDION_CONTENT,
       });
-
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-      const margin = 15;
-      const maxWidth = pageWidth - 2 * margin;
-      let yPosition = margin;
-
-      // Helper function to add text with word wrapping
-      const addText = (
-        text: string,
-        fontSize: number,
-        isBold = false,
-        isUnderline = false,
-      ) => {
-        if (yPosition > pageHeight - margin) {
-          doc.addPage();
-          yPosition = margin;
-        }
-
-        doc.setFontSize(fontSize);
-        doc.setFont('helvetica', isBold ? 'bold' : 'normal');
-
-        const lines = doc.splitTextToSize(text, maxWidth);
-        for (const line of lines) {
-          if (yPosition > pageHeight - margin) {
-            doc.addPage();
-            yPosition = margin;
-          }
-          doc.text(line, margin, yPosition);
-          if (isUnderline) {
-            const textWidth = doc.getTextWidth(line);
-            doc.line(
-              margin,
-              yPosition + 0.5,
-              margin + textWidth,
-              yPosition + 0.5,
-            );
-          }
-          yPosition += fontSize * 0.5;
-        }
-        yPosition += 3;
-      };
-
-      // Title
-      addText('wahl.chat - Anleitung', 18, true, true);
-      yPosition += 5;
-
-      // Introduction
-      addText(INTRO_TEXT.main, 11);
-      addText(INTRO_TEXT.sources, 11);
-      yPosition += 3;
-
-      // Process steps
-      addText('Der Prozess ist einfach:', 12, true);
-      PROCESS_STEPS.forEach((step, index) => {
-        addText(`${index + 1}. ${step}`, 11);
-      });
-      yPosition += 5;
-
-      // Accordion content
-      ACCORDION_CONTENT.forEach((section) => {
-        addText(section.title, 14, true);
-
-        const { content } = section;
-
-        if (content.intro) {
-          addText(content.intro, 11);
-          if (content.list || content.orderedList || content.sections) {
-            yPosition += 2;
-          }
-        }
-
-        if (content.paragraphs) {
-          content.paragraphs.forEach((para) => {
-            addText(para, 11);
-            yPosition += 2;
-          });
-        }
-
-        if (content.list) {
-          content.list.forEach((item) => {
-            addText(`• ${item}`, 11);
-          });
-          yPosition += 2;
-        }
-
-        if (content.orderedList) {
-          content.orderedList.forEach((item, index) => {
-            addText(`${index + 1}. ${item}`, 11);
-            yPosition += 2;
-          });
-        }
-
-        if (content.sections) {
-          content.sections.forEach((subsection) => {
-            if (subsection.subtitle) {
-              addText(subsection.subtitle, 11, true);
-            }
-            if (subsection.list) {
-              subsection.list.forEach((item) => {
-                addText(`• ${item}`, 10);
-              });
-              yPosition += 2;
-            }
-          });
-        }
-
-        if (content.outro) {
-          addText(content.outro, 11);
-        }
-
-        yPosition += 5;
-      });
-
-      // Save the PDF
-      doc.save('wahl-chat-anleitung.pdf');
     } catch (error) {
       console.error('Error generating PDF:', error);
     } finally {
@@ -600,6 +533,133 @@ function HowTo() {
                           </a>
                           {parts[1]}
                         </>
+                      );
+                    })()}
+                  </>
+                )}
+
+                {/* About founders accordion */}
+                {accordionItem.id === 'about-founders' && (
+                  <>
+                    {accordionItem.content.intro}
+                    <br />
+                    <br />
+                    {accordionItem.content.sections?.map((section) => (
+                      <div key={section.subtitle}>
+                        <span className="font-bold">{section.subtitle}</span>
+                        <ul className="list-outside list-disc py-2 pl-4 [&_li]:pt-1">
+                          {section.list?.map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                        <br />
+                      </div>
+                    ))}
+                    <span className="font-bold">Wie kam es zu wahl.chat?</span>
+                    <br />
+                    <br />
+                    {accordionItem.content.origin}
+                    <br />
+                    <br />
+                    {(() => {
+                      const outro = accordionItem.content.outro || '';
+                      const parts = outro.split('/about-us');
+                      return (
+                        <>
+                          {parts[0]}
+                          <Link href="/about-us" className="underline">
+                            /about-us
+                          </Link>
+                          {parts[1]}
+                        </>
+                      );
+                    })()}
+                  </>
+                )}
+
+                {/* Wahl-O-Mat difference accordion */}
+                {accordionItem.id === 'wahl-o-mat-difference' && (
+                  <>
+                    {accordionItem.content.intro}
+                    <br />
+                    <br />
+                    <span className="font-bold">Bei wahl.chat kann man:</span>
+                    <ol className="list-outside list-decimal py-2 pl-4 [&_li]:pt-1">
+                      {accordionItem.content.orderedList?.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ol>
+                  </>
+                )}
+
+                {/* Data privacy accordion */}
+                {accordionItem.id === 'data-privacy' &&
+                  accordionItem.content.paragraphs?.map((para, idx) => (
+                    <p key={para}>
+                      {para}
+                      {idx <
+                        (accordionItem.content.paragraphs?.length || 0) - 1 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                    </p>
+                  ))}
+
+                {/* Usage statistics accordion */}
+                {accordionItem.id === 'usage-statistics' &&
+                  accordionItem.content.paragraphs?.map((para, idx) => (
+                    <p key={para}>
+                      {para}
+                      {idx <
+                        (accordionItem.content.paragraphs?.length || 0) - 1 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                    </p>
+                  ))}
+
+                {/* Learning accordion */}
+                {accordionItem.id === 'learning' && (
+                  <p>{accordionItem.content.paragraphs?.[0]}</p>
+                )}
+
+                {/* Contribute accordion */}
+                {accordionItem.id === 'contribute' && (
+                  <>
+                    {(() => {
+                      const text = accordionItem.content.paragraphs?.[0] || '';
+                      const parts = text.split('https://github.com/wahl-chat');
+                      return (
+                        <p>
+                          {parts[0]}
+                          <a
+                            href="https://github.com/wahl-chat"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline"
+                          >
+                            https://github.com/wahl-chat
+                          </a>
+                          {parts[1]}
+                        </p>
+                      );
+                    })()}
+                    <br />
+                    {(() => {
+                      const text = accordionItem.content.paragraphs?.[1] || '';
+                      const parts = text.split('info@wahl.chat');
+                      return (
+                        <p>
+                          {parts[0]}
+                          <a href="mailto:info@wahl.chat" className="underline">
+                            info@wahl.chat
+                          </a>
+                          {parts[1]}
+                        </p>
                       );
                     })()}
                   </>
