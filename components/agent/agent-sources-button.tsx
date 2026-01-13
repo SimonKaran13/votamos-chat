@@ -27,8 +27,14 @@ type Props = {
 
 type SourceWithDisplayNumber = Source & { displayNumber: number };
 
-// Regex to match [party_id][N] format, e.g., [spd][0], [cdu][1]
-const REFERENCE_PATTERN = /\[([a-z]+)]\[(\d+)]/g;
+// Regex to match [party_id][N] or [party_id][N, M, ...] format
+// e.g., [spd][0], [cdu][1], [spd][0, 1], [cdu][0,1,2]
+const REFERENCE_PATTERN = /\[([a-z]+)]\[(\d+(?:,\s*\d+)*)]/g;
+
+// Parse comma-separated indices from a match, e.g., "0, 1" -> [0, 1]
+function parseIndices(indicesStr: string): number[] {
+    return indicesStr.split(',').map((s) => Number.parseInt(s.trim(), 10));
+}
 
 // Group sources by party_id for lookup
 function groupSourcesByParty(sources: Source[]): Map<string, Source[]> {
@@ -54,21 +60,24 @@ function AgentSourcesButton({ sources, messageContent }: Props) {
 
         for (const match of matches) {
             const partyId = match[1];
-            const partyIndex = Number.parseInt(match[2], 10);
-            const key = `${partyId}:${partyIndex}`;
+            const indices = parseIndices(match[2]);
 
-            // Only add if not already seen
-            if (!referencedKeys.has(key)) {
-                referencedKeys.add(key);
+            for (const partyIndex of indices) {
+                const key = `${partyId}:${partyIndex}`;
 
-                const partySources = sourcesByParty.get(partyId);
-                const source = partySources?.[partyIndex];
+                // Only add if not already seen
+                if (!referencedKeys.has(key)) {
+                    referencedKeys.add(key);
 
-                if (source) {
-                    orderedSources.push({
-                        ...source,
-                        displayNumber: displayNumber++,
-                    });
+                    const partySources = sourcesByParty.get(partyId);
+                    const source = partySources?.[partyIndex];
+
+                    if (source) {
+                        orderedSources.push({
+                            ...source,
+                            displayNumber: displayNumber++,
+                        });
+                    }
                 }
             }
         }

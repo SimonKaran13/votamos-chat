@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import {JSX, memo, useMemo} from 'react';
+import {type JSX, memo, useMemo} from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Source } from '@/lib/stores/chat-store.types';
@@ -25,8 +25,9 @@ type ReferenceMapping = {
     source: Source | null;
 };
 
-// Regex to match [party_id][N] format, e.g., [spd][0], [cdu][1]
-const REFERENCE_PATTERN = /\[([a-z]+)]\[(\d+)]/g;
+// Regex to match [party_id][N] or [party_id][N, M, ...] format
+// e.g., [spd][0], [cdu][1], [spd][0, 1], [cdu][0,1,2]
+const REFERENCE_PATTERN = /\[([a-z]+)]\[(\d+(?:,\s*\d+)*)]/g;
 
 // Group sources by party_id for lookup
 function groupSourcesByParty(sources: Source[]): Map<string, Source[]> {
@@ -40,6 +41,11 @@ function groupSourcesByParty(sources: Source[]): Map<string, Source[]> {
     return grouped;
 }
 
+// Parse comma-separated indices from a match, e.g., "0, 1" -> [0, 1]
+function parseIndices(indicesStr: string): number[] {
+    return indicesStr.split(',').map((s) => Number.parseInt(s.trim(), 10));
+}
+
 // Build a mapping from reference keys to global display numbers (in order of appearance)
 function buildReferenceMapping(
     content: string,
@@ -51,18 +57,21 @@ function buildReferenceMapping(
     let displayNumber = 1;
     for (const match of matches) {
         const partyId = match[1];
-        const partyIndex = Number.parseInt(match[2], 10);
-        const key: ReferenceKey = `${partyId}:${partyIndex}`;
+        const indices = parseIndices(match[2]);
 
-        // Only add if not already seen (first occurrence determines the number)
-        if (!mapping.has(key)) {
-            const partySources = sourcesByParty.get(partyId);
-            const source = partySources?.[partyIndex] ?? null;
+        for (const partyIndex of indices) {
+            const key: ReferenceKey = `${partyId}:${partyIndex}`;
 
-            mapping.set(key, {
-                displayNumber: displayNumber++,
-                source,
-            });
+            // Only add if not already seen (first occurrence determines the number)
+            if (!mapping.has(key)) {
+                const partySources = sourcesByParty.get(partyId);
+                const source = partySources?.[partyIndex] ?? null;
+
+                mapping.set(key, {
+                    displayNumber: displayNumber++,
+                    source,
+                });
+            }
         }
     }
 
@@ -127,35 +136,39 @@ function AgentChatMarkdownComponent({ content, sources }: Props) {
             }
 
             const partyId = match[1];
-            const partyIndex = Number.parseInt(match[2], 10);
-            const displayNum = getDisplayNumber(partyId, partyIndex);
-            const tooltip = getReferenceTooltip(partyId, partyIndex);
+            const indices = parseIndices(match[2]);
 
-            if (displayNum > 0) {
-                parts.push(
-                    <Tooltip key={`${partyId}-${partyIndex}-${matchIndex}`}>
-                        <TooltipTrigger>
-                            <span
-                                className="mx-0.5 inline-flex cursor-pointer items-center justify-center rounded-full bg-zinc-300 px-2 py-0.5 text-xs transition-colors hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500"
-                                onClick={() => onReferenceClick(partyId, partyIndex)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === ' ') {
-                                        onReferenceClick(partyId, partyIndex);
-                                    }
-                                }}
-                                role="button"
-                                tabIndex={0}
-                            >
-                                {displayNum}
-                            </span>
-                        </TooltipTrigger>
-                        {tooltip && (
-                            <TooltipContent className="max-w-96 text-ellipsis whitespace-nowrap">
-                                {tooltip}
-                            </TooltipContent>
-                        )}
-                    </Tooltip>
-                );
+            // Create a citation pill for each index in the match
+            for (const partyIndex of indices) {
+                const displayNum = getDisplayNumber(partyId, partyIndex);
+                const tooltip = getReferenceTooltip(partyId, partyIndex);
+
+                if (displayNum > 0) {
+                    parts.push(
+                        <Tooltip key={`${partyId}-${partyIndex}-${matchIndex}`}>
+                            <TooltipTrigger>
+                                <span
+                                    className="mx-0.5 inline-flex cursor-pointer items-center justify-center rounded-full bg-zinc-300 px-2 py-0.5 text-xs transition-colors hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500"
+                                    onClick={() => onReferenceClick(partyId, partyIndex)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            onReferenceClick(partyId, partyIndex);
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
+                                >
+                                    {displayNum}
+                                </span>
+                            </TooltipTrigger>
+                            {tooltip && (
+                                <TooltipContent className="max-w-96 text-ellipsis whitespace-nowrap">
+                                    {tooltip}
+                                </TooltipContent>
+                            )}
+                        </Tooltip>
+                    );
+                }
             }
 
             lastIndex = matchIndex + match[0].length;
