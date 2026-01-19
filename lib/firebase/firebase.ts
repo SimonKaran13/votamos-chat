@@ -41,6 +41,7 @@ export async function createChatSession(
   partyIds: string[],
   sessionId: string,
   tenantId?: string,
+  contextId?: string,
 ): Promise<void> {
   return await setDoc(doc(db, 'chat_sessions', sessionId), {
     user_id: userId,
@@ -48,6 +49,7 @@ export async function createChatSession(
     created_at: Timestamp.now(),
     updated_at: Timestamp.now(),
     ...(tenantId ? { tenant_id: tenantId } : {}),
+    ...(contextId ? { context_id: contextId } : {}),
   });
 }
 
