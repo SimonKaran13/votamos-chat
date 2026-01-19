@@ -15,7 +15,11 @@ import { useEffect, useRef, useState } from 'react';
 import WahlSwiperChat from './wahl-swiper-chat';
 import WahlSwiperInput from './wahl-swiper-input';
 
-function WahlSwiperChatWrapper() {
+type Props = {
+  contextId?: string;
+};
+
+function WahlSwiperChatWrapper({ contextId }: Props) {
   const shouldShowChat = useWahlSwiperStore(
     (state) => state.thesesStack.length > 0,
   );
