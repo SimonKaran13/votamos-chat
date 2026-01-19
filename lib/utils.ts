@@ -75,17 +75,28 @@ export function generateUuid() {
 }
 
 export function firestoreTimestampToDate(
-  timestamp: Timestamp | Date | undefined,
-) {
+  timestamp: Timestamp | Date | string | number | undefined | null,
+): Date | undefined {
   if (!timestamp) {
-    return;
+    return undefined;
   }
 
   if (timestamp instanceof Date) {
     return timestamp;
   }
 
-  return timestamp.toDate();
+  // Handle Firestore Timestamp objects
+  if (typeof timestamp === 'object' && 'toDate' in timestamp) {
+    return timestamp.toDate();
+  }
+
+  // Handle string or number timestamps
+  if (typeof timestamp === 'string' || typeof timestamp === 'number') {
+    const date = new Date(timestamp);
+    return Number.isNaN(date.getTime()) ? undefined : date;
+  }
+
+  return undefined;
 }
 
 export function areSetsEqual(set1: Set<string>, set2: Set<string>): boolean {
