@@ -1,7 +1,7 @@
 'use client';
 import type { PartyDetails } from '@/lib/party-details';
-import {} from '@/lib/utils';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useElectionContext } from './context-provider';
 
 type PartiesContextType = {
   parties?: PartyDetails[];
@@ -18,17 +18,23 @@ export type Props = {
 };
 
 export const useParties = (partyIds?: string[]) => {
-  const context = useContext(PartiesContext);
-  if (!context) {
-    throw new Error('useParties must be used within a PartiesProvider');
+  // Try context provider first, fall back to PartiesProvider
+  let contextParties: PartyDetails[] | undefined;
+  try {
+    const electionContext = useElectionContext();
+    contextParties = electionContext.parties;
+  } catch {
+    // Context provider not available, try PartiesProvider
+    const legacyContext = useContext(PartiesContext);
+    contextParties = legacyContext?.parties;
   }
 
   const parties = useMemo(() => {
-    if (partyIds) {
-      return context.parties?.filter((p) => partyIds.includes(p.party_id));
+    if (partyIds && contextParties) {
+      return contextParties.filter((p) => partyIds.includes(p.party_id));
     }
-    return context.parties;
-  }, [context.parties, partyIds]);
+    return contextParties;
+  }, [contextParties, partyIds]);
 
   return parties;
 };
