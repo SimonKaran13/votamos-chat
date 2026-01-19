@@ -47,7 +47,9 @@ export function ContextSelector({ className }: ContextSelectorProps) {
     return (
       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <ContextIcon context={currentContext} />
-        <span className="hidden sm:inline">{currentContext.name}</span>
+        <span className="max-w-[120px] truncate sm:max-w-none">
+          {currentContext.name}
+        </span>
       </div>
     );
   }
@@ -61,7 +63,9 @@ export function ContextSelector({ className }: ContextSelectorProps) {
           className={`flex items-center gap-1.5 px-2 ${className}`}
         >
           <ContextIcon context={currentContext} />
-          <span className="hidden sm:inline">{currentContext.name}</span>
+          <span className="max-w-[120px] truncate sm:max-w-none">
+            {currentContext.name}
+          </span>
           <ChevronDownIcon className="size-3" />
         </Button>
       </DropdownMenuTrigger>
