@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { Context } from '@/lib/firebase/firebase.types';
-import { ChevronDownIcon, MapPinIcon } from 'lucide-react';
+import { ChevronDownIcon, VoteIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -22,7 +22,7 @@ function ContextIcon({ context }: { context: Context }) {
     return (
       <Image
         src={context.icon_url}
-        alt={context.location_name}
+        alt={context.name}
         width={20}
         height={20}
         className="size-5 rounded-sm object-contain"
@@ -30,7 +30,7 @@ function ContextIcon({ context }: { context: Context }) {
     );
   }
 
-  return <MapPinIcon className="size-4 text-muted-foreground" />;
+  return <VoteIcon className="size-4 text-muted-foreground" />;
 }
 
 export function ContextSelector({ className }: ContextSelectorProps) {
@@ -47,7 +47,7 @@ export function ContextSelector({ className }: ContextSelectorProps) {
     return (
       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
         <ContextIcon context={currentContext} />
-        <span className="hidden sm:inline">{currentContext.location_name}</span>
+        <span className="hidden sm:inline">{currentContext.name}</span>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export function ContextSelector({ className }: ContextSelectorProps) {
           className={`flex items-center gap-1.5 px-2 ${className}`}
         >
           <ContextIcon context={currentContext} />
-          <span className="hidden sm:inline">{currentContext.location_name}</span>
+          <span className="hidden sm:inline">{currentContext.name}</span>
           <ChevronDownIcon className="size-3" />
         </Button>
       </DropdownMenuTrigger>
@@ -91,7 +91,7 @@ export function ContextBadge() {
     <div className="flex items-center gap-1.5">
       <ContextIcon context={currentContext} />
       <span className="text-xs text-muted-foreground">
-        {currentContext.location_name}
+        {currentContext.name}
       </span>
     </div>
   );
