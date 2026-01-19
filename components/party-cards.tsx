@@ -1,11 +1,11 @@
 'use client';
 
 import PartyCard from '@/components/party-card';
-import { PartiesContext } from '@/components/providers/parties-provider';
+import { useElectionContext } from '@/components/providers/context-provider';
 import { cn } from '@/lib/utils';
 import { CircleXIcon, EllipsisIcon } from 'lucide-react';
 import Link from 'next/link';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import Logo from './chat/logo';
 import LoadingPartyCards from './home/loading-party-cards';
 import { Button } from './ui/button';
@@ -22,6 +22,7 @@ type Props = {
   selectable?: boolean;
   gridColumns?: number;
   showWahlChatButton?: boolean;
+  contextId: string;
 };
 
 function PartyCards({
@@ -31,10 +32,11 @@ function PartyCards({
   selectable = true,
   gridColumns = 4,
   showWahlChatButton = false,
+  contextId,
 }: Props) {
-  const context = use(PartiesContext);
-  const smallParties = context?.parties?.filter((p) => p.is_small_party);
-  const largeParties = context?.parties?.filter((p) => !p.is_small_party);
+  const { parties } = useElectionContext();
+  const smallParties = parties?.filter((p) => p.is_small_party);
+  const largeParties = parties?.filter((p) => !p.is_small_party);
 
   const defaultShowMore = !!smallParties?.find((p) =>
     selectedPartyIds?.includes(p.party_id),
@@ -42,7 +44,7 @@ function PartyCards({
 
   const [showMore, setShowMore] = useState(defaultShowMore);
 
-  if (!context?.parties) {
+  if (!parties) {
     return (
       <LoadingPartyCards
         // TODO: make more dynamic
@@ -71,7 +73,10 @@ function PartyCards({
             tooltip="wahl.chat"
             asChild
           >
-            <Link href="/session" onClick={() => onPartyClicked?.('wahl.chat')}>
+            <Link
+              href={`/${contextId}/session`}
+              onClick={() => onPartyClicked?.('wahl.chat')}
+            >
               <Logo className="!size-10" />
             </Link>
           </Button>
@@ -84,6 +89,7 @@ function PartyCards({
             isSelected={selectedPartyIds?.includes(party.party_id)}
             onPartyClicked={onPartyClicked}
             selectable={selectable}
+            contextId={contextId}
           />
         ))}
         <CollapsibleTrigger asChild>
@@ -121,6 +127,7 @@ function PartyCards({
                 isSelected={selectedPartyIds?.includes(party.party_id)}
                 onPartyClicked={onPartyClicked}
                 selectable={selectable}
+                contextId={contextId}
               />
             ))}
           </div>

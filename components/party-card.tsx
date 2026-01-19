@@ -14,6 +14,7 @@ type Props = {
   isSelected?: boolean;
   onPartyClicked?: (partyId: string) => void;
   selectable?: boolean;
+  contextId?: string;
 };
 
 function PartyCard({
@@ -22,6 +23,7 @@ function PartyCard({
   isSelected,
   onPartyClicked,
   selectable = true,
+  contextId,
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -36,6 +38,10 @@ function PartyCard({
       fill
     />
   );
+
+  const sessionPath = contextId
+    ? `/${contextId}/session?party_id=${id}`
+    : `/session?party_id=${id}`;
 
   return (
     <Button
@@ -71,10 +77,7 @@ function PartyCard({
           {partyImage}
         </>
       ) : (
-        <Link
-          href={`/session?party_id=${id}`}
-          onClick={() => onPartyClicked?.(id)}
-        >
+        <Link href={sessionPath} onClick={() => onPartyClicked?.(id)}>
           {partyImage}
         </Link>
       )}
