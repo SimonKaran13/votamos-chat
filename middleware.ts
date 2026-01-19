@@ -52,6 +52,21 @@ function looksLikeContextId(segment: string): boolean {
   );
 }
 
+// Helper to build redirect URL with search params preserved
+function buildRedirectUrl(
+  request: NextRequest,
+  path: string,
+  preserveParams = true,
+): URL {
+  const searchParams = preserveParams
+    ? request.nextUrl.searchParams.toString()
+    : '';
+  return new URL(
+    `${path}${searchParams ? `?${searchParams}` : ''}`,
+    request.url,
+  );
+}
+
 export async function middleware(request: NextRequest) {
   const budgetSpent = process.env.BUDGET_SPENT === 'true';
 
@@ -76,67 +91,58 @@ export async function middleware(request: NextRequest) {
     });
   }
 
-  // Handle legacy /chat routes
+  // Handle legacy /chat routes → redirect to /session with party_id
   if (pathname.startsWith('/chat')) {
+    const contextId = DEFAULT_CONTEXT_ID;
     if (pathname === '/chat') {
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(
+        buildRedirectUrl(request, `/${contextId}`),
+      );
     }
-
-    const secondPart = pathname.split('/')[2];
-    const newPath = `/session?party_id=${secondPart}`;
-    return NextResponse.redirect(new URL(newPath, request.url));
+    const partyId = pathname.split('/')[2];
+    return NextResponse.redirect(
+      buildRedirectUrl(request, `/${contextId}/session?party_id=${partyId}`),
+    );
   }
 
-  // Root path: detect context and redirect
+  // Root path: detect context from geo and redirect
   if (pathname === '/') {
     const contextId = getContextIdFromGeo(request);
-    const searchParams = request.nextUrl.searchParams.toString();
-    const redirectUrl = new URL(
-      `/${contextId}${searchParams ? `?${searchParams}` : ''}`,
-      request.url,
-    );
-    return NextResponse.redirect(redirectUrl);
+    return NextResponse.redirect(buildRedirectUrl(request, `/${contextId}`));
   }
 
-  // Legacy /session routes without context: use default context
+  // Legacy /session routes → redirect to /{contextId}/session
   if (pathname === '/session' || pathname.startsWith('/session/')) {
     const contextId = DEFAULT_CONTEXT_ID;
     const restPath = pathname.replace('/session', '');
-    const searchParams = request.nextUrl.searchParams.toString();
-    const redirectUrl = new URL(
-      `/${contextId}/session${restPath}${searchParams ? `?${searchParams}` : ''}`,
-      request.url,
+    return NextResponse.redirect(
+      buildRedirectUrl(request, `/${contextId}/session${restPath}`),
     );
-    return NextResponse.redirect(redirectUrl);
   }
 
-  // Legacy /swiper route without context
+  // Legacy /swiper routes → redirect to /{contextId}/swiper
   if (pathname === '/swiper' || pathname.startsWith('/swiper/')) {
     const contextId = DEFAULT_CONTEXT_ID;
     const restPath = pathname.replace('/swiper', '');
-    const searchParams = request.nextUrl.searchParams.toString();
-    const redirectUrl = new URL(
-      `/${contextId}/swiper${restPath}${searchParams ? `?${searchParams}` : ''}`,
-      request.url,
+    return NextResponse.redirect(
+      buildRedirectUrl(request, `/${contextId}/swiper${restPath}`),
     );
-    return NextResponse.redirect(redirectUrl);
   }
 
-  // Legacy /share route without context
+  // Legacy /share → redirect to /{contextId}/share
   if (pathname === '/share') {
     const contextId = DEFAULT_CONTEXT_ID;
-    const searchParams = request.nextUrl.searchParams.toString();
-    const redirectUrl = new URL(
-      `/${contextId}/share${searchParams ? `?${searchParams}` : ''}`,
-      request.url,
+    return NextResponse.redirect(
+      buildRedirectUrl(request, `/${contextId}/share`),
     );
-    return NextResponse.redirect(redirectUrl);
   }
 
-  // Legacy /sources route without context
+  // Legacy /sources → redirect to /{contextId}/sources
   if (pathname === '/sources') {
     const contextId = DEFAULT_CONTEXT_ID;
-    return NextResponse.redirect(new URL(`/${contextId}/sources`, request.url));
+    return NextResponse.redirect(
+      buildRedirectUrl(request, `/${contextId}/sources`),
+    );
   }
 
   // Extract context ID from path for context-specific routes
