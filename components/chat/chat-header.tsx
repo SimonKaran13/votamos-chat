@@ -14,7 +14,13 @@ import ChatShareButton from './chat-share-button';
 import CreateNewChatDropdownButton from './create-new-chat-dropdown-button';
 import SocketDisconnectedBanner from './socket-disconnected-banner';
 
-async function ChatHeader() {
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
+
+type Props = {
+  contextId?: string;
+};
+
+async function ChatHeader({ contextId = DEFAULT_CONTEXT_ID }: Props) {
   if (IS_EMBEDDED) {
     return <ChatEmbedHeader />;
   }
@@ -37,8 +43,8 @@ async function ChatHeader() {
               <HelpCircleIcon />
             </Button>
           </HowToDialog>
-          <ChatShareButton />
-          <CreateNewChatDropdownButton />
+          <ChatShareButton contextId={contextId} />
+          <CreateNewChatDropdownButton contextId={contextId} />
         </div>
       </header>
 

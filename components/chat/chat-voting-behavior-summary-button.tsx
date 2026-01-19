@@ -1,4 +1,5 @@
 import { useChatStore } from '@/components/providers/chat-store-provider';
+import { useCurrentContext } from '@/components/providers/context-provider';
 import { useParty } from '@/components/providers/parties-provider';
 import { Button } from '@/components/ui/button';
 import type { StreamingMessage } from '@/lib/socket.types';
@@ -26,6 +27,15 @@ function ChatVotingBehaviorSummaryButton({
     (state) => state.clickedVotingBehaviorSummaryButton,
   );
 
+  // Check if voting behavior is supported for the current context
+  let supportsVotingBehavior = true;
+  try {
+    const context = useCurrentContext();
+    supportsVotingBehavior = context?.supports_voting_behavior ?? true;
+  } catch {
+    // Context provider not available, default to true
+  }
+
   const handleGenerateVotingBehaviorSummary = async () => {
     track('voting_behavior_summary_button_clicked', {
       party: partyId,
@@ -35,6 +45,9 @@ function ChatVotingBehaviorSummaryButton({
   };
 
   const showHighlight = isLastMessage && !clickedVotingBehaviorSummaryButton;
+
+  // Don't show if voting behavior not supported for this context
+  if (!supportsVotingBehavior) return null;
 
   if (party?.is_already_in_parliament === false) return null;
 
