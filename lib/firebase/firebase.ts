@@ -259,9 +259,13 @@ export async function updateQuickRepliesOfMessage(
   messageId: string,
   quickReplies: string[],
 ) {
-  await updateDoc(doc(db, 'chat_sessions', sessionId, 'messages', messageId), {
-    quick_replies: quickReplies,
-  });
+  // Use setDoc with merge to handle race condition where quick_replies_and_title_ready
+  // fires before the message document is created by party_response_complete
+  await setDoc(
+    doc(db, 'chat_sessions', sessionId, 'messages', messageId),
+    { quick_replies: quickReplies },
+    { merge: true },
+  );
 }
 
 export async function updateTitleOfMessage(sessionId: string, title: string) {

@@ -1,12 +1,10 @@
-import ChatGroupPartySelect from '@/components/chat/chat-group-party-select';
 import ContactCard from '@/components/home/contact-card';
+import ElectionPartySelector from '@/components/home/election-party-selector';
 import HomeInput from '@/components/home/home-input';
-import HomePartyCards from '@/components/home/home-party-cards';
 import HowToCard from '@/components/home/how-to-card';
 import KnownFrom from '@/components/home/known-from';
 import SupportUsCard from '@/components/home/support-us-card';
 import SwiperTeaserCard from '@/components/home/swiper-teaser-card';
-import { Button } from '@/components/ui/button';
 import {
   getContext,
   getHomeInputProposedQuestionsForContext,
@@ -14,7 +12,6 @@ import {
   getUser,
 } from '@/lib/firebase/firebase-server';
 import { IS_EMBEDDED } from '@/lib/utils';
-import { GitCompareIcon, MousePointerClickIcon } from 'lucide-react';
 
 type Props = {
   params: Promise<{
@@ -36,25 +33,8 @@ export default async function ContextHome({ params }: Props) {
 
   return (
     <>
-      <div className="mt-4 flex w-full flex-row items-center justify-center gap-2">
-        <MousePointerClickIcon />
-        <h1 className="text-center text-sm font-semibold">
-          Wähle eine Partei und stelle der KI deine Fragen
-        </h1>
-      </div>
-
-      <HomePartyCards contextId={contextId} />
-
-      <div className="w-full">
-        <ChatGroupPartySelect contextId={contextId}>
-          <Button
-            className="mt-4 w-full max-w-xl whitespace-normal border border-border"
-            variant="secondary"
-          >
-            <GitCompareIcon />
-            Wähle mehrere Parteien zum Vergleichen
-          </Button>
-        </ChatGroupPartySelect>
+      <div className="mt-4 w-full">
+        <ElectionPartySelector contextId={contextId} />
       </div>
 
       <HomeInput

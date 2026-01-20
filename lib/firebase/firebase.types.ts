@@ -25,7 +25,7 @@ export type Context = {
   name: string;
   icon_url: string;
   type: 'election' | 'general';
-  date: Date | null;
+  date: string | null;
   location_name: string;
   is_active: boolean;
   supports_swiper: boolean;

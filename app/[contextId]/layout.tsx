@@ -1,5 +1,3 @@
-import Footer from '@/components/footer';
-import Header from '@/components/header';
 import { ContextProvider } from '@/components/providers/context-provider';
 import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import {
@@ -45,13 +43,7 @@ async function ContextLayout({ children, params }: Props) {
       contexts={contexts}
       parties={shuffledParties}
     >
-      <div className="relative flex w-full flex-col">
-        <Header />
-        <main className="mx-auto min-h-[calc(100vh-var(--header-height)-var(--footer-height))] w-full max-w-xl grow px-4 pb-8 md:px-0">
-          {children}
-        </main>
-        <Footer />
-      </div>
+      {children}
     </ContextProvider>
   );
 }

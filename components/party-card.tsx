@@ -29,7 +29,8 @@ function PartyCard({
 
   const partyImage = (
     <Image
-      alt={name}
+      alt=""
+      aria-hidden="true"
       blurDataURL={hexDataURL(background_color ?? '#CBD5E1')}
       src={buildPartyImageUrl(id)}
       placeholder="blur"
@@ -42,6 +43,10 @@ function PartyCard({
   const sessionPath = contextId
     ? `/${contextId}/session?party_id=${id}`
     : `/session?party_id=${id}`;
+
+  const ariaLabel = selectable
+    ? `${name}${isSelected ? ' (ausgewählt)' : ''}`
+    : `Chat mit ${name} starten`;
 
   return (
     <Button
@@ -63,6 +68,8 @@ function PartyCard({
       onMouseLeave={() => setIsHovered(false)}
       onClick={selectable ? () => onPartyClicked?.(id) : undefined}
       asChild={!selectable}
+      aria-label={ariaLabel}
+      aria-pressed={selectable ? isSelected : undefined}
     >
       {selectable ? (
         <>
@@ -71,13 +78,18 @@ function PartyCard({
               'absolute top-2 right-2 bg-zinc-800 border border-zinc-700 rounded-full p-[2px] transition-all duration-100 ease-in-out',
               isSelected ? 'opacity-100 scale-100' : 'opacity-0 scale-75',
             )}
+            aria-hidden="true"
           >
             <CheckIcon className="size-2 text-white" />
           </div>
           {partyImage}
         </>
       ) : (
-        <Link href={sessionPath} onClick={() => onPartyClicked?.(id)}>
+        <Link
+          href={sessionPath}
+          onClick={() => onPartyClicked?.(id)}
+          aria-label={ariaLabel}
+        >
           {partyImage}
         </Link>
       )}

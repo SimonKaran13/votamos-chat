@@ -7,7 +7,6 @@ import { CircleXIcon, EllipsisIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import Logo from './chat/logo';
-import LoadingPartyCards from './home/loading-party-cards';
 import { Button } from './ui/button';
 import {
   Collapsible,
@@ -45,15 +44,13 @@ function PartyCards({
   const [showMore, setShowMore] = useState(defaultShowMore);
 
   if (!parties) {
-    return (
-      <LoadingPartyCards
-        // TODO: make more dynamic
-        partyCount={gridColumns === 3 ? 9 : 8}
-        className={className}
-        gridColumns={gridColumns}
-      />
-    );
+    // Loading is handled by the parent
+    return null;
   }
+
+  const sectionLabel = selectable
+    ? 'Parteien zur Auswahl'
+    : 'Verfügbare Parteien';
 
   return (
     <Collapsible open={showMore} onOpenChange={setShowMore} asChild>
@@ -62,6 +59,8 @@ function PartyCards({
         style={{
           gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
         }}
+        aria-label={sectionLabel}
+        role={selectable ? 'group' : 'navigation'}
       >
         {showWahlChatButton && (
           <Button
@@ -76,8 +75,9 @@ function PartyCards({
             <Link
               href={`/${contextId}/session`}
               onClick={() => onPartyClicked?.('wahl.chat')}
+              aria-label="Chat mit wahl.chat starten"
             >
-              <Logo className="!size-10" />
+              <Logo className="!size-10" aria-hidden="true" />
             </Link>
           </Button>
         )}
@@ -101,11 +101,15 @@ function PartyCards({
               'text-center whitespace-normal text-muted-foreground flex flex-col items-center justify-center',
               'text-xs md:text-sm gap-1 md:gap-2',
             )}
+            aria-expanded={showMore}
+            aria-label={
+              showMore ? 'Weniger Parteien anzeigen' : 'Mehr Parteien anzeigen'
+            }
           >
             {showMore ? (
-              <CircleXIcon className="size-4" />
+              <CircleXIcon className="size-4" aria-hidden="true" />
             ) : (
-              <EllipsisIcon className="size-4" />
+              <EllipsisIcon className="size-4" aria-hidden="true" />
             )}
             {gridColumns >= 4 && `${showMore ? 'Weniger' : 'Mehr'} Parteien`}
           </Button>
@@ -118,6 +122,8 @@ function PartyCards({
               gridColumn: `span ${gridColumns} / span ${gridColumns}`,
               gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
             }}
+            role="group"
+            aria-label="Weitere Parteien"
           >
             {smallParties?.map((party) => (
               <PartyCard
