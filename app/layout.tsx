@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     },
     description:
       'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/logo.webp'],
+    images: ['/images/dsf'],
     url: 'https://wahl.chat',
     siteName: 'wahl.chat',
     locale: 'de-DE',
@@ -85,7 +85,7 @@ export const metadata: Metadata = {
     title: 'wahl.chat | Wahlprogramme der Parteien für die Bundestagswahl 2025',
     description:
       'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/logo.webp'],
+    images: ['/images/dsf'],
   },
 };
 

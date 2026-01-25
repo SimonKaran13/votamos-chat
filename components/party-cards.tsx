@@ -92,52 +92,59 @@ function PartyCards({
             contextId={contextId}
           />
         ))}
-        <CollapsibleTrigger asChild>
-          <Button
-            variant="secondary"
-            className={cn(
-              'flex aspect-square items-center justify-center',
-              'w-full h-fit border border-muted-foreground/20 overflow-hidden md:hover:bg-zinc-200 dark:md:hover:bg-zinc-700',
-              'text-center whitespace-normal text-muted-foreground flex flex-col items-center justify-center',
-              'text-xs md:text-sm gap-1 md:gap-2',
-            )}
-            aria-expanded={showMore}
-            aria-label={
-              showMore ? 'Weniger Parteien anzeigen' : 'Mehr Parteien anzeigen'
-            }
-          >
-            {showMore ? (
-              <CircleXIcon className="size-4" aria-hidden="true" />
-            ) : (
-              <EllipsisIcon className="size-4" aria-hidden="true" />
-            )}
-            {gridColumns >= 4 && `${showMore ? 'Weniger' : 'Mehr'} Parteien`}
-          </Button>
-        </CollapsibleTrigger>
+        {smallParties && smallParties.length > 0 && (
+          <>
+            <CollapsibleTrigger asChild>
+              <Button
+                variant="secondary"
+                className={cn(
+                  'flex aspect-square items-center justify-center',
+                  'w-full h-fit border border-muted-foreground/20 overflow-hidden md:hover:bg-zinc-200 dark:md:hover:bg-zinc-700',
+                  'text-center whitespace-normal text-muted-foreground flex flex-col items-center justify-center',
+                  'text-xs md:text-sm gap-1 md:gap-2',
+                )}
+                aria-expanded={showMore}
+                aria-label={
+                  showMore
+                    ? 'Weniger Parteien anzeigen'
+                    : 'Mehr Parteien anzeigen'
+                }
+              >
+                {showMore ? (
+                  <CircleXIcon className="size-4" aria-hidden="true" />
+                ) : (
+                  <EllipsisIcon className="size-4" aria-hidden="true" />
+                )}
+                {gridColumns >= 4 &&
+                  `${showMore ? 'Weniger' : 'Mehr'} Parteien`}
+              </Button>
+            </CollapsibleTrigger>
 
-        <CollapsibleContent asChild>
-          <div
-            className="col-span-4 grid gap-2"
-            style={{
-              gridColumn: `span ${gridColumns} / span ${gridColumns}`,
-              gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
-            }}
-            role="group"
-            aria-label="Weitere Parteien"
-          >
-            {smallParties?.map((party) => (
-              <PartyCard
-                id={party.party_id}
-                key={party.party_id}
-                party={party}
-                isSelected={selectedPartyIds?.includes(party.party_id)}
-                onPartyClicked={onPartyClicked}
-                selectable={selectable}
-                contextId={contextId}
-              />
-            ))}
-          </div>
-        </CollapsibleContent>
+            <CollapsibleContent asChild>
+              <div
+                className="col-span-4 grid gap-2"
+                style={{
+                  gridColumn: `span ${gridColumns} / span ${gridColumns}`,
+                  gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
+                }}
+                role="group"
+                aria-label="Weitere Parteien"
+              >
+                {smallParties?.map((party) => (
+                  <PartyCard
+                    id={party.party_id}
+                    key={party.party_id}
+                    party={party}
+                    isSelected={selectedPartyIds?.includes(party.party_id)}
+                    onPartyClicked={onPartyClicked}
+                    selectable={selectable}
+                    contextId={contextId}
+                  />
+                ))}
+              </div>
+            </CollapsibleContent>
+          </>
+        )}
       </section>
     </Collapsible>
   );
