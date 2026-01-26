@@ -16,7 +16,6 @@ import { saveConversationId } from '@/lib/agent/conversation-storage';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 import AiDisclaimer from '@/components/legal/ai-disclaimer';
 import { Button } from '@/components/ui/button';
-import ConversationProgressIndicator from "@/components/agent/conversation-progress-indicator";
 
 export default function AgentChatView() {
     const router = useRouter();

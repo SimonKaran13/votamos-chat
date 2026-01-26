@@ -6,7 +6,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import Logo from '@/components/chat/logo';
 import ConversationProgressIndicator from '@/components/agent/conversation-progress-indicator';
 
 export default function AgentHeader() {
