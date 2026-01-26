@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
     Card,
@@ -21,14 +22,14 @@ export default function ResumeConversationPrompt({
 }: ResumeConversationPromptProps) {
     const router = useRouter();
 
-    const handleResume = () => {
+    const handleResume = useCallback(() => {
         router.push(`/agent/${conversationId}`);
-    };
+    }, [router, conversationId]);
 
-    const handleStartNew = () => {
+    const handleStartNew = useCallback(() => {
         clearStoredConversation();
         onStartNew();
-    };
+    }, [onStartNew]);
 
     return (
         <div className="flex min-h-full flex-col items-center justify-center p-4 py-8">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAgentStore } from '@/components/providers/agent-store-provider';
 import { Button } from '@/components/ui/button';
@@ -42,7 +42,7 @@ export default function ConversationChoiceScreen() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleResume = async () => {
+    const handleResume = useCallback(async () => {
         if (!conversationId.trim()) return;
 
         setIsLoading(true);
@@ -82,13 +82,13 @@ export default function ConversationChoiceScreen() {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, [conversationId, restoreConversation, router]);
 
-    const handleBack = () => {
+    const handleBack = useCallback(() => {
         setScreen('choice');
         setConversationId('');
         setError(null);
-    };
+    }, []);
 
     // Resume screen
     if (screen === 'resume') {
