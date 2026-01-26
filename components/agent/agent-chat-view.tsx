@@ -16,6 +16,7 @@ import { saveConversationId } from '@/lib/agent/conversation-storage';
 import { Loader2, CheckCircle2 } from 'lucide-react';
 import AiDisclaimer from '@/components/legal/ai-disclaimer';
 import { Button } from '@/components/ui/button';
+import ConversationProgressIndicator from "@/components/agent/conversation-progress-indicator";
 
 export default function AgentChatView() {
     const router = useRouter();
@@ -207,13 +208,6 @@ export default function AgentChatView() {
 
     return (
         <section className="relative mx-auto flex size-full max-w-2xl flex-col overflow-hidden">
-            {/* Topic indicator */}
-            <div className="shrink-0 px-4 py-2">
-                <p className="text-center text-sm text-muted-foreground">
-                    Konversation über: <span className="font-medium text-foreground">{topic}</span>
-                </p>
-            </div>
-
             {/* Messages */}
             <div
                 ref={scrollRef}
