@@ -1,5 +1,4 @@
-const AGENT_BACKEND_URL =
-  process.env.WAHL_AGENT_BACKEND_URL || 'http://127.0.0.1:5000';
+import { AGENT_BACKEND_URL } from '@/lib/agent/backend-config';
 
 export async function POST(request: Request) {
   try {
