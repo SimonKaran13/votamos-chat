@@ -20,14 +20,13 @@ export default function AgentHeader() {
         <TooltipContent>Menü öffnen</TooltipContent>
       </Tooltip>
 
-      {/* Logo and title */}
-      <div className="flex items-center gap-2">
-        <Logo variant="small" className="size-8" />
+      {/* Title */}
+      <div className="hidden md:flex items-center gap-2">
         <span className="text-lg font-semibold">Wahl Agent</span>
       </div>
 
       {/* Progress indicator */}
-      <div className="ml-auto pr-8">
+      <div className="absolute left-1/2 -translate-x-1/2">
         <ConversationProgressIndicator />
       </div>
     </header>
