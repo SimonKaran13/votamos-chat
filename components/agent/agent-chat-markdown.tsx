@@ -14,7 +14,7 @@ import {
 
 type Props = {
     content: string;
-    sources: Source[];
+    sources?: Source[];
 };
 
 // Reference key format: "party_id:index"
@@ -79,11 +79,16 @@ function buildReferenceMapping(
 }
 
 function AgentChatMarkdownComponent({ content, sources }: Props) {
-    const sourcesByParty = useMemo(() => groupSourcesByParty(sources), [sources]);
+    const hasSources = sources && sources.length > 0;
+
+    const sourcesByParty = useMemo(
+        () => (hasSources ? groupSourcesByParty(sources) : new Map()),
+        [sources, hasSources]
+    );
 
     const referenceMapping = useMemo(
-        () => buildReferenceMapping(content, sourcesByParty),
-        [content, sourcesByParty]
+        () => (hasSources ? buildReferenceMapping(content, sourcesByParty) : new Map()),
+        [content, sourcesByParty, hasSources]
     );
 
     const onReferenceClick = (partyId: string, partyIndex: number) => {
@@ -183,6 +188,9 @@ function AgentChatMarkdownComponent({ content, sources }: Props) {
     };
 
     const processChildren = (children: React.ReactNode): React.ReactNode => {
+        // Skip reference processing when no sources
+        if (!hasSources) return children;
+
         if (typeof children === 'string') {
             const result = buildReference(children);
             return Array.isArray(result) ? <>{result}</> : result;
@@ -299,11 +307,11 @@ function AgentChatMarkdownComponent({ content, sources }: Props) {
     );
 }
 
-export const AgentChatMarkdown = memo(
+export const AgentMarkdown = memo(
     AgentChatMarkdownComponent,
     (prevProps, nextProps) =>
         prevProps.content === nextProps.content &&
         prevProps.sources === nextProps.sources
 );
 
-export default AgentChatMarkdown;
+export default AgentMarkdown;

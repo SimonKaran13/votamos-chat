@@ -3,8 +3,7 @@
 import type { AgentMessage } from '@/lib/stores/agent-store';
 import { cn } from '@/lib/utils';
 import { Bot, User } from 'lucide-react';
-import AgentMarkdown from './agent-markdown';
-import AgentChatMarkdown from './agent-chat-markdown';
+import AgentMarkdown from './agent-chat-markdown';
 import AgentSourcesButton from './agent-sources-button';
 
 interface Props {
@@ -58,14 +57,10 @@ export default function AgentChatMessage({ message, isStreaming }: Props) {
                         <p className="whitespace-pre-wrap text-sm">{message.content}</p>
                     ) : (
                         <div className="text-sm">
-                            {hasSources ? (
-                                <AgentChatMarkdown
-                                    content={message.content}
-                                    sources={message.sources ?? []}
-                                />
-                            ) : (
-                                <AgentMarkdown content={message.content} />
-                            )}
+                            <AgentMarkdown
+                                content={message.content}
+                                sources={message.sources}
+                            />
                             {isStreaming && (
                                 <span className="ml-1 inline-block size-2 animate-pulse rounded-full bg-current" />
                             )}
