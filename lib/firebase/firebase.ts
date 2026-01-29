@@ -30,6 +30,7 @@ import {
 } from 'firebase/firestore';
 import { firebaseConfig } from './firebase-config';
 import type { ChatSession, LlmSystemStatus } from './firebase.types';
+import type {ProlificMetadata} from "@/lib/prolific-study/prolific-metadata";
 
 const app = initializeApp(firebaseConfig);
 
@@ -350,15 +351,23 @@ export async function saveWahlSwiperHistory(
   userId: string,
   history: WahlSwiperResultHistory,
   chatMessages: Record<string, SwiperMessage[]>,
+  prolificMetadata?: ProlificMetadata | null,
 ) {
   const collectionRef = collection(db, 'wahl_swiper_results');
 
-  const docRef = await addDoc(collectionRef, {
+  const docData: Record<string, unknown> = {
     user_id: userId,
     created_at: serverTimestamp(),
     history,
     chat_messages: chatMessages,
-  });
+  };
+
+  if (prolificMetadata) {
+    docData.prolific_metadata = prolificMetadata;
+    docData.is_prolific_study = true;
+  }
+
+  const docRef = await addDoc(collectionRef, docData);
 
   return docRef.id;
 }

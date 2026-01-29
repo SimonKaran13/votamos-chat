@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 import * as RadixPopover from '@radix-ui/react-popover';
 import { ChevronsRightIcon, MessageCircleMoreIcon } from 'lucide-react';
 import type { WahlSwiperButtonVariant } from './wahl-swiper-button';
+import {useEffect, useState} from "react";
+import {isProlificStudy} from "@/lib/prolific-study/prolific-metadata";
 
 type Props = {
   variant: WahlSwiperButtonVariant;
@@ -26,6 +28,13 @@ function WahlSwiperSkipButton({ variant, clicked, onClick }: Props) {
   const setSkipDisclaimerShown = useWahlSwiperStore(
     (state) => state.setSkipDisclaimerShown,
   );
+  const [hideSkipButtonPopup, setHideSkipButtonPopup] = useState(false);
+
+  useEffect(() => {
+    if (isProlificStudy()) {
+      setHideSkipButtonPopup(true);
+    }
+  })
 
   const handleClick = () => {
     if (disclaimerShown) {
@@ -46,20 +55,14 @@ function WahlSwiperSkipButton({ variant, clicked, onClick }: Props) {
     onClick();
   };
 
+  if (hideSkipButtonPopup) {
+    return getSkipButton({ variant, clicked, onClick });
+  }
+
   return (
     <Popover open={showSkipDisclaimer} onOpenChange={setSkipDisclaimerShown}>
       <RadixPopover.Anchor asChild>
-        <Button
-          variant="outline"
-          className={cn(
-            'size-14 rounded-full transition-all duration-200 border-4 md:hover:scale-[1.18] ease-in-out',
-            !clicked && variant.hover,
-            clicked && variant.normal,
-          )}
-          onClick={handleClick}
-        >
-          {variant.icon}
-        </Button>
+        {getSkipButton({ variant, clicked, onClick }, handleClick)}
       </RadixPopover.Anchor>
 
       <PopoverContent side="top" sideOffset={12}>
@@ -85,6 +88,25 @@ function WahlSwiperSkipButton({ variant, clicked, onClick }: Props) {
         </div>
       </PopoverContent>
     </Popover>
+  );
+}
+
+function getSkipButton(
+    { variant, clicked, onClick }: Props,
+    handleClick?: () => void,
+) {
+  return (
+      <Button
+          variant="outline"
+          className={cn(
+              'size-14 rounded-full transition-all duration-200 border-4 md:hover:scale-[1.18] ease-in-out',
+              !clicked && variant.hover,
+              clicked && variant.normal,
+          )}
+          onClick={handleClick ? handleClick : onClick}
+      >
+        {variant.icon}
+      </Button>
   );
 }
 

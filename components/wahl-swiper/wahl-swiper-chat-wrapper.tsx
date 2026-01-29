@@ -14,18 +14,24 @@ import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import WahlSwiperChat from './wahl-swiper-chat';
 import WahlSwiperInput from './wahl-swiper-input';
+import {isProlificStudy} from "@/lib/prolific-study/prolific-metadata";
 
 function WahlSwiperChatWrapper() {
   const shouldShowChat = useWahlSwiperStore(
     (state) => state.thesesStack.length > 0,
   );
   const [isSticky, setIsSticky] = useState(true);
+  const [isProlific, setIsProlific] = useState<boolean | null>(null);
   const chatIsExpanded = useWahlSwiperStore((state) => state.chatIsExpanded);
   const setChatIsExpanded = useWahlSwiperStore(
     (state) => state.setChatIsExpanded,
   );
   const currentThesis = useWahlSwiperStore((state) => state.getCurrentThesis());
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsProlific(isProlificStudy());
+  }, []);
 
   useEffect(() => {
     const cachedRef = ref.current;
@@ -48,7 +54,8 @@ function WahlSwiperChatWrapper() {
     setChatIsExpanded(!chatIsExpanded);
   };
 
-  if (!shouldShowChat) return null;
+  // Hide chat until we know it's not a Prolific study, or when no theses left
+  if (!shouldShowChat || isProlific === null || isProlific) return null;
 
   return (
     <ResponsiveDialog open={chatIsExpanded} onOpenChange={setChatIsExpanded}>

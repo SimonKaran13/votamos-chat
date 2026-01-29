@@ -1,3 +1,5 @@
+'use client'
+
 import ChatGroupPartySelect from '@/components/chat/chat-group-party-select';
 import { Accordion } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
@@ -10,6 +12,7 @@ import Link from 'next/link';
 import WahlSwiperPartyResultCard from './wahl-swiper-party-result-card';
 import WahlSwiperShareButton from './wahl-swiper-share-button';
 import WahlSwiperSurveyLoginCard from './wahl-swiper-survey-login-card';
+import CompletionCode from "@/components/prolific-study/completion-code";
 
 type Props = {
   resultId: string;
@@ -17,6 +20,7 @@ type Props = {
   parties: PartyDetails[];
   userDetails?: UserDetails;
   contextId?: string;
+  isProlificStudy: boolean;
 };
 
 function WahlSwiperResult({
@@ -25,6 +29,7 @@ function WahlSwiperResult({
   parties,
   userDetails,
   contextId = DEFAULT_CONTEXT_ID,
+  isProlificStudy,
 }: Props) {
   const sortedScores = Object.entries(scores).sort(
     ([, score], [, otherScore]) => otherScore.score - score.score,
@@ -33,6 +38,9 @@ function WahlSwiperResult({
 
   return (
     <div className="relative mx-auto mt-4 flex w-full flex-col gap-4">
+      {isProlificStudy && (
+          <CompletionCode/>
+      )}
       <div className="flex flex-col">
         <h1 className="text-lg font-bold">Swiper Ergebnisse</h1>
         <p className="text-sm text-muted-foreground">

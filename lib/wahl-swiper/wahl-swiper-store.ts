@@ -9,8 +9,6 @@ import type {
   WahlSwiperStore,
   WahlSwiperStoreState,
 } from './wahl-swiper-store.types';
-
-export const SURVEY_BANNER_MIN_MESSAGE_COUNT = 8;
 export const SWIPER_DEFAULT_QUICK_REPLIES = [
   'Wie ist die aktuelle Lage?',
   'Was sind Vor- und Nachteile davon?',
@@ -28,6 +26,7 @@ const defaultState: WahlSwiperStoreState = {
   currentQuickReplies: {},
   showSkipDisclaimer: false,
   skipDisclaimerShown: false,
+  prolificMetadata: null,
 };
 
 export function createWahlOMatStore(initialState?: Partial<WahlSwiperStore>) {
@@ -59,6 +58,8 @@ export function createWahlOMatStore(initialState?: Partial<WahlSwiperStore>) {
         set({ showSkipDisclaimer: show }),
       setSkipDisclaimerShown: (shown: boolean) =>
         set({ skipDisclaimerShown: shown }),
+      setProlificMetadata: (prolificMetadata) =>
+          set({ prolificMetadata }),
     })),
   );
 }
