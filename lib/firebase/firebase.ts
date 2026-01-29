@@ -43,14 +43,18 @@ export async function createChatSession(
   sessionId: string,
   tenantId?: string,
   contextId?: string,
+  prolificMetadata?: ProlificMetadata,
 ): Promise<void> {
-  return await setDoc(doc(db, 'chat_sessions', sessionId), {
+  await setDoc(doc(db, 'chat_sessions', sessionId), {
     user_id: userId,
     party_ids: partyIds,
     created_at: Timestamp.now(),
     updated_at: Timestamp.now(),
     ...(tenantId ? { tenant_id: tenantId } : {}),
     ...(contextId ? { context_id: contextId } : {}),
+    ...(prolificMetadata
+      ? { prolific_metadata: prolificMetadata, is_prolific_study: true }
+      : {}),
   });
 }
 
