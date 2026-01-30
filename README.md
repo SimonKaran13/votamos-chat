@@ -26,8 +26,8 @@ This project is **source-available** under the **PolyForm Noncommercial 1.0.0** 
 - Free for **non-commercial** use (see LICENSE for permitted purposes)
 - Share the license text and any `Required Notice:` lines when distributing
 - Please contact us at info@wahl.chat to
-a. inform us about your use case
-b. get access to assets required for a reference to wahl.chat on your project page
+a. Inform us about your use case
+b. Get access to assets required for a reference to wahl.chat on your project page
 - Do not use the wahl.chat name or logo in your project without our permission
 
 ## Setup
