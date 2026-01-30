@@ -24,7 +24,6 @@ type Props = {
   allParties?: PartyDetails[];
   proposedQuestions?: ProposedQuestion[];
   initialQuestion?: string;
-  contextId?: string;
 };
 
 function ChatMessagesView({
@@ -35,7 +34,6 @@ function ChatMessagesView({
   allParties,
   proposedQuestions,
   initialQuestion,
-  contextId,
 }: Props) {
   const hasFetched = useRef(false);
   const storeMessages = useChatStore((state) => state.messages);

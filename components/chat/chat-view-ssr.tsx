@@ -82,7 +82,6 @@ async function ChatViewSsr({
       messages={messages}
       proposedQuestions={proposedQuestions}
       initialQuestion={initialQuestion}
-      contextId={contextId}
     />
   );
 }

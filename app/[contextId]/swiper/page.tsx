@@ -35,7 +35,7 @@ async function SwiperPage({ params }: Props) {
     <WahlSwiperStoreProvider allTheses={theses} contextId={contextId}>
       <WahlSwiper />
 
-      <WahlSwiperChatWrapper contextId={contextId} />
+      <WahlSwiperChatWrapper />
 
       <WahlSwiperExperimentalDisclaimer />
     </WahlSwiperStoreProvider>
