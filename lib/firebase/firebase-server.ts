@@ -113,7 +113,10 @@ async function getContextsImpl() {
       where('is_active', '==', true),
     );
     const snapshot = await getDocs(queryRef);
-    console.log('[Firestore] Successfully fetched contexts:', snapshot.docs.length);
+    console.log(
+      '[Firestore] Successfully fetched contexts:',
+      snapshot.docs.length,
+    );
 
     return snapshot.docs.map((doc) => {
       const data = doc.data();
@@ -121,7 +124,7 @@ async function getContextsImpl() {
         ...data,
         context_id: doc.id,
         date: firestoreTimestampToDate(data.date),
-      } as Context;
+      } as unknown as Context;
     });
   } catch (error) {
     console.error('[Firestore] FAILED to fetch contexts:', error);
@@ -146,15 +149,20 @@ async function getContextImpl(contextId: string) {
       return undefined;
     }
 
-    console.log(`[Firestore] Successfully fetched context: /contexts/${contextId}`);
+    console.log(
+      `[Firestore] Successfully fetched context: /contexts/${contextId}`,
+    );
     const data = snapshot.data();
     return {
       ...data,
       context_id: snapshot.id,
       date: firestoreTimestampToDate(data?.date),
-    } as Context;
+    } as unknown as Context;
   } catch (error) {
-    console.error(`[Firestore] FAILED to fetch context "/contexts/${contextId}":`, error);
+    console.error(
+      `[Firestore] FAILED to fetch context "/contexts/${contextId}":`,
+      error,
+    );
     return undefined;
   }
 }
@@ -172,7 +180,9 @@ async function getPartiesForContextImpl(contextId: string) {
       collection(serverDb, 'contexts', contextId, 'parties'),
     );
     const snapshot = await getDocs(queryRef);
-    console.log(`[Firestore] Successfully fetched parties for context: ${snapshot.docs.length} parties`);
+    console.log(
+      `[Firestore] Successfully fetched parties for context: ${snapshot.docs.length} parties`,
+    );
 
     return snapshot.docs.map((doc) => {
       const data = doc.data();
@@ -182,7 +192,10 @@ async function getPartiesForContextImpl(contextId: string) {
       } as PartyDetails;
     });
   } catch (error) {
-    console.error(`[Firestore] FAILED to fetch parties "/contexts/${contextId}/parties":`, error);
+    console.error(
+      `[Firestore] FAILED to fetch parties "/contexts/${contextId}/parties":`,
+      error,
+    );
     return [];
   }
 }
@@ -419,7 +432,9 @@ export const getHomeInputProposedQuestions = cache(
 async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
   const path = `/proposed_questions/${contextId}/parties/${WAHL_CHAT_PARTY_ID}/questions`;
   try {
-    console.log(`[Firestore] Fetching home proposed questions: ${path} (where location == 'home')`);
+    console.log(
+      `[Firestore] Fetching home proposed questions: ${path} (where location == 'home')`,
+    );
     const serverDb = await getServerFirestore({ useHeaders: false });
     const questionsRef = query(
       collection(
@@ -433,7 +448,9 @@ async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
       where('location', '==', 'home'),
     );
     const questionsSnapshot = await getDocs(questionsRef);
-    console.log(`[Firestore] Successfully fetched home proposed questions: ${questionsSnapshot.docs.length} questions`);
+    console.log(
+      `[Firestore] Successfully fetched home proposed questions: ${questionsSnapshot.docs.length} questions`,
+    );
 
     return questionsSnapshot.docs.map((doc) => {
       return {
@@ -443,7 +460,10 @@ async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
       } as ProposedQuestion;
     });
   } catch (error) {
-    console.error(`[Firestore] FAILED to fetch home proposed questions "${path}":`, error);
+    console.error(
+      `[Firestore] FAILED to fetch home proposed questions "${path}":`,
+      error,
+    );
     return [];
   }
 }
@@ -577,7 +597,10 @@ export async function getSystemStatus() {
       is_at_rate_limit: snapshot.data()?.is_at_rate_limit ?? false,
     } as LlmSystemStatus;
   } catch (error) {
-    console.error(`[Firestore] FAILED to fetch system status "${path}":`, error);
+    console.error(
+      `[Firestore] FAILED to fetch system status "${path}":`,
+      error,
+    );
     return {
       is_at_rate_limit: false,
     } as LlmSystemStatus;
