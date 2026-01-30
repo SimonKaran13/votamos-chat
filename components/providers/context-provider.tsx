@@ -45,18 +45,27 @@ export function ContextProvider({
   );
 }
 
-export function useElectionContext() {
+export function useElectionContext(options: {
+  optional: true;
+}): ContextProviderValue | undefined;
+export function useElectionContext(options?: {
+  optional?: false;
+}): ContextProviderValue;
+export function useElectionContext(options?: { optional?: boolean }) {
   const context = useContext(ElectionContext);
-  if (!context) {
-    throw new Error(
-      'useElectionContext must be used within a ContextProvider',
-    );
+  if (!context && !options?.optional) {
+    throw new Error('useElectionContext must be used within a ContextProvider');
   }
   return context;
 }
 
-export function useCurrentContext() {
-  return useElectionContext().context;
+export function useCurrentContext(options: { optional: true }):
+  | Context
+  | undefined;
+export function useCurrentContext(options?: { optional?: false }): Context;
+export function useCurrentContext(options?: { optional?: boolean }) {
+  const electionContext = useElectionContext(options as { optional: true });
+  return electionContext?.context;
 }
 
 export function useContexts() {
