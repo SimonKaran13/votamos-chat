@@ -18,16 +18,12 @@ export type Props = {
 };
 
 export const useParties = (partyIds?: string[]) => {
-  // Try context provider first, fall back to PartiesProvider
-  let contextParties: PartyDetails[] | undefined;
-  try {
-    const electionContext = useElectionContext();
-    contextParties = electionContext.parties;
-  } catch {
-    // Context provider not available, try PartiesProvider
-    const legacyContext = useContext(PartiesContext);
-    contextParties = legacyContext?.parties;
-  }
+  // Always call both hooks unconditionally to satisfy rules-of-hooks
+  const electionContext = useElectionContext({ optional: true });
+  const legacyContext = useContext(PartiesContext);
+
+  // Prefer election context parties, fall back to legacy context
+  const contextParties = electionContext?.parties ?? legacyContext?.parties;
 
   const parties = useMemo(() => {
     if (partyIds && contextParties) {

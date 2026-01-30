@@ -7,16 +7,9 @@ import { usePathname } from 'next/navigation';
 
 function WahlSwiperTeaserTag() {
   const pathname = usePathname();
+  const context = useCurrentContext({ optional: true });
 
-  // Try to get context - if not available, don't render
-  let context;
-  try {
-    context = useCurrentContext();
-  } catch {
-    return null;
-  }
-
-  // Don't show if swiper is not supported for this context
+  // Don't show if context not available or swiper is not supported for this context
   if (!context?.supports_swiper) return null;
 
   // Don't show on swiper page
