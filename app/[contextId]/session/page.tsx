@@ -15,7 +15,6 @@ type Props = {
 };
 
 export async function generateMetadata({
-  params,
   searchParams,
 }: {
   params: Promise<{ contextId: string }>;
