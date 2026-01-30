@@ -8,7 +8,6 @@ import { createStore } from 'zustand/vanilla';
 export type AgentStep =
   | 'consent'
   | 'conversation-choice'
-  | 'data-collection'
   | 'topic-selection'
   | 'chat'
   | 'completed';
@@ -44,13 +43,6 @@ export const STAGE_LABELS: Record<ConversationStage, string> = {
   end: 'Abschluss',
 };
 
-export interface AgentUserData {
-  age: number;
-  region: string;
-  livingSituation: string;
-  occupation: string;
-}
-
 export interface AgentMessage {
   id: string;
   role: 'user' | 'assistant';
@@ -63,8 +55,6 @@ export interface AgentState {
   step: AgentStep;
   consentGiven: boolean;
 
-  // User data
-  userData: AgentUserData | null;
   topic: AgentTopic | null;
 
   // Conversation
@@ -95,8 +85,6 @@ export interface AgentActions {
     stage: ConversationStage,
   ) => void;
 
-  // User data actions
-  setUserData: (data: AgentUserData) => void;
   setTopic: (topic: AgentTopic) => void;
 
   // Conversation actions
@@ -121,7 +109,6 @@ export type AgentStore = AgentState & AgentActions;
 const initialState: AgentState = {
   step: 'consent',
   consentGiven: false,
-  userData: null,
   topic: null,
   conversationId: null,
   conversationStage: null,
@@ -148,7 +135,7 @@ export const createAgentStore = (initState: Partial<AgentState> = {}) => {
 
     startNewConversation: () =>
       set({
-        step: 'data-collection',
+        step: 'topic-selection',
       }),
 
     restoreConversation: (conversationId, messages, topic, stage) =>
@@ -164,13 +151,6 @@ export const createAgentStore = (initState: Partial<AgentState> = {}) => {
         conversationStage: stage,
         initialMessageReceived: true,
         step: 'chat',
-      }),
-
-    // User data actions
-    setUserData: (userData) =>
-      set({
-        userData,
-        step: 'topic-selection',
       }),
 
     setTopic: (topic) =>

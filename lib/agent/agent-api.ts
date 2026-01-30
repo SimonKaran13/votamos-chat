@@ -1,8 +1,4 @@
-import type {
-  AgentTopic,
-  AgentUserData,
-  ConversationStage,
-} from '@/lib/stores/agent-store';
+import type { AgentTopic, ConversationStage } from '@/lib/stores/agent-store';
 import type { Source } from '@/lib/stores/chat-store.types';
 
 // Use Next.js API routes as proxy to avoid CORS issues
@@ -50,7 +46,6 @@ export interface StreamEvent {
  */
 export async function createConversation(
   topic: AgentTopic,
-  userData: AgentUserData,
 ): Promise<CreateConversationResponse> {
   const response = await fetch(`${API_BASE_URL}/chat-start`, {
     method: 'POST',
@@ -59,10 +54,6 @@ export async function createConversation(
     },
     body: JSON.stringify({
       topic,
-      age: userData.age,
-      region: userData.region,
-      living_situation: userData.livingSituation,
-      occupation: userData.occupation,
     }),
   });
 

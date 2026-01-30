@@ -138,7 +138,6 @@ export default function AgentChatView() {
   const router = useRouter();
 
   const topic = useAgentStore((state) => state.topic);
-  const userData = useAgentStore((state) => state.userData);
   const conversationId = useAgentStore((state) => state.conversationId);
   const isStreaming = useAgentStore((state) => state.isStreaming);
   const initialMessageReceived = useAgentStore(
@@ -256,7 +255,6 @@ export default function AgentChatView() {
     const initializeConversation = async () => {
       if (
         !topic ||
-        !userData ||
         conversationId ||
         initialMessageReceived ||
         isInitializingRef.current
@@ -268,7 +266,7 @@ export default function AgentChatView() {
 
       try {
         // Create conversation
-        const response = await createConversation(topic, userData);
+        const response = await createConversation(topic);
         setConversationId(response.conversation_id);
 
         // Save to localStorage and update URL
@@ -293,7 +291,6 @@ export default function AgentChatView() {
     initializeConversation();
   }, [
     topic,
-    userData,
     conversationId,
     initialMessageReceived,
     setConversationId,
