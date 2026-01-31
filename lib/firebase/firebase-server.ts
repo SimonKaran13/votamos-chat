@@ -132,7 +132,7 @@ async function getContextsImpl() {
   }
 }
 
-export const getContexts = cache(getContextsImpl, undefined, {
+export const getContexts = cache(getContextsImpl, ['getContexts', 'v2'], {
   revalidate: 3600,
   tags: [CacheTags.CONTEXTS],
 });
@@ -167,7 +167,7 @@ async function getContextImpl(contextId: string) {
   }
 }
 
-export const getContext = cache(getContextImpl, undefined, {
+export const getContext = cache(getContextImpl, ['getContext', 'v2'], {
   revalidate: 3600,
   tags: [CacheTags.CONTEXTS],
 });
