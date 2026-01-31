@@ -1,11 +1,12 @@
 import { ContextProvider } from '@/components/providers/context-provider';
-import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import {
   getContext,
   getContexts,
   getPartiesForContext,
 } from '@/lib/firebase/firebase-server';
 import { notFound } from 'next/navigation';
+
+export const revalidate = 3600;
 
 type Props = {
   children: React.ReactNode;
@@ -23,14 +24,8 @@ async function ContextLayout({ children, params }: Props) {
     getPartiesForContext(contextId),
   ]);
 
-  // If context doesn't exist and it's not the default, return 404
+  // If context doesn't exist, return 404
   if (!context) {
-    // Try the default context as fallback
-    const defaultContext = await getContext(DEFAULT_CONTEXT_ID);
-    if (!defaultContext) {
-      notFound();
-    }
-    // Context doesn't exist, let middleware handle redirect
     notFound();
   }
 
