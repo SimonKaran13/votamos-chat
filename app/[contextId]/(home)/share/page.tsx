@@ -30,14 +30,20 @@ export async function generateMetadata({ searchParams }: Props) {
   const snapshot = await getSnapshot(snapshot_id);
 
   if (snapshot.party_ids.length > 1) {
-    return;
+    return {};
   }
 
   const partyId = snapshot.party_ids[0];
 
+  const image = await generateOgImageUrl(partyId);
+
+  if (!image) {
+    return {};
+  }
+
   return {
     openGraph: {
-      images: [await generateOgImageUrl(partyId)],
+      images: [image],
     },
   };
 }

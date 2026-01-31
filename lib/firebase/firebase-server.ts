@@ -133,7 +133,7 @@ async function getContextsImpl() {
 }
 
 export const getContexts = cache(getContextsImpl, undefined, {
-  revalidate: false,
+  revalidate: 3600,
   tags: [CacheTags.CONTEXTS],
 });
 
@@ -168,7 +168,7 @@ async function getContextImpl(contextId: string) {
 }
 
 export const getContext = cache(getContextImpl, undefined, {
-  revalidate: false,
+  revalidate: 3600,
   tags: [CacheTags.CONTEXTS],
 });
 
@@ -201,7 +201,7 @@ async function getPartiesForContextImpl(contextId: string) {
 }
 
 export const getPartiesForContext = cache(getPartiesForContextImpl, undefined, {
-  revalidate: false,
+  revalidate: 3600,
   tags: [CacheTags.CONTEXT_PARTIES],
 });
 
@@ -230,7 +230,7 @@ async function getPartyForContextImpl(contextId: string, partyId: string) {
 }
 
 export const getPartyForContext = cache(getPartyForContextImpl, undefined, {
-  revalidate: false,
+  revalidate: 3600,
   tags: [CacheTags.CONTEXT_PARTIES],
 });
 
