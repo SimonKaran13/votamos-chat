@@ -5,7 +5,7 @@ import HowToCard from '@/components/home/how-to-card';
 import KnownFrom from '@/components/home/known-from';
 import SupportUsCard from '@/components/home/support-us-card';
 import {
-  getHomeInputProposedQuestionsForContext,
+  getHomeInputProposedQuestions,
   getSystemStatus,
   getUser,
 } from '@/lib/firebase/firebase-server';
@@ -21,7 +21,7 @@ export default async function ContextHome({ params }: Props) {
   const { contextId } = await params;
 
   const [wahlChatQuestions, systemStatus, user] = await Promise.all([
-    getHomeInputProposedQuestionsForContext(contextId),
+    getHomeInputProposedQuestions(),
     getSystemStatus(),
     getUser(),
   ]);

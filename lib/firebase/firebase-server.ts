@@ -382,22 +382,20 @@ async function getProposedQuestionsForContextImpl(
         normalizedId,
         'questions',
       ),
+      where('location', '==', 'chat'),
     );
     const snapshot = await getDocs(queryRef);
     console.log(
       `[Firestore] Successfully fetched proposed questions: ${snapshot.docs.length} questions`,
     );
 
-    // Filter out banner questions, only include question_x documents
-    const questions = snapshot.docs
-      .filter((doc) => doc.id.startsWith('question_'))
-      .map((doc) => {
-        return {
-          id: doc.id,
-          partyId: normalizedId,
-          ...doc.data(),
-        } as ProposedQuestion;
-      });
+    const questions = snapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        partyId: normalizedId,
+        ...doc.data(),
+      } as ProposedQuestion;
+    });
 
     return questions.sort(() => Math.random() - 0.5);
   } catch (error) {
@@ -419,33 +417,6 @@ export const getProposedQuestionsForContext = cache(
 );
 
 async function getHomeInputProposedQuestionsImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const questionsRef = query(
-    collection(serverDb, 'proposed_questions', WAHL_CHAT_PARTY_ID, 'questions'),
-    where('location', '==', 'home'),
-  );
-  const questionsSnapshot = await getDocs(questionsRef);
-
-  return questionsSnapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      partyId: WAHL_CHAT_PARTY_ID,
-      ...doc.data(),
-    } as ProposedQuestion;
-  });
-}
-
-export const getHomeInputProposedQuestions = cache(
-  getHomeInputProposedQuestionsImpl,
-  undefined,
-  {
-    revalidate: 60 * 60 * 24,
-    tags: [CacheTags.HOME_PROPOSED_QUESTIONS],
-  },
-);
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function getHomeInputProposedQuestionsForContextImpl(_contextId: string) {
   // Home questions are global, not context-specific
   // Read from /proposed_questions/wahl-chat/questions
   const path = `/proposed_questions/${WAHL_CHAT_PARTY_ID}/questions`;
@@ -484,8 +455,8 @@ async function getHomeInputProposedQuestionsForContextImpl(_contextId: string) {
   }
 }
 
-export const getHomeInputProposedQuestionsForContext = cache(
-  getHomeInputProposedQuestionsForContextImpl,
+export const getHomeInputProposedQuestions = cache(
+  getHomeInputProposedQuestionsImpl,
   undefined,
   {
     revalidate: 60 * 60 * 24,
