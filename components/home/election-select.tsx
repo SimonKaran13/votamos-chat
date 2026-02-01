@@ -15,6 +15,7 @@ import { cn, formatGermanDate } from '@/lib/utils';
 import { CalendarIcon, CheckIcon, MapPinIcon, VoteIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 function ContextIcon({
   context,
@@ -23,27 +24,33 @@ function ContextIcon({
   context: Context;
   className?: string;
 }) {
-  if (context.icon_url) {
+  const [imageError, setImageError] = useState(false);
+
+  // Try icon_url first, then local fallback based on context_id
+  const iconUrl = context.icon_url || `/images/${context.context_id}.webp`;
+
+  if (imageError) {
     return (
-      <Image
-        src={context.icon_url}
-        alt={context.name}
-        className={cn('size-6 rounded object-contain', className)}
-        width={24}
-        height={24}
-      />
+      <div
+        className={cn(
+          'flex size-6 items-center justify-center rounded bg-muted',
+          className,
+        )}
+      >
+        <VoteIcon className="size-3.5 text-muted-foreground" />
+      </div>
     );
   }
 
   return (
-    <div
-      className={cn(
-        'flex size-6 items-center justify-center rounded bg-muted',
-        className,
-      )}
-    >
-      <VoteIcon className="size-3.5 text-muted-foreground" />
-    </div>
+    <Image
+      src={iconUrl}
+      alt={context.name}
+      className={cn('size-6 rounded object-contain', className)}
+      width={24}
+      height={24}
+      onError={() => setImageError(true)}
+    />
   );
 }
 
