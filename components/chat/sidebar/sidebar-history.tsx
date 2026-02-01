@@ -11,17 +11,20 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import { listenToHistory } from '@/lib/firebase/firebase';
 import type { ChatSession } from '@/lib/firebase/firebase.types';
 import { cn } from '@/lib/utils';
+import { MapPinIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type Props = {
   history?: ChatSession[];
+  contextId: string;
 };
 
-function SidebarHistory({ history: initialHistory }: Props) {
+function SidebarHistory({ history: initialHistory, contextId }: Props) {
   const { user } = useAnonymousAuth();
   const [history, setHistory] = useState<ChatSession[]>(initialHistory ?? []);
   const chatSessionId = useChatStore((state) => state.chatSessionId);
@@ -50,13 +53,23 @@ function SidebarHistory({ history: initialHistory }: Props) {
       <SidebarGroupContent>
         <SidebarMenu>
           {history.map((item) => {
+            // Use session's context_id if available, otherwise use current context
+            const sessionContextId = item.context_id ?? DEFAULT_CONTEXT_ID;
+            const isFromDifferentContext = sessionContextId !== contextId;
+
             return (
               <SidebarMenuItem key={item.id}>
                 <SidebarMenuButton
                   asChild
                   className={cn(chatSessionId === item.id && 'bg-muted')}
                 >
-                  <Link href={`/session/${item.id}`} onClick={handleClick}>
+                  <Link
+                    href={`/${sessionContextId}/session/${item.id}`}
+                    onClick={handleClick}
+                  >
+                    {isFromDifferentContext && (
+                      <MapPinIcon className="size-3 shrink-0 text-muted-foreground" />
+                    )}
                     <span className="w-full truncate">
                       {item.title ||
                         item.party_ids?.join(',') ||

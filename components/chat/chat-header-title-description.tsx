@@ -1,7 +1,7 @@
 'use client';
 
 import { useChatStore } from '@/components/providers/chat-store-provider';
-import { useParties } from '@/components/providers/parties-provider';
+import { useContextParties } from '@/components/providers/context-provider';
 import Link from 'next/link';
 import Logo from './logo';
 import PartyDetailPopover from './party-detail-popover';
@@ -12,10 +12,10 @@ type Props = {
 
 function ChatHeaderTitleDescription({ showPartyPopover = true }: Props) {
   const partyIds = useChatStore((state) => state.partyIds);
-  const parties = useParties([...partyIds]);
+  const parties = useContextParties([...partyIds]);
 
   return (
-    <div className="flex min-w-0 grow items-center gap-2">
+    <div className="flex min-w-0  items-center gap-2">
       <div className="flex min-w-0 flex-col">
         <Link href="/">
           <Logo variant="large" className="w-24" />
