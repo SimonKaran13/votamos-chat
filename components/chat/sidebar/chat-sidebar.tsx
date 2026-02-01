@@ -30,9 +30,14 @@ import { Suspense } from 'react';
 import ChatSidebarGroupSelect from './chat-sidebar-group-select';
 import SidebarHistorySr from './sidebar-history-sr';
 import SidebarNewChatButtons from './sidebar-new-chat-buttons';
-import SidebarSwiperTeaser from './sidebar-swiper-teaser';
 
-async function ChatSidebar() {
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
+
+type Props = {
+  contextId?: string;
+};
+
+async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
   const user = await getCurrentUser();
 
   const userDetails = user ? getUserDetailsFromUser(user) : undefined;
@@ -43,7 +48,7 @@ async function ChatSidebar() {
       mobileVisuallyHiddenDescription="Starte einen neuen Chat oder wähle eine vorherige Konversation aus."
     >
       <SidebarHeader className="flex h-chat-header flex-row items-center justify-between border-b border-b-muted pl-4 pr-2">
-        <Link href="/" className="flex items-center gap-4">
+        <Link href={`/${contextId}`} className="flex items-center gap-4">
           <Logo variant="small" className="size-6" />
         </Link>
         <div className="flex flex-row items-center gap-1">
@@ -55,7 +60,7 @@ async function ChatSidebar() {
             className="size-8"
             tooltip="Startseite"
           >
-            <Link href="/">
+            <Link href={`/${contextId}`}>
               <HomeIcon className="size-4" />
             </Link>
           </Button>
@@ -64,15 +69,10 @@ async function ChatSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarSwiperTeaser />
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupContent>
             <SidebarGroupLabel>Neuer Chat</SidebarGroupLabel>
-            <SidebarNewChatButtons />
+            <SidebarNewChatButtons contextId={contextId} />
 
-            <ChatSidebarGroupSelect />
+            <ChatSidebarGroupSelect contextId={contextId} />
           </SidebarGroupContent>
         </SidebarGroup>
 
@@ -125,7 +125,7 @@ async function ChatSidebar() {
             </div>
           }
         >
-          <SidebarHistorySr />
+          <SidebarHistorySr contextId={contextId} />
         </Suspense>
         <SidebarGroup>
           <SidebarGroupLabel>Informationen</SidebarGroupLabel>
@@ -143,7 +143,7 @@ async function ChatSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/sources">Quellen</Link>
+                  <Link href={`/${contextId}/sources`}>Quellen</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

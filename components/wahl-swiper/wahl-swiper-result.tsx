@@ -1,6 +1,7 @@
 import ChatGroupPartySelect from '@/components/chat/chat-group-party-select';
 import { Accordion } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import type { PartyDetails } from '@/lib/party-details';
 import type { UserDetails } from '@/lib/utils';
 import type { PartiesScoreResult } from '@/lib/wahl-swiper/wahl-swiper.types';
@@ -15,12 +16,20 @@ type Props = {
   scores: PartiesScoreResult;
   parties: PartyDetails[];
   userDetails?: UserDetails;
+  contextId?: string;
 };
 
-function WahlSwiperResult({ resultId, scores, parties, userDetails }: Props) {
+function WahlSwiperResult({
+  resultId,
+  scores,
+  parties,
+  userDetails,
+  contextId = DEFAULT_CONTEXT_ID,
+}: Props) {
   const sortedScores = Object.entries(scores).sort(
     ([, score], [, otherScore]) => otherScore.score - score.score,
   );
+  const hasValidScores = sortedScores.length > 0;
 
   return (
     <div className="relative mx-auto mt-4 flex w-full flex-col gap-4">
@@ -30,7 +39,7 @@ function WahlSwiperResult({ resultId, scores, parties, userDetails }: Props) {
           Dieses Ergebnis dient nur zur ersten Orientierung. Hinterfrage es
           kritisch und sieh selbst in die Wahlprogramme - unser Vergleichs-Chat
           kann helfen:{' '}
-          <ChatGroupPartySelect>
+          <ChatGroupPartySelect contextId={contextId}>
             <span className="underline">Vergleichs-Chat</span>
           </ChatGroupPartySelect>
         </p>
@@ -41,27 +50,36 @@ function WahlSwiperResult({ resultId, scores, parties, userDetails }: Props) {
         userDetails={userDetails}
       />
 
-      <Accordion type="single" collapsible className="flex flex-col gap-2">
-        {sortedScores.map(([party, score]) => {
-          const partyDetails = parties.find((p) => p.party_id === party);
+      {hasValidScores ? (
+        <Accordion type="single" collapsible className="flex flex-col gap-2">
+          {sortedScores.map(([party, score]) => {
+            const partyDetails = parties.find((p) => p.party_id === party);
 
-          if (!partyDetails) {
-            return null;
-          }
+            if (!partyDetails) {
+              return null;
+            }
 
-          return (
-            <WahlSwiperPartyResultCard
-              key={party}
-              party={partyDetails}
-              score={score}
-            />
-          );
-        })}
-      </Accordion>
+            return (
+              <WahlSwiperPartyResultCard
+                key={party}
+                party={partyDetails}
+                score={score}
+              />
+            );
+          })}
+        </Accordion>
+      ) : (
+        <div className="rounded-lg border border-muted bg-muted/50 p-6 text-center">
+          <p className="text-muted-foreground">
+            Keine Ergebnisse verfügbar. Um Übereinstimmungen mit den Parteien zu
+            sehen, beantworte mindestens eine Frage mit Ja oder Nein.
+          </p>
+        </div>
+      )}
       <div className="sticky inset-x-0 bottom-0 z-10 bg-background/20 backdrop-blur-sm">
         <div className="mb-4 mt-2 grid grid-cols-2 gap-2">
           <Button asChild>
-            <Link href="/swiper">
+            <Link href={`/${contextId}/swiper`}>
               <RefreshCcwIcon />
               Versuche es erneut
             </Link>
