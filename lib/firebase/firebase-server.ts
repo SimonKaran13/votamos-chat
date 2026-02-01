@@ -370,28 +370,43 @@ async function getProposedQuestionsForContextImpl(
       : partyIds[0]
     : WAHL_CHAT_PARTY_ID;
 
-  const queryRef = query(
-    collection(
-      serverDb,
-      'proposed_questions',
-      contextId,
-      'parties',
-      normalizedId,
-      'questions',
-    ),
-    where('location', '==', 'chat'),
-  );
-  const snapshot = await getDocs(queryRef);
+  const path = `contexts/${contextId}/proposed_questions/${normalizedId}/questions`;
+  try {
+    console.log(`[Firestore] Fetching proposed questions: ${path}`);
+    const queryRef = query(
+      collection(
+        serverDb,
+        'contexts',
+        contextId,
+        'proposed_questions',
+        normalizedId,
+        'questions',
+      ),
+    );
+    const snapshot = await getDocs(queryRef);
+    console.log(
+      `[Firestore] Successfully fetched proposed questions: ${snapshot.docs.length} questions`,
+    );
 
-  const questions = snapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      partyId: normalizedId,
-      ...doc.data(),
-    } as ProposedQuestion;
-  });
+    // Filter out banner questions, only include question_x documents
+    const questions = snapshot.docs
+      .filter((doc) => doc.id.startsWith('question_'))
+      .map((doc) => {
+        return {
+          id: doc.id,
+          partyId: normalizedId,
+          ...doc.data(),
+        } as ProposedQuestion;
+      });
 
-  return questions.sort(() => Math.random() - 0.5);
+    return questions.sort(() => Math.random() - 0.5);
+  } catch (error) {
+    console.error(
+      `[Firestore] FAILED to fetch proposed questions "${path}":`,
+      error,
+    );
+    return [];
+  }
 }
 
 export const getProposedQuestionsForContext = cache(
@@ -429,8 +444,11 @@ export const getHomeInputProposedQuestions = cache(
   },
 );
 
-async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
-  const path = `/proposed_questions/${contextId}/parties/${WAHL_CHAT_PARTY_ID}/questions`;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function getHomeInputProposedQuestionsForContextImpl(_contextId: string) {
+  // Home questions are global, not context-specific
+  // Read from /proposed_questions/wahl-chat/questions
+  const path = `/proposed_questions/${WAHL_CHAT_PARTY_ID}/questions`;
   try {
     console.log(
       `[Firestore] Fetching home proposed questions: ${path} (where location == 'home')`,
@@ -440,8 +458,6 @@ async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
       collection(
         serverDb,
         'proposed_questions',
-        contextId,
-        'parties',
         WAHL_CHAT_PARTY_ID,
         'questions',
       ),
