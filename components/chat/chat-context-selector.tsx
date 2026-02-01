@@ -1,5 +1,6 @@
 'use client';
 
+import { ContextIcon } from '@/components/context-icon';
 import {
   useContexts,
   useCurrentContext,
@@ -21,34 +22,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import type { Context } from '@/lib/firebase/firebase.types';
-import { cn, formatGermanDate } from '@/lib/utils';
-import { CheckIcon, ChevronDownIcon, VoteIcon } from 'lucide-react';
-import Image from 'next/image';
+import { formatGermanDate } from '@/lib/utils';
+import { CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
-function ContextIcon({
-  context,
-  className,
-}: {
-  context: Context;
-  className?: string;
-}) {
-  if (context.icon_url) {
-    return (
-      <Image
-        src={context.icon_url}
-        alt={context.name}
-        width={20}
-        height={20}
-        className={cn('size-5 rounded-sm object-contain', className)}
-      />
-    );
-  }
-
-  return <VoteIcon className={cn('size-4 text-muted-foreground', className)} />;
-}
 
 export function ChatContextSelector() {
   const currentContext = useCurrentContext();
@@ -87,7 +64,7 @@ export function ChatContextSelector() {
   if (contexts.length <= 1) {
     return (
       <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-        <ContextIcon context={currentContext} />
+        <ContextIcon context={currentContext} className="size-5" />
         <span className="max-w-[100px] truncate text-xs sm:max-w-none">
           {currentContext.name}
         </span>
@@ -104,7 +81,7 @@ export function ChatContextSelector() {
             size="sm"
             className="flex h-12 grow items-center gap-4 px-2 md:!min-w-64"
           >
-            <ContextIcon context={currentContext} />
+            <ContextIcon context={currentContext} className="size-5" />
             <div className="flex grow flex-col items-start gap-1">
               <span className="truncate text-xs font-medium leading-none">
                 {currentContext.name}
@@ -132,7 +109,7 @@ export function ChatContextSelector() {
                 onClick={() => handleContextSelect(ctx.context_id)}
                 className="flex cursor-pointer items-center gap-2 py-2"
               >
-                <ContextIcon context={ctx} />
+                <ContextIcon context={ctx} className="size-5" />
                 <div className="flex flex-1 flex-col">
                   <span className="font-medium">{ctx.name}</span>
                   {ctxDate && (

@@ -1,5 +1,6 @@
 'use client';
 
+import { ContextIcon } from '@/components/context-icon';
 import {
   useContexts,
   useCurrentContext,
@@ -11,48 +12,9 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 import type { Context } from '@/lib/firebase/firebase.types';
-import { cn, formatGermanDate } from '@/lib/utils';
-import { CalendarIcon, CheckIcon, MapPinIcon, VoteIcon } from 'lucide-react';
-import Image from 'next/image';
+import { formatGermanDate } from '@/lib/utils';
+import { CalendarIcon, CheckIcon, MapPinIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
-function ContextIcon({
-  context,
-  className,
-}: {
-  context: Context;
-  className?: string;
-}) {
-  const [imageError, setImageError] = useState(false);
-
-  // Try icon_url first, then local fallback based on context_id
-  const iconUrl = context.icon_url || `/images/${context.context_id}.webp`;
-
-  if (imageError) {
-    return (
-      <div
-        className={cn(
-          'flex size-6 items-center justify-center rounded bg-muted',
-          className,
-        )}
-      >
-        <VoteIcon className="size-3.5 text-muted-foreground" />
-      </div>
-    );
-  }
-
-  return (
-    <Image
-      src={iconUrl}
-      alt={context.name}
-      className={cn('size-6 rounded object-contain', className)}
-      width={24}
-      height={24}
-      onError={() => setImageError(true)}
-    />
-  );
-}
 
 function CompactElectionContent({ context }: { context: Context }) {
   const formattedDate = formatGermanDate(context.date, 'short');
