@@ -28,7 +28,9 @@ function ContextIcon({
       <Image
         src={context.icon_url}
         alt={context.name}
-        className={cn('size-12 rounded-md object-contain', className)}
+        className={cn('size-6 rounded object-contain', className)}
+        width={24}
+        height={24}
       />
     );
   }
@@ -36,50 +38,75 @@ function ContextIcon({
   return (
     <div
       className={cn(
-        'flex size-12 items-center justify-center rounded-md bg-muted',
+        'flex size-6 items-center justify-center rounded bg-muted',
         className,
       )}
     >
-      <VoteIcon className="size-6 text-muted-foreground" />
+      <VoteIcon className="size-3.5 text-muted-foreground" />
     </div>
   );
 }
 
-function ElectionOptionContent({
+function CompactElectionContent({ context }: { context: Context }) {
+  const formattedDate = formatGermanDate(context.date, 'short');
+
+  return (
+    <div className="flex min-w-0 flex-1 items-center gap-2">
+      <ContextIcon context={context} />
+      <span className="truncate text-sm font-medium text-foreground">
+        {context.name}
+      </span>
+      <span className="hidden shrink-0 items-center gap-3 text-xs text-muted-foreground sm:flex">
+        {formattedDate && (
+          <span className="flex items-center gap-1">
+            <CalendarIcon className="size-3" />
+            <span>{formattedDate}</span>
+          </span>
+        )}
+        {context.location_name && (
+          <span className="flex items-center gap-1">
+            <MapPinIcon className="size-3" />
+            <span>{context.location_name}</span>
+          </span>
+        )}
+      </span>
+    </div>
+  );
+}
+
+function DropdownElectionContent({
   context,
   isSelected,
-  showCheckmark,
 }: {
   context: Context;
   isSelected?: boolean;
-  showCheckmark?: boolean;
 }) {
   const formattedDate = formatGermanDate(context.date, 'long');
 
   return (
-    <div className="flex w-full items-center gap-3 p-2">
-      <ContextIcon context={context} />
-      <div className="flex flex-1 flex-col items-start gap-1.5">
-        <span className="text-lg font-medium leading-none text-foreground">
+    <div className="flex w-full items-start gap-3 py-1">
+      <ContextIcon context={context} className="mt-0.5 size-8 shrink-0" />
+      <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
+        <span className="text-sm font-medium leading-tight text-foreground">
           {context.name}
         </span>
-        <div className="flex flex-wrap items-center gap-x-4 text-xs text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
           {formattedDate && (
             <span className="flex items-center gap-1">
-              <CalendarIcon className="size-3" />
+              <CalendarIcon className="size-3 shrink-0" />
               <span className="leading-none">{formattedDate}</span>
             </span>
           )}
           {context.location_name && (
             <span className="flex items-center gap-1">
-              <MapPinIcon className="size-3" />
+              <MapPinIcon className="size-3 shrink-0" />
               <span className="leading-none">{context.location_name}</span>
             </span>
           )}
         </div>
       </div>
-      {showCheckmark && isSelected && (
-        <CheckIcon className="size-4 shrink-0 text-primary" />
+      {isSelected && (
+        <CheckIcon className="mt-0.5 size-4 shrink-0 text-primary" />
       )}
     </div>
   );
@@ -100,11 +127,11 @@ export function ElectionSelect() {
   if (contexts.length <= 1) {
     return (
       <div
-        className="flex w-full items-center gap-3 rounded-lg border border-border bg-card p-3"
+        className="flex w-full items-center gap-2 rounded-lg border border-border bg-muted/50 px-3 py-2"
         role="status"
         aria-label={`Aktuelle Wahl: ${currentContext.name}`}
       >
-        <ElectionOptionContent context={currentContext} />
+        <CompactElectionContent context={currentContext} />
       </div>
     );
   }
@@ -115,12 +142,15 @@ export function ElectionSelect() {
       onValueChange={handleContextChange}
     >
       <SelectTrigger
-        className="h-auto w-full p-3 [&>svg]:size-5"
+        className="h-auto w-full border-border bg-muted/50 px-3 py-2 [&>svg]:size-4 [&>svg]:text-muted-foreground"
         aria-label={`Wahl auswählen. Aktuell ausgewählt: ${currentContext.name}`}
       >
-        <ElectionOptionContent context={currentContext} />
+        <CompactElectionContent context={currentContext} />
       </SelectTrigger>
-      <SelectContent className="w-full" aria-label="Verfügbare Wahlen">
+      <SelectContent
+        className="max-w-[calc(100vw-2rem)]"
+        aria-label="Verfügbare Wahlen"
+      >
         {contexts.map((ctx) => {
           const isSelected = ctx.context_id === currentContext.context_id;
           const formattedDate = formatGermanDate(ctx.date, 'long');
@@ -130,14 +160,10 @@ export function ElectionSelect() {
             <SelectItem
               key={ctx.context_id}
               value={ctx.context_id}
-              className="block w-full cursor-pointer px-3 py-2.5 [&>span:first-child]:hidden"
+              className="block w-full cursor-pointer px-3 py-2 [&>span:first-child]:hidden [&>span]:whitespace-normal"
               aria-label={ariaLabel}
             >
-              <ElectionOptionContent
-                context={ctx}
-                isSelected={isSelected}
-                showCheckmark
-              />
+              <DropdownElectionContent context={ctx} isSelected={isSelected} />
             </SelectItem>
           );
         })}
