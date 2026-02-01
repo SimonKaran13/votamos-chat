@@ -34,7 +34,7 @@ function WahlSwiperSkipButton({ variant, clicked, onClick }: Props) {
     if (isProlificStudy()) {
       setHideSkipButtonPopup(true);
     }
-  })
+  }, [])
 
   const handleClick = () => {
     if (disclaimerShown) {
