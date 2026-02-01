@@ -53,6 +53,12 @@ bun install
    - **Firebase**: These variables are required for the app to function. You can find them in the [Firebase Console](https://console.firebase.google.com/) under Project Settings.
    - **Stripe**: These variables are optional for local development unless you are working on donation features.
 
+### 3. Configure regional election contexts
+
+The app uses geo-detection to redirect users to their regional election context. The mapping is defined in `lib/constants.ts` under `REGION_TO_CONTEXT`.
+
+**Important**: This mapping must be updated to reflect which elections are currently supported in each German state. Each region code (e.g., `HH` for Hamburg) maps to a context ID (e.g., `hh2029`) that must exist in the Firestore `contexts` collection. If a context doesn't exist, users will be automatically redirected to the default context (`bundestagswahl-2025`).
+
 ## Getting Started
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).

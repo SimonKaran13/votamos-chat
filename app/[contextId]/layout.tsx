@@ -1,10 +1,11 @@
 import { ContextProvider } from '@/components/providers/context-provider';
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import {
   getContext,
   getContexts,
   getPartiesForContext,
 } from '@/lib/firebase/firebase-server';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 export const revalidate = 3600;
 
@@ -24,9 +25,13 @@ async function ContextLayout({ children, params }: Props) {
     getPartiesForContext(contextId),
   ]);
 
-  // If context doesn't exist, return 404
+  // If context doesn't exist, redirect to default context
   if (!context) {
-    notFound();
+    // Avoid infinite redirect loop if default context also doesn't exist
+    if (contextId === DEFAULT_CONTEXT_ID) {
+      notFound();
+    }
+    redirect(`/${DEFAULT_CONTEXT_ID}`);
   }
 
   // Sort parties randomly for display
