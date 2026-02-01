@@ -4,9 +4,7 @@ import HomeInput from '@/components/home/home-input';
 import HowToCard from '@/components/home/how-to-card';
 import KnownFrom from '@/components/home/known-from';
 import SupportUsCard from '@/components/home/support-us-card';
-import SwiperTeaserCard from '@/components/home/swiper-teaser-card';
 import {
-  getContext,
   getHomeInputProposedQuestionsForContext,
   getSystemStatus,
   getUser,
@@ -22,14 +20,11 @@ type Props = {
 export default async function ContextHome({ params }: Props) {
   const { contextId } = await params;
 
-  const [wahlChatQuestions, systemStatus, user, context] = await Promise.all([
+  const [wahlChatQuestions, systemStatus, user] = await Promise.all([
     getHomeInputProposedQuestionsForContext(contextId),
     getSystemStatus(),
     getUser(),
-    getContext(contextId),
   ]);
-
-  const supportsSwiper = context?.supports_swiper ?? false;
 
   return (
     <>
@@ -53,7 +48,6 @@ export default async function ContextHome({ params }: Props) {
         </section>
       ) : (
         <section className="grid w-full grid-cols-1 flex-wrap gap-2 md:grid-cols-2 md:gap-2">
-          {supportsSwiper && <SwiperTeaserCard contextId={contextId} />}
           <SupportUsCard />
           <HowToCard />
           <ContactCard />

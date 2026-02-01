@@ -17,7 +17,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { getContext, getCurrentUser } from '@/lib/firebase/firebase-server';
+import { getCurrentUser } from '@/lib/firebase/firebase-server';
 import { getUserDetailsFromUser } from '@/lib/utils';
 import {
   HeartHandshakeIcon,
@@ -30,7 +30,6 @@ import { Suspense } from 'react';
 import ChatSidebarGroupSelect from './chat-sidebar-group-select';
 import SidebarHistorySr from './sidebar-history-sr';
 import SidebarNewChatButtons from './sidebar-new-chat-buttons';
-import SidebarSwiperTeaser from './sidebar-swiper-teaser';
 
 import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 
@@ -39,13 +38,9 @@ type Props = {
 };
 
 async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
-  const [user, context] = await Promise.all([
-    getCurrentUser(),
-    getContext(contextId),
-  ]);
+  const user = await getCurrentUser();
 
   const userDetails = user ? getUserDetailsFromUser(user) : undefined;
-  const supportsSwiper = context?.supports_swiper ?? false;
 
   return (
     <Sidebar
@@ -72,13 +67,6 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {supportsSwiper && (
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarSwiperTeaser contextId={contextId} />
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarGroupLabel>Neuer Chat</SidebarGroupLabel>

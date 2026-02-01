@@ -95,9 +95,7 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith('/chat')) {
     const contextId = DEFAULT_CONTEXT_ID;
     if (pathname === '/chat') {
-      return NextResponse.redirect(
-        buildRedirectUrl(request, `/${contextId}`),
-      );
+      return NextResponse.redirect(buildRedirectUrl(request, `/${contextId}`));
     }
     const partyId = pathname.split('/')[2];
     return NextResponse.redirect(

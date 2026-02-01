@@ -1,6 +1,9 @@
 'use client';
 
-import { useContexts, useCurrentContext } from '@/components/providers/context-provider';
+import {
+  useContexts,
+  useCurrentContext,
+} from '@/components/providers/context-provider';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
