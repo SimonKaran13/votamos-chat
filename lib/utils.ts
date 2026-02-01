@@ -104,6 +104,14 @@ export function areSetsEqual(set1: Set<string>, set2: Set<string>): boolean {
   return [...set1].every((item) => set2.has(item));
 }
 
+/**
+ * Shuffles an array randomly using the sort-based shuffle algorithm.
+ * Note: This is not a perfectly uniform shuffle, but is sufficient for UI randomization.
+ */
+export function shuffleArray<T>(array: T[]): T[] {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
 export function prettyDate(
   dateString: string,
   format: 'full' | 'long' | 'medium' | 'short' = 'long',

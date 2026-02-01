@@ -5,7 +5,7 @@ import { useElectionContext } from '@/components/providers/context-provider';
 import { cn } from '@/lib/utils';
 import { CircleXIcon, EllipsisIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Logo from './chat/logo';
 import { Button } from './ui/button';
 import {
@@ -13,6 +13,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from './ui/collapsible';
+
+const INITIAL_PARTY_COUNT = 7;
 
 type Props = {
   className?: string;
@@ -34,10 +36,29 @@ function PartyCards({
   contextId,
 }: Props) {
   const { parties } = useElectionContext();
-  const smallParties = parties?.filter((p) => p.is_small_party);
-  const largeParties = parties?.filter((p) => !p.is_small_party);
 
-  const defaultShowMore = !!smallParties?.find((p) =>
+  // Sort parties: parliament parties first, then non-parliament
+  // Within each group, non-small parties come before small parties
+  // Parties are already shuffled by ContextProvider
+  const sortedParties = useMemo(() => {
+    if (!parties) return [];
+
+    const parliament = parties.filter((p) => p.is_already_in_parliament);
+    const nonParliament = parties.filter((p) => !p.is_already_in_parliament);
+
+    const sortBySmall = (a: (typeof parties)[0], b: (typeof parties)[0]) =>
+      (a.is_small_party ? 1 : 0) - (b.is_small_party ? 1 : 0);
+
+    return [
+      ...parliament.sort(sortBySmall),
+      ...nonParliament.sort(sortBySmall),
+    ];
+  }, [parties]);
+
+  const initialParties = sortedParties.slice(0, INITIAL_PARTY_COUNT);
+  const remainingParties = sortedParties.slice(INITIAL_PARTY_COUNT);
+
+  const defaultShowMore = !!remainingParties.find((p) =>
     selectedPartyIds?.includes(p.party_id),
   );
 
@@ -81,7 +102,7 @@ function PartyCards({
             </Link>
           </Button>
         )}
-        {largeParties?.map((party) => (
+        {initialParties.map((party) => (
           <PartyCard
             id={party.party_id}
             key={party.party_id}
@@ -92,7 +113,7 @@ function PartyCards({
             contextId={contextId}
           />
         ))}
-        {smallParties && smallParties.length > 0 && (
+        {remainingParties.length > 0 && (
           <>
             <CollapsibleTrigger asChild>
               <Button
@@ -130,7 +151,7 @@ function PartyCards({
                 role="group"
                 aria-label="Weitere Parteien"
               >
-                {smallParties?.map((party) => (
+                {remainingParties.map((party) => (
                   <PartyCard
                     id={party.party_id}
                     key={party.party_id}

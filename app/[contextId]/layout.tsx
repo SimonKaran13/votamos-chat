@@ -5,6 +5,7 @@ import {
   getContexts,
   getPartiesForContext,
 } from '@/lib/firebase/firebase-server';
+import { shuffleArray } from '@/lib/utils';
 import { notFound, redirect } from 'next/navigation';
 
 export const revalidate = 3600;
@@ -34,8 +35,10 @@ async function ContextLayout({ children, params }: Props) {
     redirect(`/${DEFAULT_CONTEXT_ID}`);
   }
 
-  // Sort parties randomly for display
-  const shuffledParties = [...parties].sort(() => Math.random() - 0.5);
+  // Shuffle parties randomly for fair display order.
+  // Note: With ISR (revalidate = 3600), this shuffle is cached for ~1 hour,
+  // meaning all users see the same party order during that period.
+  const shuffledParties = shuffleArray(parties);
 
   return (
     <ContextProvider

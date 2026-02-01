@@ -1,6 +1,8 @@
 import { useChatStore } from '@/components/providers/chat-store-provider';
-import { useCurrentContext } from '@/components/providers/context-provider';
-import { useParty } from '@/components/providers/parties-provider';
+import {
+  useContextParty,
+  useCurrentContext,
+} from '@/components/providers/context-provider';
 import { Button } from '@/components/ui/button';
 import type { StreamingMessage } from '@/lib/socket.types';
 import type { MessageItem } from '@/lib/stores/chat-store.types';
@@ -19,7 +21,7 @@ function ChatVotingBehaviorSummaryButton({
   message,
   isLastMessage,
 }: Props) {
-  const party = useParty(partyId);
+  const party = useContextParty(partyId);
   const generateVotingBehaviorSummary = useChatStore(
     (state) => state.generateVotingBehaviorSummary,
   );

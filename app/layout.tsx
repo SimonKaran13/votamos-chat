@@ -7,11 +7,10 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { PartiesProvider } from '@/components/providers/parties-provider';
 import TenantProvider from '@/components/providers/tenant-provider';
 import { TENANT_ID_HEADER } from '@/lib/constants';
 import { getTenant } from '@/lib/firebase/firebase-admin';
-import { getParties, getUser } from '@/lib/firebase/firebase-server';
+import { getUser } from '@/lib/firebase/firebase-server';
 import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
 import { headers } from 'next/headers';
@@ -118,7 +117,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const parties = await getParties();
   const headersList = await headers();
   const tenantId = headersList.get(TENANT_ID_HEADER);
   const tenant = await getTenant(tenantId);
@@ -144,9 +142,7 @@ export default async function RootLayout({
                   enableSystem={!IS_EMBEDDED}
                   disableTransitionOnChange
                 >
-                  <PartiesProvider parties={parties}>
-                    {children}
-                  </PartiesProvider>
+                  {children}
                 </ThemeProvider>
                 <Toaster expand duration={1500} position="top-right" />
                 {/* <LoginReminderToast /> */}
