@@ -16,7 +16,11 @@ async function ChatSessionPage({ params, searchParams }: Props) {
   const { q } = await searchParams;
 
   return (
-    <ChatView sessionId={chatSessionId} initialQuestion={q} contextId={contextId} />
+    <ChatView
+      sessionId={chatSessionId}
+      initialQuestion={q}
+      contextId={contextId}
+    />
   );
 }
 
