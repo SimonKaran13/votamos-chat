@@ -370,28 +370,41 @@ async function getProposedQuestionsForContextImpl(
       : partyIds[0]
     : WAHL_CHAT_PARTY_ID;
 
-  const queryRef = query(
-    collection(
-      serverDb,
-      'proposed_questions',
-      contextId,
-      'parties',
-      normalizedId,
-      'questions',
-    ),
-    where('location', '==', 'chat'),
-  );
-  const snapshot = await getDocs(queryRef);
+  const path = `contexts/${contextId}/proposed_questions/${normalizedId}/questions`;
+  try {
+    console.log(`[Firestore] Fetching proposed questions: ${path}`);
+    const queryRef = query(
+      collection(
+        serverDb,
+        'contexts',
+        contextId,
+        'proposed_questions',
+        normalizedId,
+        'questions',
+      ),
+      where('location', '==', 'chat'),
+    );
+    const snapshot = await getDocs(queryRef);
+    console.log(
+      `[Firestore] Successfully fetched proposed questions: ${snapshot.docs.length} questions`,
+    );
 
-  const questions = snapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      partyId: normalizedId,
-      ...doc.data(),
-    } as ProposedQuestion;
-  });
+    const questions = snapshot.docs.map((doc) => {
+      return {
+        id: doc.id,
+        partyId: normalizedId,
+        ...doc.data(),
+      } as ProposedQuestion;
+    });
 
-  return questions.sort(() => Math.random() - 0.5);
+    return questions.sort(() => Math.random() - 0.5);
+  } catch (error) {
+    console.error(
+      `[Firestore] FAILED to fetch proposed questions "${path}":`,
+      error,
+    );
+    return [];
+  }
 }
 
 export const getProposedQuestionsForContext = cache(
@@ -404,33 +417,9 @@ export const getProposedQuestionsForContext = cache(
 );
 
 async function getHomeInputProposedQuestionsImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const questionsRef = query(
-    collection(serverDb, 'proposed_questions', WAHL_CHAT_PARTY_ID, 'questions'),
-    where('location', '==', 'home'),
-  );
-  const questionsSnapshot = await getDocs(questionsRef);
-
-  return questionsSnapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      partyId: WAHL_CHAT_PARTY_ID,
-      ...doc.data(),
-    } as ProposedQuestion;
-  });
-}
-
-export const getHomeInputProposedQuestions = cache(
-  getHomeInputProposedQuestionsImpl,
-  undefined,
-  {
-    revalidate: 60 * 60 * 24,
-    tags: [CacheTags.HOME_PROPOSED_QUESTIONS],
-  },
-);
-
-async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
-  const path = `/proposed_questions/${contextId}/parties/${WAHL_CHAT_PARTY_ID}/questions`;
+  // Home questions are global, not context-specific
+  // Read from /proposed_questions/wahl-chat/questions
+  const path = `/proposed_questions/${WAHL_CHAT_PARTY_ID}/questions`;
   try {
     console.log(
       `[Firestore] Fetching home proposed questions: ${path} (where location == 'home')`,
@@ -440,8 +429,6 @@ async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
       collection(
         serverDb,
         'proposed_questions',
-        contextId,
-        'parties',
         WAHL_CHAT_PARTY_ID,
         'questions',
       ),
@@ -468,8 +455,8 @@ async function getHomeInputProposedQuestionsForContextImpl(contextId: string) {
   }
 }
 
-export const getHomeInputProposedQuestionsForContext = cache(
-  getHomeInputProposedQuestionsForContextImpl,
+export const getHomeInputProposedQuestions = cache(
+  getHomeInputProposedQuestionsImpl,
   undefined,
   {
     revalidate: 60 * 60 * 24,
