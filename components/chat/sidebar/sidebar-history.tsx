@@ -34,13 +34,17 @@ function ContextIconSmall({ contextId }: { contextId: string }) {
   const iconUrl = context?.icon_url || `/images/${contextId}.webp`;
   const isExternal = iconUrl.startsWith('http');
 
+  // Reset image error when context or icon URL changes
+  useEffect(() => {
+    setImageError(false);
+  }, [contextId, iconUrl]);
+
   if (imageError) {
     return <VoteIcon className="size-4 shrink-0 text-muted-foreground" />;
   }
 
   return (
     <Image
-      key={contextId}
       src={iconUrl}
       alt={context?.name ?? contextId}
       className="size-4 shrink-0 rounded object-contain"
@@ -81,7 +85,7 @@ function SidebarHistory({ history: initialHistory }: Props) {
       <SidebarGroupContent>
         <SidebarMenu>
           {history.map((item) => {
-            // Use session's context_id if available, otherwise use current context
+            // Use session's context_id if available, otherwise fall back to the default context
             const sessionContextId = item.context_id ?? DEFAULT_CONTEXT_ID;
 
             return (
