@@ -2,6 +2,7 @@
 
 import { useAnonymousAuth } from '@/components/anonymous-auth';
 import { useChatStore } from '@/components/providers/chat-store-provider';
+import { useContexts } from '@/components/providers/context-provider';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -15,16 +16,43 @@ import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import { listenToHistory } from '@/lib/firebase/firebase';
 import type { ChatSession } from '@/lib/firebase/firebase.types';
 import { cn } from '@/lib/utils';
-import { MapPinIcon } from 'lucide-react';
+import { VoteIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type Props = {
   history?: ChatSession[];
-  contextId: string;
 };
 
-function SidebarHistory({ history: initialHistory, contextId }: Props) {
+function ContextIconSmall({ contextId }: { contextId: string }) {
+  const contexts = useContexts();
+  const context = contexts.find((c) => c.context_id === contextId);
+  const [imageError, setImageError] = useState(false);
+
+  // Use icon_url if available, otherwise fallback to local image
+  const iconUrl = context?.icon_url || `/images/${contextId}.webp`;
+  const isExternal = iconUrl.startsWith('http');
+
+  if (imageError) {
+    return <VoteIcon className="size-4 shrink-0 text-muted-foreground" />;
+  }
+
+  return (
+    <Image
+      key={contextId}
+      src={iconUrl}
+      alt={context?.name ?? contextId}
+      className="size-4 shrink-0 rounded object-contain"
+      width={16}
+      height={16}
+      onError={() => setImageError(true)}
+      unoptimized={isExternal}
+    />
+  );
+}
+
+function SidebarHistory({ history: initialHistory }: Props) {
   const { user } = useAnonymousAuth();
   const [history, setHistory] = useState<ChatSession[]>(initialHistory ?? []);
   const chatSessionId = useChatStore((state) => state.chatSessionId);
@@ -55,7 +83,6 @@ function SidebarHistory({ history: initialHistory, contextId }: Props) {
           {history.map((item) => {
             // Use session's context_id if available, otherwise use current context
             const sessionContextId = item.context_id ?? DEFAULT_CONTEXT_ID;
-            const isFromDifferentContext = sessionContextId !== contextId;
 
             return (
               <SidebarMenuItem key={item.id}>
@@ -67,9 +94,7 @@ function SidebarHistory({ history: initialHistory, contextId }: Props) {
                     href={`/${sessionContextId}/session/${item.id}`}
                     onClick={handleClick}
                   >
-                    {isFromDifferentContext && (
-                      <MapPinIcon className="size-3 shrink-0 text-muted-foreground" />
-                    )}
+                    <ContextIconSmall contextId={sessionContextId} />
                     <span className="w-full truncate">
                       {item.title ||
                         item.party_ids?.join(',') ||
