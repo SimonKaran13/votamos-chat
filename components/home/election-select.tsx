@@ -8,7 +8,10 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
+  SelectSeparator,
   SelectTrigger,
 } from '@/components/ui/select';
 import type { Context } from '@/lib/firebase/firebase.types';
@@ -150,32 +153,31 @@ export function ElectionSelect() {
 
         {pastElections.length > 0 && (
           <>
-            <div className="flex items-center gap-2 px-3 py-2">
-              <div className="h-px flex-1 bg-border/50" />
-              <span className="text-xs text-muted-foreground/70">
+            <SelectSeparator className="bg-border/50" />
+            <SelectGroup>
+              <SelectLabel className="pl-3 text-xs font-normal text-muted-foreground/70">
                 Vergangene Wahlen
-              </span>
-              <div className="h-px flex-1 bg-border/50" />
-            </div>
-            {pastElections.map((ctx) => {
-              const isSelected = ctx.context_id === currentContext.context_id;
-              const formattedDate = formatGermanDate(ctx.date, 'long');
-              const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (ausgewählt)' : ''}`;
+              </SelectLabel>
+              {pastElections.map((ctx) => {
+                const isSelected = ctx.context_id === currentContext.context_id;
+                const formattedDate = formatGermanDate(ctx.date, 'long');
+                const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (ausgewählt)' : ''}`;
 
-              return (
-                <SelectItem
-                  key={ctx.context_id}
-                  value={ctx.context_id}
-                  className="block w-full cursor-pointer px-3 py-2 [&>span:first-child]:hidden [&>span]:whitespace-normal"
-                  aria-label={ariaLabel}
-                >
-                  <DropdownElectionContent
-                    context={ctx}
-                    isSelected={isSelected}
-                  />
-                </SelectItem>
-              );
-            })}
+                return (
+                  <SelectItem
+                    key={ctx.context_id}
+                    value={ctx.context_id}
+                    className="block w-full cursor-pointer px-3 py-2 [&>span:first-child]:hidden [&>span]:whitespace-normal"
+                    aria-label={ariaLabel}
+                  >
+                    <DropdownElectionContent
+                      context={ctx}
+                      isSelected={isSelected}
+                    />
+                  </SelectItem>
+                );
+              })}
+            </SelectGroup>
           </>
         )}
       </SelectContent>
