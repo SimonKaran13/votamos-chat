@@ -96,14 +96,18 @@ export function ElectionSelect() {
   };
 
   // Separate contexts into upcoming and past elections
+  // Add a 5-day buffer before moving elections to past
   const now = new Date();
+  const bufferDays = 5;
+  const cutoffDate = new Date(now.getTime() - bufferDays * 24 * 60 * 60 * 1000);
+
   const upcomingElections = contexts.filter((ctx) => {
     if (!ctx.date) return true; // No date = show in upcoming
-    return new Date(ctx.date) >= now;
+    return new Date(ctx.date) >= cutoffDate;
   });
   const pastElections = contexts.filter((ctx) => {
     if (!ctx.date) return false;
-    return new Date(ctx.date) < now;
+    return new Date(ctx.date) < cutoffDate;
   });
 
   // Don't show selector if there's only one context
