@@ -56,7 +56,7 @@ export function ElectionPartySelector({ contextId }: Props) {
 
         {!parties || isLoading ? (
           <LoadingPartyCards
-            partyCount={partyCount || 8}
+            partyCount={Math.min(partyCount || 0, 8)}
             className="mt-1"
             gridColumns={4}
           />
