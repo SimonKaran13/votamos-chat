@@ -20,7 +20,7 @@ export default function HomePartyCards({
 
   return (
     <PartyCards
-      className="mt-4"
+      className="mt-1"
       selectable={false}
       onPartyClicked={handlePartyClick}
       contextId={contextId}
