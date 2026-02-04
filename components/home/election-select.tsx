@@ -92,6 +92,17 @@ export function ElectionSelect() {
     }
   };
 
+  // Separate contexts into upcoming and past elections
+  const now = new Date();
+  const upcomingElections = contexts.filter((ctx) => {
+    if (!ctx.date) return true; // No date = show in upcoming
+    return new Date(ctx.date) >= now;
+  });
+  const pastElections = contexts.filter((ctx) => {
+    if (!ctx.date) return false;
+    return new Date(ctx.date) < now;
+  });
+
   // Don't show selector if there's only one context
   if (contexts.length <= 1) {
     return (
@@ -120,7 +131,7 @@ export function ElectionSelect() {
         className="max-w-[calc(100vw-2rem)]"
         aria-label="Verfügbare Wahlen"
       >
-        {contexts.map((ctx) => {
+        {upcomingElections.map((ctx) => {
           const isSelected = ctx.context_id === currentContext.context_id;
           const formattedDate = formatGermanDate(ctx.date, 'long');
           const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (ausgewählt)' : ''}`;
@@ -136,6 +147,37 @@ export function ElectionSelect() {
             </SelectItem>
           );
         })}
+
+        {pastElections.length > 0 && (
+          <>
+            <div className="flex items-center gap-2 px-3 py-2">
+              <div className="h-px flex-1 bg-border/50" />
+              <span className="text-xs text-muted-foreground/70">
+                Vergangene Wahlen
+              </span>
+              <div className="h-px flex-1 bg-border/50" />
+            </div>
+            {pastElections.map((ctx) => {
+              const isSelected = ctx.context_id === currentContext.context_id;
+              const formattedDate = formatGermanDate(ctx.date, 'long');
+              const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (ausgewählt)' : ''}`;
+
+              return (
+                <SelectItem
+                  key={ctx.context_id}
+                  value={ctx.context_id}
+                  className="block w-full cursor-pointer px-3 py-2 [&>span:first-child]:hidden [&>span]:whitespace-normal"
+                  aria-label={ariaLabel}
+                >
+                  <DropdownElectionContent
+                    context={ctx}
+                    isSelected={isSelected}
+                  />
+                </SelectItem>
+              );
+            })}
+          </>
+        )}
       </SelectContent>
     </Select>
   );
