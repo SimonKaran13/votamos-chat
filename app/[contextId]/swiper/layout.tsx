@@ -1,5 +1,4 @@
 import { getContext } from '@/lib/firebase/firebase-server';
-import { productionRobots } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -19,7 +18,7 @@ export async function generateMetadata({
   return {
     title: `Wahl-Swiper – ${context.name}`,
     description,
-    robots: productionRobots,
+    robots: 'noindex',
     openGraph: { title: `Wahl-Swiper – ${context.name}`, description },
     twitter: {
       card: 'summary_large_image',

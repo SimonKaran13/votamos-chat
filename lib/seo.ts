@@ -12,6 +12,7 @@ export const productionRobots = IS_PRODUCTION
 export function buildContextMetadata(
   context: Context,
   pageSuffix?: string,
+  noIndex?: boolean,
 ): Metadata {
   const title = pageSuffix
     ? `${pageSuffix} – ${context.name}`
@@ -36,6 +37,9 @@ export function buildContextMetadata(
       title,
       description,
     },
+    ...(noIndex && {
+      robots: 'noindex',
+    }),
   };
 }
 
