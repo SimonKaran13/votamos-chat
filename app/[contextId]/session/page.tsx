@@ -53,7 +53,7 @@ export async function generateMetadata({
 
   const description = party
     ? `Frage ${party.name} zu Positionen und Themen der ${contextName}. Quellengestützte Antworten bei wahl.chat.`
-    : `Vergleiche Parteipositionen zur ${contextName} im Chat. Quellengestützte Antworten bei wahl.chat.`;
+    : `Vergleiche Parteipositionen über die ${contextName} im Chat. Quellengestützte Antworten bei wahl.chat.`;
 
   const ogImage = partyId ? await generateOgImageUrl(partyId) : undefined;
 
