@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: '%s | wahl.chat',
   },
   description:
-    'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+    'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
   applicationName: 'wahl.chat',
   keywords: [
     'Wahl Chat',
@@ -38,40 +38,38 @@ export const metadata: Metadata = {
     'Politik verstehen',
     'Bundestagswahl',
     'Bundestagswahl 2025',
+    'Landtagswahl',
+    'Kommunalwahl',
+    'Landtagswahl 2026',
+    'Kommunalwahl 2026',
     'AI',
     'KI',
     'Künstliche Intelligenz',
     'Chatbot',
     'Chat',
-    'Unterhaltung',
-    'Unterhaltungskanal',
-    'Unterhaltungskanal für Politik',
-    'Unterhaltungskanal für die Bundestagswahl 2025',
     'Deutschland',
     'Deutschlandpolitik',
-    'Deutschlandpolitik 2025',
-    'Germany',
-    'Germany politics',
-    'Germany politics 2025',
     'KI Wahlhilfe',
     'KI Wahl',
     'Wahl KI',
     'Wahlentscheidung Hilfe',
     'Wahl informieren',
-    'Wahlcheck 2025',
     'Wahlcheck',
     'Wahl-o-Mat',
     'Wahl-o-Mat Alternative',
   ],
-  robots: 'index, follow',
+  robots:
+    process.env.SITE_URL === 'https://wahl.chat'
+      ? 'index, follow'
+      : 'noindex, nofollow',
   openGraph: {
     title: {
       default: 'wahl.chat - Politik interaktiv verstehen',
       template: '%s | wahl.chat - Politik interaktiv verstehen',
     },
     description:
-      'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/dsf'],
+      'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+    images: ['/images/logo.webp'],
     url: 'https://wahl.chat',
     siteName: 'wahl.chat',
     locale: 'de-DE',
@@ -81,10 +79,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@wahl_chat',
     creator: '@wahl_chat',
-    title: 'wahl.chat | Wahlprogramme der Parteien für die Bundestagswahl 2025',
+    title: 'wahl.chat - Politik interaktiv verstehen',
     description:
-      'Verstehe die Ziele und Positionen der Parteien der Bundesrepublik Deutschland. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/dsf'],
+      'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+    images: ['/images/logo.webp'],
   },
 };
 
@@ -123,11 +121,36 @@ export default async function RootLayout({
   const user = await getUser();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="de" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: THEME_COLOR_SCRIPT,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  name: 'wahl.chat',
+                  url: 'https://wahl.chat',
+                  description:
+                    'Politische Informationsplattform – Parteipositionen interaktiv vergleichen.',
+                },
+                {
+                  '@type': 'WebSite',
+                  name: 'wahl.chat',
+                  url: 'https://wahl.chat',
+                  inLanguage: 'de',
+                  description:
+                    'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen.',
+                },
+              ],
+            }),
           }}
         />
       </head>

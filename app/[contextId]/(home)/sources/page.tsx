@@ -7,11 +7,14 @@ import {
 } from '@/components/ui/accordion';
 import { WAHL_CHAT_PARTY_ID } from '@/lib/constants';
 import {
+  getContext,
   getPartiesForContext,
   getSourceDocumentsForContext,
 } from '@/lib/firebase/firebase-server';
 import type { SourceDocument } from '@/lib/firebase/firebase.types';
+import { buildContextMetadata } from '@/lib/seo';
 import { buildPartyImageUrl } from '@/lib/utils';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -20,6 +23,24 @@ type Props = {
     contextId: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ contextId: string }>;
+}): Promise<Metadata> {
+  const { contextId } = await params;
+  const context = await getContext(contextId);
+
+  if (!context) {
+    return { title: 'Quellen' };
+  }
+
+  return {
+    ...buildContextMetadata(context, 'Quellen'),
+    robots: 'noindex',
+  };
+}
 
 async function SourcesPage({ params }: Props) {
   const { contextId } = await params;

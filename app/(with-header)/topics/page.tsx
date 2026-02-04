@@ -6,8 +6,16 @@ import {
 } from '@/lib/firebase/firebase-server';
 import { buildPartyImageUrl } from '@/lib/utils';
 import { ArrowLeftIcon } from 'lucide-react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Beliebte Themen',
+  description:
+    'Entdecke beliebte politische Themen und Fragen – vergleiche die Positionen der Parteien bei wahl.chat.',
+  robots: 'noindex',
+};
 
 async function TopicsPage() {
   const exampleQuestionsShareableChatSessions =

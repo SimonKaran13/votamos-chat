@@ -1,18 +1,33 @@
+import { getContext } from '@/lib/firebase/firebase-server';
+import { productionRobots } from '@/lib/seo';
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Swiper',
-  description: 'Wahl Swiper - Finde heraus, welche Partei zu dir passt.',
-  openGraph: {
-    title: 'Swiper',
-    description: 'Wahl Swiper - Finde heraus, welche Partei zu dir passt.',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Swiper',
-    description: 'Wahl Swiper - Finde heraus, welche Partei zu dir passt.',
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ contextId: string }>;
+}): Promise<Metadata> {
+  const { contextId } = await params;
+  const context = await getContext(contextId);
+
+  if (!context) {
+    return { title: 'Wahl-Swiper' };
+  }
+
+  const description = `Wahl-Swiper zur ${context.name} – Finde heraus, welche Partei zu dir passt.`;
+
+  return {
+    title: `Wahl-Swiper – ${context.name}`,
+    description,
+    robots: productionRobots,
+    openGraph: { title: `Wahl-Swiper – ${context.name}`, description },
+    twitter: {
+      card: 'summary_large_image',
+      title: `Wahl-Swiper – ${context.name}`,
+      description,
+    },
+  };
+}
 
 function Layout({ children }: { children: React.ReactNode }) {
   return children;

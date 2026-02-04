@@ -5,7 +5,9 @@ import {
   getContexts,
   getPartiesForContext,
 } from '@/lib/firebase/firebase-server';
+import { buildContextJsonLd, buildContextMetadata } from '@/lib/seo';
 import { shuffleArray } from '@/lib/utils';
+import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 export const revalidate = 3600;
@@ -16,6 +18,21 @@ type Props = {
     contextId: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ contextId: string }>;
+}): Promise<Metadata> {
+  const { contextId } = await params;
+  const context = await getContext(contextId);
+
+  if (!context) {
+    return {};
+  }
+
+  return buildContextMetadata(context);
+}
 
 async function ContextLayout({ children, params }: Props) {
   const { contextId } = await params;
@@ -40,12 +57,18 @@ async function ContextLayout({ children, params }: Props) {
   // meaning all users see the same party order during that period.
   const shuffledParties = shuffleArray(parties);
 
+  const jsonLd = buildContextJsonLd(context);
+
   return (
     <ContextProvider
       context={context}
       contexts={contexts}
       parties={shuffledParties}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {children}
     </ContextProvider>
   );
