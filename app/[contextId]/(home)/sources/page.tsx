@@ -45,7 +45,8 @@ async function SourcesPage({ params }: Props) {
     <article>
       <div className="mt-4 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
         <h1 className="text-xl font-bold md:text-2xl">
-          <span className="underline">wahl.chat&apos;s</span> Quellen für:
+          <span className="underline">wahl.chat&apos;s</span> Quellen
+          {context ? ' für:' : ''}
         </h1>
         {context && <SourcesContextBadge context={context} />}
       </div>
