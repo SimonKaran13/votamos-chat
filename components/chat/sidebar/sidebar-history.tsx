@@ -32,7 +32,6 @@ function ContextIconSmall({ contextId }: { contextId: string }) {
 
   // Use icon_url if available, otherwise fallback to local image
   const iconUrl = context?.icon_url || `/images/${contextId}.webp`;
-  const isExternal = iconUrl.startsWith('http');
 
   // Reset image error when context or icon URL changes
   useEffect(() => {
@@ -51,7 +50,6 @@ function ContextIconSmall({ contextId }: { contextId: string }) {
       width={16}
       height={16}
       onError={() => setImageError(true)}
-      unoptimized={isExternal}
     />
   );
 }
