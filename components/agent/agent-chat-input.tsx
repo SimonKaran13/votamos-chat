@@ -5,64 +5,38 @@ import { useAgentStore } from '@/components/providers/agent-store-provider';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ArrowUp } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 
 interface Props {
   onSubmit: (message: string) => void;
 }
 
-const CHAT_INPUT_MAX_HEIGHT = 150;
-const SINGLE_LINE_THRESHOLD = 50;
+const MAX_ROWS = 5;
 
 export default function AgentChatInput({ onSubmit }: Props) {
   const input = useAgentStore((state) => state.input);
   const setInput = useAgentStore((state) => state.setInput);
   const isStreaming = useAgentStore((state) => state.isStreaming);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const prevInputLengthRef = useRef(0);
+  const singleLineHeight = useRef(0);
   const [isMultiLine, setIsMultiLine] = useState(false);
 
-  const resizeTextarea = useCallback(() => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const currentHeight = textarea.offsetHeight;
-    const isDeleting = input.length < prevInputLengthRef.current;
-
-    if (isDeleting) {
-      // When deleting, reset to auto to allow shrinking
-      textarea.style.height = 'auto';
-      const newHeight = Math.min(textarea.scrollHeight, CHAT_INPUT_MAX_HEIGHT);
-      textarea.style.height = `${newHeight}px`;
-    } else {
-      // When typing, only expand if content exceeds current height
-      if (textarea.scrollHeight > currentHeight) {
-        const newHeight = Math.min(
-          textarea.scrollHeight,
-          CHAT_INPUT_MAX_HEIGHT,
-        );
-        textarea.style.height = `${newHeight}px`;
+  const handleHeightChange = useCallback(
+    (height: number, meta: { rowHeight: number }) => {
+      if (singleLineHeight.current === 0) {
+        singleLineHeight.current = height;
       }
-    }
-
-    prevInputLengthRef.current = input.length;
-    setIsMultiLine(textarea.scrollHeight > SINGLE_LINE_THRESHOLD);
-  }, [input.length]);
-
-  useEffect(() => {
-    resizeTextarea();
-  }, [input, resizeTextarea]);
-
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (!input.trim() || isStreaming) return;
-
-      onSubmit(input.trim());
-      setInput('');
+      setIsMultiLine(height > singleLineHeight.current + meta.rowHeight / 2);
     },
-    [input, isStreaming, onSubmit, setInput],
+    [],
   );
+
+  const handleSubmit = useCallback(() => {
+    if (!input.trim() || isStreaming) return;
+
+    onSubmit(input.trim());
+    setInput('');
+  }, [input, isStreaming, onSubmit, setInput]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
@@ -71,10 +45,7 @@ export default function AgentChatInput({ onSubmit }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (input.trim() && !isStreaming) {
-        onSubmit(input.trim());
-        setInput('');
-      }
+      handleSubmit();
     }
   };
 
@@ -95,27 +66,31 @@ export default function AgentChatInput({ onSubmit }: Props) {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit();
+      }}
       className={cn(
         'relative w-full overflow-hidden rounded-[24px] border border-input bg-chat-input transition-colors',
         'focus-within:border-zinc-300 dark:focus-within:border-zinc-700',
       )}
     >
       <div className="relative">
-        <textarea
-          ref={textareaRef}
+        <TextareaAutosize
           className={cn(
-            'block w-full resize-none bg-chat-input py-3 pl-4 text-[16px] leading-[1.5] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed',
-            isMultiLine ? 'pr-4' : 'pr-12',
+            'block min-h-0 w-full resize-none border-0 bg-chat-input py-3 pl-4 text-[16px] leading-[1.5] shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0',
+            'placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed',
+            'pr-12',
           )}
-          style={{ maxHeight: CHAT_INPUT_MAX_HEIGHT }}
+          minRows={1}
+          maxRows={MAX_ROWS}
+          onHeightChange={handleHeightChange}
           placeholder="Gib hier deine Nachricht ein..."
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           value={input}
           disabled={isStreaming}
           maxLength={3000}
-          rows={1}
         />
         {!isMultiLine && (
           <div className="absolute bottom-2 right-2">{submitButton}</div>
