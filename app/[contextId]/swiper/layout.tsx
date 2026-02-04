@@ -14,7 +14,7 @@ export async function generateMetadata({
     return { title: 'Wahl-Swiper' };
   }
 
-  const description = `Wahl-Swiper zur ${context.name} – Finde heraus, welche Partei zu dir passt.`;
+  const description = `Wahl-Swiper für ${context.name} – Finde heraus, welche Partei zu dir passt.`;
 
   return {
     title: `Wahl-Swiper – ${context.name}`,
