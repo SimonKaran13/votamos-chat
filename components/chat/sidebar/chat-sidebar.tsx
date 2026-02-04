@@ -125,7 +125,7 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
             </div>
           }
         >
-          <SidebarHistorySr contextId={contextId} />
+          <SidebarHistorySr />
         </Suspense>
         <SidebarGroup>
           <SidebarGroupLabel>Informationen</SidebarGroupLabel>
