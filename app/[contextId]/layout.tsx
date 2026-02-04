@@ -60,17 +60,19 @@ async function ContextLayout({ children, params }: Props) {
   const jsonLd = buildContextJsonLd(context);
 
   return (
-    <ContextProvider
-      context={context}
-      contexts={contexts}
-      parties={shuffledParties}
-    >
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {children}
-    </ContextProvider>
+      <ContextProvider
+        context={context}
+        contexts={contexts}
+        parties={shuffledParties}
+      >
+        {children}
+      </ContextProvider>
+    </>
   );
 }
 

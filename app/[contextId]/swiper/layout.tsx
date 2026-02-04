@@ -19,7 +19,11 @@ export async function generateMetadata({
     title: `Wahl-Swiper – ${context.name}`,
     description,
     robots: 'noindex',
-    openGraph: { title: `Wahl-Swiper – ${context.name}`, description },
+    openGraph: {
+      title: `Wahl-Swiper – ${context.name}`,
+      description,
+      url: `https://wahl.chat/${contextId}/swiper`,
+    },
     twitter: {
       card: 'summary_large_image',
       title: `Wahl-Swiper – ${context.name}`,

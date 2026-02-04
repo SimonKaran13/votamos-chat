@@ -11,6 +11,7 @@ import TenantProvider from '@/components/providers/tenant-provider';
 import { TENANT_ID_HEADER } from '@/lib/constants';
 import { getTenant } from '@/lib/firebase/firebase-admin';
 import { getUser } from '@/lib/firebase/firebase-server';
+import { productionRobots } from '@/lib/seo';
 import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
 import { headers } from 'next/headers';
@@ -58,10 +59,7 @@ export const metadata: Metadata = {
     'Wahl-o-Mat',
     'Wahl-o-Mat Alternative',
   ],
-  robots:
-    process.env.SITE_URL === 'https://wahl.chat'
-      ? 'index, follow'
-      : 'noindex, nofollow',
+  robots: productionRobots,
   openGraph: {
     title: {
       default: 'wahl.chat - Politik interaktiv verstehen',
@@ -69,7 +67,7 @@ export const metadata: Metadata = {
     },
     description:
       'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/logo.webp'],
+    images: ['https://wahl.chat/images/logo.webp'],
     url: 'https://wahl.chat',
     siteName: 'wahl.chat',
     locale: 'de-DE',
@@ -82,7 +80,7 @@ export const metadata: Metadata = {
     title: 'wahl.chat - Politik interaktiv verstehen',
     description:
       'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['/images/logo.webp'],
+    images: ['https://wahl.chat/images/logo.webp'],
   },
 };
 
