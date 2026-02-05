@@ -85,3 +85,29 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
+### Cache Revalidation
+
+The app caches Firestore data (sources, parties, contexts) for performance. If you update data in Firestore and it doesn't appear on production, you may need to revalidate the cache.
+
+Use the `/api/revalidate` endpoint with the `REVALIDATE_SECRET` environment variable:
+
+```bash
+# Revalidate by cache tag
+curl -X POST https://wahl.chat/api/revalidate \
+  -H "Authorization: Bearer <REVALIDATE_SECRET>" \
+  -H "Content-Type: application/json" \
+  -d '{"tag": "source_documents"}'
+
+# Or revalidate by path
+curl -X POST https://wahl.chat/api/revalidate \
+  -H "Authorization: Bearer <REVALIDATE_SECRET>" \
+  -H "Content-Type: application/json" \
+  -d '{"path": "/bundestagswahl-2025/sources"}'
+```
+
+Available cache tags (defined in `lib/cache-tags.ts`):
+- `source_documents` - Source documents for the sources page
+- `parties` - Global party data
+- `contexts` - Election contexts
+- `context_parties` - Parties per context
+- `proposed_questions` - Suggested questions
