@@ -1,15 +1,21 @@
 'use client';
 
 import { useChatSessionParam } from '@/lib/hooks/use-chat-session-param';
-import { createChatStore } from '@/lib/stores/chat-store';
-import type { ChatStore } from '@/lib/stores/chat-store.types';
-import {type ReactNode, createContext, useContext, useRef, useEffect} from 'react';
-import { useStore } from 'zustand';
 import {
   captureProlificParams,
-  getWahlChatSessionMessageCount
-} from "@/lib/prolific-study/prolific-metadata";
-import {useSearchParams} from "next/navigation";
+  getWahlChatSessionMessageCount,
+} from '@/lib/prolific-study/prolific-metadata';
+import { createChatStore } from '@/lib/stores/chat-store';
+import type { ChatStore } from '@/lib/stores/chat-store.types';
+import { useSearchParams } from 'next/navigation';
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
+import { useStore } from 'zustand';
 
 export type ChatStoreApi = ReturnType<typeof createChatStore>;
 
@@ -34,15 +40,16 @@ export const ChatStoreProvider = ({ children, contextId }: Props) => {
   }
 
   useEffect(() => {
-    console.log("Capturing Prolific metadata")
     const metadata = captureProlificParams(searchParams);
     if (metadata && storeRef.current) {
       storeRef.current.getState().setProlificMetadata(metadata);
+    }
 
+    if (storeRef.current) {
       const count = getWahlChatSessionMessageCount();
       storeRef.current.getState().setProlificMessageCount(count);
     }
-  }, [])
+  }, []);
 
   return (
     <ChatStoreContext.Provider value={storeRef.current}>
