@@ -3,9 +3,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, PartyPopper } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { isProlificStudy } from '@/lib/prolific-study/prolific-metadata';
+import CompletionCode from '@/components/prolific-study/completion-code';
 
 export default function CompletionScreen() {
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showCompletionCode, setShowCompletionCode] = useState(false);
+
+  useEffect(() => {
+    if (isProlificStudy()) {
+      setShowCompletionCode(true);
+    }
+  }, []);
 
   useEffect(() => {
     // Trigger confetti animation after mount
@@ -48,6 +57,8 @@ export default function CompletionScreen() {
             </>
           )}
         </div>
+
+        {showCompletionCode && <CompletionCode />}
 
         {/* Thank You Card */}
         <Card className="border-green-200 bg-green-50/50 dark:border-green-900 dark:bg-green-950/30">

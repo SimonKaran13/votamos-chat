@@ -1,6 +1,7 @@
 'use client';
 
 import type { Source } from '@/lib/stores/chat-store.types';
+import type { ProlificMetadata } from '@/lib/prolific-study/prolific-metadata';
 import { generateUuid } from '@/lib/utils';
 import { createStore } from 'zustand/vanilla';
 
@@ -57,6 +58,9 @@ export interface AgentState {
 
   topic: AgentTopic | null;
 
+  // Study metadata
+  prolificMetadata: ProlificMetadata | null;
+
   // Conversation
   conversationId: string | null;
   conversationStage: ConversationStage | null;
@@ -87,6 +91,8 @@ export interface AgentActions {
 
   setTopic: (topic: AgentTopic) => void;
 
+  setProlificMetadata: (prolificMetadata: ProlificMetadata) => void;
+
   // Conversation actions
   setConversationId: (id: string) => void;
   setConversationStage: (stage: ConversationStage) => void;
@@ -110,6 +116,7 @@ const initialState: AgentState = {
   step: 'consent',
   consentGiven: false,
   topic: null,
+  prolificMetadata: null,
   conversationId: null,
   conversationStage: null,
   messages: [],
@@ -158,6 +165,9 @@ export const createAgentStore = (initState: Partial<AgentState> = {}) => {
         topic,
         step: 'chat',
       }),
+
+    // Study metadata
+    setProlificMetadata: (prolificMetadata) => set({ prolificMetadata }),
 
     // Conversation actions
     setConversationId: (conversationId) => set({ conversationId }),
