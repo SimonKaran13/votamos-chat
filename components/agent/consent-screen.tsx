@@ -3,7 +3,7 @@
 import { useAgentStore } from '@/components/providers/agent-store-provider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Info, Lock, Shield } from 'lucide-react';
+import { Info, Lock, Shield } from 'lucide-react';
 
 export default function ConsentScreen() {
   const giveConsent = useAgentStore((state) => state.giveConsent);
@@ -44,41 +44,6 @@ export default function ConsentScreen() {
               deine Sorgen zu schildern und deine persönliche Ideallösung zu
               formulieren, um die Partei zu finden, die am besten zu dir passt.
             </p>
-          </CardContent>
-        </Card>
-
-        {/* Data Collection Info */}
-        <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center gap-2">
-              <FileText className="size-5 text-muted-foreground" />
-              <CardTitle className="text-lg">Datenerhebung</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-muted-foreground" />
-                <span>
-                  Wir werden während dieser Konversation anonymisierte
-                  Informationen sammeln
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-muted-foreground" />
-                <span>
-                  Diese umfassen das Alter, die Region, den Familienstand und
-                  den Beruf
-                </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-muted-foreground" />
-                <span>
-                  Deine Antworten und Perspektiven zu politischen Themen werden
-                  aufgezeichnet
-                </span>
-              </li>
-            </ul>
           </CardContent>
         </Card>
 
