@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import type { PartyDetails } from '@/lib/party-details';
+import { isProlificStudy } from '@/lib/prolific-study/prolific-metadata';
 import { buildCarouselContainerId } from '@/lib/scroll-constants';
 import type {
   GroupedMessage,
@@ -91,7 +92,7 @@ function ChatGroupedMessages({ message, isLastMessage, parties }: Props) {
         />
         <CarouselNext />
       </div>
-      {isLastMessage && <SurveyBanner />}
+      {isLastMessage && !isProlificStudy() && <SurveyBanner />}
       {isLoadingAnyAction && <MessageLoadingBorderTrail />}
     </Carousel>
   );

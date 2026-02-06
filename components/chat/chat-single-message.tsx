@@ -1,5 +1,6 @@
 import { useChatStore } from '@/components/providers/chat-store-provider';
 import type { PartyDetails } from '@/lib/party-details';
+import { isProlificStudy } from '@/lib/prolific-study/prolific-metadata';
 import type { MessageItem } from '@/lib/stores/chat-store.types';
 import { cn } from '@/lib/utils';
 import ChatMarkdown from './chat-markdown';
@@ -75,7 +76,7 @@ function ChatSingleMessage({
           )}
           <div className="flex flex-col gap-2">
             {content}
-            {isLastMessage && <SurveyBanner />}
+            {isLastMessage && !isProlificStudy() && <SurveyBanner />}
             <ChatSingleMessageActions
               isLastMessage={isLastMessage}
               message={message}
