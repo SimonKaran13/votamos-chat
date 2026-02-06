@@ -38,6 +38,7 @@ async function WahlSwiperResultsPage({ params }: Props) {
       parties={parties}
       userDetails={userDetails}
       contextId={contextId}
+      isProlificStudy={history.is_prolific_study ?? false}
     />
   );
 }
