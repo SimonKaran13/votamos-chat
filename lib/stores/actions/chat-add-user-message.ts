@@ -8,6 +8,7 @@ import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
 import { generateUuid } from '@/lib/utils';
 import { Timestamp } from 'firebase/firestore';
 import { toast } from 'sonner';
+import {incrementWahlChatSessionMessageCount, isProlificStudy} from "@/lib/prolific-study/prolific-metadata";
 
 export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
   (get, set) =>
@@ -21,6 +22,8 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
       partyIds,
       initializeChatSession,
       startTimeoutForStreamingMessages,
+      prolificMetadata,
+      incrementProlificMessageCount,
     } = get();
 
     const safeContextId = contextId ?? DEFAULT_CONTEXT_ID;
@@ -80,6 +83,11 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
       state.loading.newMessage = true;
     });
 
+    if (!isMessageResend && isProlificStudy()) {
+        incrementWahlChatSessionMessageCount(); // increment in session storage
+        incrementProlificMessageCount(); // increment store for reactivity
+    }
+
     messages = get().messages;
     const { tenant } = get();
 
@@ -91,6 +99,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
           safeSessionId,
           tenant?.id,
           safeContextId,
+          prolificMetadata,
         );
 
         if (typeof window !== 'undefined') {

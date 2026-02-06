@@ -9,6 +9,7 @@ import type {
 } from '@/lib/socket.types';
 import type { Timestamp } from 'firebase/firestore';
 import type { WritableDraft } from 'immer';
+import {ProlificMetadata} from "@/lib/prolific-study/prolific-metadata";
 
 export type Source = {
   source: string;
@@ -110,6 +111,10 @@ export type ChatStoreState = {
     messagesLengthAtSharing: number;
   };
   tenant?: Tenant;
+  prolificMetadata?: ProlificMetadata;
+  prolificMinInteractions?: number;
+  prolificDisclaimerDismissed?: boolean;
+  prolificMessageCount: number;
 };
 
 export type ChatStoreActions = {
@@ -199,6 +204,11 @@ export type ChatStoreActions = {
   ) => void;
   setPartyIds: (partyIds: string[]) => void;
   getLLMSize: () => LLMSize;
+  setProlificMetadata: (metadata: ProlificMetadata) => void;
+  setProlificConfig: (config: { minInteractions: number }) => void;
+  setProlificDisclaimerDismissed: (dismissed: boolean) => void;
+  incrementProlificMessageCount: () => void;
+  setProlificMessageCount: (count: number) => void;
 };
 
 export type ChatStore = ChatStoreState & ChatStoreActions;

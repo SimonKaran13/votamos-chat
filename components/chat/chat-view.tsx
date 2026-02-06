@@ -9,6 +9,7 @@ import { Suspense } from 'react';
 import ChatDynamicChatInput from './chat-dynamic-chat-input';
 import ChatScrollDownIndicator from './chat-scroll-down-indicator';
 import ChatViewSsr from './chat-view-ssr';
+import ChatProlificWrapper from "@/components/chat/chat-prolific-wrapper";
 
 type Props = {
   sessionId?: string;
@@ -47,6 +48,7 @@ async function ChatView({
       </Suspense>
 
       <div className="relative px-3 md:px-4">
+        <ChatProlificWrapper />
         <ChatScrollDownIndicator />
         <ChatDynamicChatInput
           initialSystemStatus={systemStatus}
