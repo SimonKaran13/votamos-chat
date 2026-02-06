@@ -1,7 +1,7 @@
 import { WahlSwiperStoreProvider } from '@/components/providers/wahl-swiper-store-provider';
 import WahlSwiper from '@/components/wahl-swiper/wahl-swiper';
 import WahlSwiperChatWrapper from '@/components/wahl-swiper/wahl-swiper-chat-wrapper';
-import WahlSwiperExperimentalDisclaimer from '@/components/wahl-swiper/wahl-swiper-experimental-disclaimer';
+import WahlSwiperDisclaimerWrapper from '@/components/wahl-swiper/wahl-swiper-disclaimer-wrapper';
 import {
   getContext,
   getWahlSwiperThesesForContext,
@@ -37,7 +37,7 @@ async function SwiperPage({ params }: Props) {
 
       <WahlSwiperChatWrapper />
 
-      <WahlSwiperExperimentalDisclaimer />
+      <WahlSwiperDisclaimerWrapper />
     </WahlSwiperStoreProvider>
   );
 }
