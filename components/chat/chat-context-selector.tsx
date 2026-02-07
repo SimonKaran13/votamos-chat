@@ -42,11 +42,17 @@ export function ChatContextSelector() {
   };
 
   const handleConfirmChange = () => {
-    if (pendingContextId) {
-      router.push(`/${pendingContextId}`);
-    }
+    const contextToNavigate = pendingContextId;
+    // Close dialog first and reset state
     setDialogOpen(false);
     setPendingContextId(null);
+    // Navigate after dialog close to prevent overlay from getting stuck
+    if (contextToNavigate) {
+      // Use setTimeout to allow the dialog to fully close before navigation
+      setTimeout(() => {
+        router.push(`/${contextToNavigate}`);
+      }, 0);
+    }
   };
 
   const handleCancelChange = () => {
