@@ -1,4 +1,11 @@
 import { Markdown } from '@/components/markdown';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Impressum',
+  description: 'Impressum und Kontaktdaten von wahl.chat.',
+  robots: 'noindex',
+};
 
 function Impressum() {
   const markdown = `

@@ -1,8 +1,16 @@
 import DonationDialog from '@/components/donation-dialog';
 import { Button } from '@/components/ui/button';
 import { HeartHandshakeIcon } from 'lucide-react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Über uns',
+  description:
+    'Das Team hinter wahl.chat – wer wir sind und warum wir Politik interaktiv zugänglich machen.',
+  robots: 'noindex',
+};
 
 function AboutUs() {
   return (

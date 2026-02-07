@@ -1,4 +1,12 @@
 import { Card } from '@/components/ui/card';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Spenden',
+  description:
+    'Unterstütze wahl.chat mit einer Spende – hilf uns, laufende Kosten für die KI zu decken.',
+  robots: 'noindex',
+};
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

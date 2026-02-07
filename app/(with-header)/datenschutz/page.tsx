@@ -1,3 +1,12 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Datenschutz',
+  description:
+    'Datenschutzerklärung von wahl.chat – Informationen zur Verarbeitung personenbezogener Daten.',
+  robots: 'noindex',
+};
+
 function Impressum() {
   return (
     <section className="prose-sm my-8 max-w-full overflow-x-hidden dark:prose-invert md:prose">

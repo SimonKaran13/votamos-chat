@@ -1,5 +1,8 @@
 import ChatView from '@/components/chat/chat-view';
-import { getPartiesForContext } from '@/lib/firebase/firebase-server';
+import {
+  getContext,
+  getPartiesForContext,
+} from '@/lib/firebase/firebase-server';
 import { generateOgImageUrl } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 
@@ -15,6 +18,7 @@ type Props = {
 };
 
 export async function generateMetadata({
+  params,
   searchParams,
 }: {
   params: Promise<{ contextId: string }>;
@@ -23,21 +27,43 @@ export async function generateMetadata({
     q?: string;
   }>;
 }) {
+  const { contextId } = await params;
   const { party_id } = await searchParams;
 
-  if (
-    !party_id ||
-    (Array.isArray(party_id) && (party_id.length === 0 || party_id.length > 1))
-  ) {
-    return;
-  }
+  const [context, parties] = await Promise.all([
+    getContext(contextId),
+    getPartiesForContext(contextId),
+  ]);
 
-  const partyId = Array.isArray(party_id) ? party_id[0] : party_id;
+  const contextName = context?.name ?? 'Chat';
+
+  const partyId = Array.isArray(party_id)
+    ? party_id.length === 1
+      ? party_id[0]
+      : undefined
+    : party_id;
+
+  const party = partyId
+    ? parties.find((p) => p.party_id === partyId)
+    : undefined;
+
+  const title = party
+    ? `Chat mit ${party.name} – ${contextName}`
+    : `Chat – ${contextName}`;
+
+  const description = party
+    ? `Frage ${party.name} zu Positionen und Themen der ${contextName}. Quellengestützte Antworten bei wahl.chat.`
+    : `Vergleiche Parteipositionen über die ${contextName} im Chat. Quellengestützte Antworten bei wahl.chat.`;
+
+  const ogImage = partyId ? await generateOgImageUrl(partyId) : undefined;
 
   return {
-    openGraph: {
-      images: [await generateOgImageUrl(partyId)],
-    },
+    title,
+    description,
+    robots: 'noindex',
+    ...(ogImage && {
+      openGraph: { images: [ogImage] },
+    }),
   };
 }
 

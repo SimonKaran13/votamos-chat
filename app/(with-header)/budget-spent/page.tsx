@@ -1,7 +1,15 @@
 import DonationDialog from '@/components/donation-dialog';
 import { Button } from '@/components/ui/button';
 import { BadgeEuroIcon, HeartHandshakeIcon } from 'lucide-react';
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Budget aufgebraucht',
+  description:
+    'Das Budget von wahl.chat ist derzeit aufgebraucht. Unterstütze uns mit einer Spende.',
+  robots: 'noindex',
+};
 
 function BudgetSpent() {
   return (
