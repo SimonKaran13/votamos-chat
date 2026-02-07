@@ -54,6 +54,7 @@
     "react-pdf": "^9.1.1",
     "react-remove-scroll": "^2.6.3",
     "react-share": "^5.1.1",
+    "react-textarea-autosize": "^8.5.9",
     "react-virtualized-auto-sizer": "^1.0.24",
     "react-window": "^1.8.10",
     "recharts": "^2.15.0",
