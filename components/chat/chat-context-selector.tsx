@@ -25,7 +25,7 @@ import {
 import { formatGermanDate } from '@/lib/utils';
 import { CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export function ChatContextSelector() {
   const currentContext = useCurrentContext();
@@ -33,6 +33,7 @@ export function ChatContextSelector() {
   const router = useRouter();
   const [pendingContextId, setPendingContextId] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const isNavigatingRef = useRef(false);
 
   const handleContextSelect = (contextId: string) => {
     if (contextId !== currentContext.context_id) {
@@ -42,16 +43,24 @@ export function ChatContextSelector() {
   };
 
   const handleConfirmChange = () => {
+    // Guard against double-clicks triggering multiple navigations
+    if (isNavigatingRef.current || !pendingContextId) return;
+    isNavigatingRef.current = true;
+
     const contextToNavigate = pendingContextId;
-    // Close dialog first and reset state
+    // Close dialog but keep pendingContextId to avoid text flicker during close animation
     setDialogOpen(false);
-    setPendingContextId(null);
     // Navigate after dialog close to prevent overlay from getting stuck
-    if (contextToNavigate) {
-      // Use setTimeout to allow the dialog to fully close before navigation
-      setTimeout(() => {
-        router.push(`/${contextToNavigate}`);
-      }, 0);
+    setTimeout(() => {
+      router.push(`/${contextToNavigate}`);
+    }, 0);
+  };
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setDialogOpen(open);
+    // Only reset state when dialog is fully closed and we're not navigating
+    if (!open && !isNavigatingRef.current) {
+      setPendingContextId(null);
     }
   };
 
@@ -134,7 +143,7 @@ export function ChatContextSelector() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <AlertDialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Wahl wechseln?</AlertDialogTitle>
