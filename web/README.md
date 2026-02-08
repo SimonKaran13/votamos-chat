@@ -34,11 +34,9 @@ b. Get access to assets required for a reference to wahl.chat on your project pa
 
 ### 1. Install dependencies
 
-This project uses `npm` or `bun`.
+This project uses [Bun](https://bun.sh/).
 
 ```bash
-npm install
-# or
 bun install
 ```
 
@@ -49,7 +47,7 @@ bun install
    cp .env.example .env.local
    ```
 2. Fill in the required values in `.env.local`. 
-   - **Backend**: By default, `NEXT_PUBLIC_API_URL` is set to `http://localhost:8080`. For this to work, you must run the [wahl-chat-backend](https://github.com/wahl-chat/wahl-chat-backend) locally. Alternatively, you can point it to a publicly hosted backend endpoint.
+   - **Backend**: By default, `NEXT_PUBLIC_API_URL` is set to `http://localhost:8080`. For this to work, you must run the AI backend locally (see [ai-backend/](../ai-backend/)). Alternatively, you can point it to a publicly hosted backend endpoint.
    - **Firebase**: These variables are required for the app to function. You can find them in the [Firebase Console](https://console.firebase.google.com/) under Project Settings.
    - **Stripe**: These variables are optional for local development unless you are working on donation features.
 
@@ -66,12 +64,6 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 First, run the development server:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
 bun dev
 ```
 
