@@ -5,6 +5,8 @@ import sys
 from typing import Optional
 import firebase_admin
 from firebase_admin import firestore, credentials, firestore_async
+import google.auth
+import google.auth.transport.requests
 from google.auth.exceptions import RefreshError
 from pathlib import Path
 
@@ -30,27 +32,37 @@ else:
     firebase_admin.initialize_app()
 
 db = firestore.client()
-
-# Validate credentials by making a lightweight Firestore call.
-# This catches expired ADC tokens at startup rather than on the first request.
-try:
-    db.collection("system_status").limit(1).get()
-except RefreshError:
-    logger.error(
-        "\n"
-        "============================================================\n"
-        " Firebase credentials have expired.\n"
-        " Run 'make auth' or 'gcloud auth application-default login'\n"
-        " to re-authenticate, then restart the backend.\n"
-        "============================================================\n"
-    )
-    sys.exit(1)
-except Exception:
-    # Other errors (e.g. network issues) are not credential-related;
-    # let the application continue and handle them elsewhere.
-    pass
-
 async_db = firestore_async.client()
+
+
+def _validate_credentials():
+    """Validate ADC credentials at startup by attempting a token refresh.
+
+    This catches expired tokens immediately with a clear message instead of
+    letting the first Firestore request fail with a cryptic stack trace.
+    Only runs when using Application Default Credentials (no JSON file).
+    """
+    if Path(credentials_path).exists():
+        return  # Using service account JSON — no expiry issues
+
+    try:
+        adc_credentials, _ = google.auth.default()
+        adc_credentials.refresh(google.auth.transport.requests.Request())
+    except RefreshError:
+        logger.error(
+            "\n"
+            "============================================================\n"
+            " Firebase credentials have expired.\n"
+            " Run 'make auth' or 'gcloud auth application-default login'\n"
+            " to re-authenticate, then restart the backend.\n"
+            "============================================================\n"
+        )
+        sys.exit(1)
+    except Exception as e:
+        logger.warning(f"Could not validate Firebase credentials: {e}")
+
+
+_validate_credentials()
 
 
 async def aget_parties() -> list[ContextParty]:
