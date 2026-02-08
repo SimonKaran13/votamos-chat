@@ -6,10 +6,10 @@ Usage:
     python scripts/seed_firestore.py
 
 This script:
-1. Imports all contexts from firebase/firestore_data/dev/contexts.json
-2. Imports parties from firebase/firestore_data/dev/parties_{context_id}.json
+1. Imports all contexts from ../firebase/firestore_data/dev/contexts.json
+2. Imports parties from ../firebase/firestore_data/dev/parties_{context_id}.json
    into contexts/{context_id}/parties sub-collection
-3. Imports proposed questions from firebase/firestore_data/dev/proposed_questions_{context_id}.json
+3. Imports proposed questions from ../firebase/firestore_data/dev/proposed_questions_{context_id}.json
    into contexts/{context_id}/proposed_questions sub-collection
 
 File naming convention:
@@ -30,7 +30,7 @@ from firebase_admin import credentials, firestore
 
 # Configuration
 ENV = os.getenv("ENV", "dev")
-DATA_DIR = Path(__file__).parent.parent / "firebase" / "firestore_data" / ENV
+DATA_DIR = Path(__file__).parent.parent.parent / "firebase" / "firestore_data" / ENV
 
 # Credentials file path
 CREDENTIALS_FILE = (

@@ -171,8 +171,10 @@ The application supports multiple election contexts (e.g., Bundestagswahl 2025, 
 
 #### Data Structure
 
+Data files are located in the `firebase/` directory at the repository root:
+
 ```
-firebase/firestore_data/dev/
+../firebase/firestore_data/dev/
 ├── contexts.json                                         # All contexts
 ├── parties_bundestagswahl-2025.json                      # Parties for BTW 2025
 ├── parties_landtagswahl-baden-wuerttemberg-2026.json     # Parties for LTW BW 2026
@@ -195,7 +197,7 @@ contexts/{context_id}
 
 #### Seeding with the Python Script (Recommended)
 
-Run from the project root:
+Run from the `ai-backend/` directory:
 
 ```bash
 python scripts/seed_firestore.py
@@ -213,20 +215,22 @@ ENV=prod python scripts/seed_firestore.py
 
 #### Seeding with firestore-import (Manual)
 
+Run from the `firebase/` directory at the repository root:
+
 ```bash
 # Seed contexts
-firestore-import -a wahl-chat-dev-firebase-adminsdk.json -n contexts -b firebase/firestore_data/dev/contexts.json -y
+firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json -n contexts -b firestore_data/dev/contexts.json -y
 
 # Seed parties for a specific context
-firestore-import -a wahl-chat-dev-firebase-adminsdk.json -n contexts/bundestagswahl-2025/parties -b firebase/firestore_data/dev/parties_bundestagswahl-2025.json -y
+firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json -n contexts/bundestagswahl-2025/parties -b firestore_data/dev/parties_bundestagswahl-2025.json -y
 ```
 
 #### Adding a New Context
 
-1. Add the context to `firebase/firestore_data/dev/contexts.json`
-2. Create `firebase/firestore_data/dev/parties_{context_id}.json` with the parties
-3. Create `firebase/firestore_data/dev/proposed_questions_{context_id}.json` with the proposed questions
-4. Run `python scripts/seed_firestore.py`
+1. Add the context to `../firebase/firestore_data/dev/contexts.json`
+2. Create `../firebase/firestore_data/dev/parties_{context_id}.json` with the parties
+3. Create `../firebase/firestore_data/dev/proposed_questions_{context_id}.json` with the proposed questions
+4. Run `python scripts/seed_firestore.py` from `ai-backend/`
 
 ### Moving a Context from Dev to Prod
 
@@ -237,7 +241,7 @@ When you've finished setting up and testing a context in dev, follow these steps
 Copy the dev data files to prod and update URLs:
 
 ```bash
-cd firebase/firestore_data
+cd ../firebase/firestore_data
 
 # Copy contexts (merge with existing prod contexts if needed)
 cp dev/contexts.json prod/contexts.json
@@ -263,6 +267,8 @@ This applies to party logos, manifesto PDFs, and any other assets stored in Fire
 Ensure all referenced assets (logos, PDFs, etc.) exist in the prod Firebase Storage bucket under the same paths as in dev.
 
 #### 4. Seed Production Firestore
+
+Run from the `ai-backend/` directory:
 
 ```bash
 ENV=prod python scripts/seed_firestore.py

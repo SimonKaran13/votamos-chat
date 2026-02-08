@@ -1,5 +1,7 @@
 # Multi-Context Support
 
+> **Note:** File paths in this document (e.g. `firebase/...`) are relative to the repository root.
+
 ## Goal
 
 Support multiple political contexts with context-specific parties and documents:
