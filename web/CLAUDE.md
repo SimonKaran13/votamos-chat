@@ -9,11 +9,11 @@ wahl.chat is a political information chatbot for the German federal elections 20
 ## Commands
 
 ```bash
-pnpm dev          # Start development server (localhost:3000)
-pnpm build        # Production build
-pnpm lint         # Run ESLint + Biome linting
-pnpm lint:fix     # Auto-fix lint issues
-pnpm format       # Format code with Biome
+bun dev          # Start development server (localhost:3000)
+bun run build    # Production build
+bun run lint     # Run ESLint + Biome linting
+bun run lint:fix # Auto-fix lint issues
+bun run format   # Format code with Biome
 ```
 
 ## Architecture
