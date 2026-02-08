@@ -131,7 +131,7 @@ Specific websocket test: `poetry run pytest tests/test_websocket_app.py -k test_
 
 
 ## Firebase Management
-Note: the following commands are to be run in the `firebase` directory of this repository.
+Note: the following commands are to be run in the `firebase/` directory at the repository root (i.e. `../firebase/` relative to this directory).
 
 ### Prerequisites
 Firebase CLI: `npm install -g firebase-tools` & `firebase login`
