@@ -1,9 +1,11 @@
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 import logging
 import os
+import sys
 from typing import Optional
 import firebase_admin
 from firebase_admin import firestore, credentials, firestore_async
+from google.auth.exceptions import RefreshError
 from pathlib import Path
 
 from src.models.chat import CachedResponse
@@ -28,6 +30,25 @@ else:
     firebase_admin.initialize_app()
 
 db = firestore.client()
+
+# Validate credentials by making a lightweight Firestore call.
+# This catches expired ADC tokens at startup rather than on the first request.
+try:
+    db.collection("system_status").limit(1).get()
+except RefreshError:
+    logger.error(
+        "\n"
+        "============================================================\n"
+        " Firebase credentials have expired.\n"
+        " Run 'make auth' or 'gcloud auth application-default login'\n"
+        " to re-authenticate, then restart the backend.\n"
+        "============================================================\n"
+    )
+    sys.exit(1)
+except Exception:
+    # Other errors (e.g. network issues) are not credential-related;
+    # let the application continue and handle them elsewhere.
+    pass
 
 async_db = firestore_async.client()
 
