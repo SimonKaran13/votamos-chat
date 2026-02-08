@@ -1,4 +1,10 @@
-# web/
+<!--
+SPDX-FileCopyrightText: 2025 2025 wahl.chat
+
+SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+-->
+
+# Web App
 
 Next.js frontend for [wahl.chat](https://wahl.chat/).
 
@@ -18,7 +24,7 @@ cp .env.example .env.local
 
 Fill in the required values in `.env.local`:
 - **Backend**: `NEXT_PUBLIC_API_URL` defaults to `http://localhost:8080`. Run the [AI backend](../ai-backend/) locally or point it to a hosted endpoint.
-- **Firebase**: Required for the app to function. Obtain from [Firebase Console](https://console.firebase.google.com/) > Project Settings.
+- **Firebase Public and Private Credentials**: Required for the app to function. Obtain from [Firebase Console](https://console.firebase.google.com/) > Project Settings.
 - **Stripe**: Optional unless working on donation features.
 
 ### 3. Regional election contexts

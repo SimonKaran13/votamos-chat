@@ -1,4 +1,10 @@
-# firebase/
+<!--
+SPDX-FileCopyrightText: 2025 2025 wahl.chat
+
+SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+-->
+
+# Firebase
 
 Firebase configuration for [wahl.chat](https://wahl.chat/) — Firestore rules, Storage rules, Cloud Functions, and seed data.
 
