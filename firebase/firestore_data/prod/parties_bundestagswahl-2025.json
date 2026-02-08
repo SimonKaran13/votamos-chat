@@ -26,7 +26,7 @@
         "name": "CDU/CSU",
         "long_name": "CDU/CSU-Bundestagsfraktion",
         "candidate": "Friedrich Merz",
-        "manifesto_url": "hhttps://storage.googleapis.com/wahl-chat.firebasestorage.app/public/cdu/Grundsatzprogramm_2024-01-15.pdf",
+        "manifesto_url": "https://storage.googleapis.com/wahl-chat.firebasestorage.app/public/cdu/Grundsatzprogramm_2024-01-15.pdf",
         "website_url": "https://www.cducsu.de/",
         "is_already_in_parliament": true,
         "background_color": "#52B7C1",
