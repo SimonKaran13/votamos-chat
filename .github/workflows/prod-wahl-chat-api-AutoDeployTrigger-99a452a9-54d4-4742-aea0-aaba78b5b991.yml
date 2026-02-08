@@ -11,8 +11,8 @@ on:
   #   branches:
   #     [ main ]
   #   paths:
-  #   - '**'
-  #   - '.github/workflows/prod-wahl-chat-api-AutoDeployTrigger-99a452a9-54d4-4742-aea0-aaba78b5b991.yml'
+  #     - 'ai-backend/**'
+  #     - '.github/workflows/prod-wahl-chat-api-AutoDeployTrigger-99a452a9-54d4-4742-aea0-aaba78b5b991.yml'
 
   # Allow manual trigger
   workflow_dispatch:
@@ -30,6 +30,7 @@ jobs:
         with:
           name: "wahl-chat-firebase-adminsdk.json"
           json: ${{ secrets.FIREBASE_ADMIN_SDK_JSON }}
+          dir: "ai-backend"
 
       - name: Azure Login
         uses: azure/login@v1
@@ -39,7 +40,7 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
+          appSourcePath: ${{ github.workspace }}/ai-backend
           _dockerfilePathKey_: _dockerfilePath_
           registryUrl: caf0ba71a194acr.azurecr.io
           registryUsername: ${{ secrets.PRODWAHLCHATAPI_REGISTRY_USERNAME }}
