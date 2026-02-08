@@ -38,6 +38,8 @@ Dependencies are managed via `functions/requirements.txt`. To install locally fo
 
 ```bash
 cd functions
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
