@@ -1,4 +1,10 @@
-# ai-backend/
+<!--
+SPDX-FileCopyrightText: 2025 2025 wahl.chat
+
+SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+-->
+
+# AI Backend
 
 Python AI/RAG backend for [wahl.chat](https://wahl.chat/).
 
@@ -37,18 +43,26 @@ Fill in the values. For the LangChain API key (used for tracing on [smith.langch
 1. Set up your own project and API key, or
 2. Set `LANGCHAIN_TRACING_V2=false` to deactivate tracing.
 
-### 4. Provide Firebase Admin SDK credentials
+### 4. Authenticate with Firebase
 
-**Option 1: gcloud application default credentials**
+The recommended approach for local development is **Google Application Default Credentials (ADC)**:
 
 ```bash
 gcloud auth application-default login
 gcloud config set project wahl-chat-dev
 ```
 
-**Option 2: Service account JSON file**
+Or from the repo root:
 
-Add `wahl-chat-dev-firebase-adminsdk.json` to this directory. Generate it at the [Firebase Console](https://console.firebase.google.com/u/0/project/wahl-chat-dev/settings/serviceaccounts/adminsdk).
+```bash
+make auth
+```
+
+> **Note:** ADC tokens expire periodically (typically daily). When you see a `RefreshError`, simply re-run the command above. The backend will print a clear message when this happens.
+
+**Alternative: Service account JSON file**
+
+For CI/CD or Docker deployments, place a `wahl-chat-dev-firebase-adminsdk.json` file in this directory. Generate it at the [Firebase Console](https://console.firebase.google.com/u/0/project/wahl-chat-dev/settings/serviceaccounts/adminsdk). The backend auto-detects and uses it when present. Note that [Google recommends ADC over service account keys](https://cloud.google.com/docs/authentication#auth-decision-tree) for local development.
 
 ## Run
 
