@@ -207,7 +207,10 @@ Ensure all referenced assets (logos, PDFs, etc.) exist in the prod Firebase Stor
 ### 4. Seed production Firestore
 
 ```bash
-# From ai-backend/
+# From repo root:
+make seed-prod
+
+# Or from firebase/:
 ENV=prod python scripts/seed_firestore.py
 ```
 
