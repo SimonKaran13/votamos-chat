@@ -97,13 +97,30 @@ contexts/{context_id}
 
 ### Seeding with the Python Script (Recommended)
 
-Run from the `ai-backend/` directory:
+Run from the `firebase/` directory:
 
 ```bash
 python scripts/seed_firestore.py
 
 # For production:
 ENV=prod python scripts/seed_firestore.py
+```
+
+Or simply from the repo root:
+
+```bash
+make seed
+
+# For production:
+make seed-prod
+```
+
+The script requires `firebase-admin`. The `make seed` targets use the ai-backend's Poetry environment automatically. To run standalone:
+
+```bash
+cd firebase && python -m venv venv && source venv/bin/activate
+pip install firebase-admin google-auth
+python scripts/seed_firestore.py
 ```
 
 ### Seeding with firestore-import (Manual)
@@ -126,7 +143,7 @@ firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
 1. Add the context to `firestore_data/dev/contexts.json`
 2. Create `firestore_data/dev/parties_{context_id}.json`
 3. Create `firestore_data/dev/proposed_questions_{context_id}.json`
-4. Run `python scripts/seed_firestore.py` from `ai-backend/`
+4. Run `python scripts/seed_firestore.py` from `firebase/`
 
 ## Managing Data
 

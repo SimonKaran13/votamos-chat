@@ -1,6 +1,6 @@
 # Development convenience targets for the wahl.chat monorepo
 
-.PHONY: dev dev-web dev-backend install install-web install-backend lint lint-web lint-backend test-backend auth
+.PHONY: dev dev-web dev-backend install install-web install-backend lint lint-web lint-backend test-backend auth seed seed-prod
 
 # --- Install dependencies ---
 
@@ -37,6 +37,14 @@ lint-backend:
 
 test-backend:
 	cd ai-backend && poetry run pytest
+
+# --- Data seeding ---
+
+seed:
+	cd ai-backend && poetry run python ../firebase/scripts/seed_firestore.py
+
+seed-prod:
+	cd ai-backend && ENV=prod poetry run python ../firebase/scripts/seed_firestore.py
 
 # --- Authentication ---
 
