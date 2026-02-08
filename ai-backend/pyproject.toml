@@ -12,7 +12,7 @@ readme = "README.md"
 packages = [
     {include = "src"}
 ]
-repository = "https://github.com/llm-psychology-group/wahl-chat-backend"
+repository = "https://github.com/wahl-chat/wahl-chat-app"
 
 [tool.poetry.dependencies]
 python = ">=3.11 <=3.12"
