@@ -31,12 +31,14 @@ import { useRef, useState } from 'react';
 type ContextSwitcherProps = {
   buildHref: (contextId: string) => string;
   navigationTargetLabel: string;
+  currentAreaLabel?: string;
   filter?: (context: Context) => boolean;
 };
 
 function ContextSwitcher({
   buildHref,
   navigationTargetLabel,
+  currentAreaLabel = 'den aktuellen Bereich',
   filter,
 }: ContextSwitcherProps) {
   const currentContext = useCurrentContext();
@@ -161,11 +163,11 @@ function ContextSwitcher({
                   <span className="font-medium text-foreground">
                     {pendingContext.name}
                   </span>
-                  . Dadurch verlässt du den aktuellen Chat und wirst{' '}
+                  . Dadurch verlässt du {currentAreaLabel} und wirst{' '}
                   {navigationTargetLabel}.
                 </>
               ) : (
-                `Dadurch verlässt du den aktuellen Chat und wirst ${navigationTargetLabel}.`
+                `Dadurch verlässt du ${currentAreaLabel} und wirst ${navigationTargetLabel}.`
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>

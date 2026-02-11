@@ -7,6 +7,7 @@ function WahlSwiperContextSelector() {
     <ContextSwitcher
       buildHref={(contextId) => `/${contextId}/swiper`}
       navigationTargetLabel="zum Wahl-Swiper weitergeleitet"
+      currentAreaLabel="den aktuellen Wahl-Swiper"
       filter={(context) => context.supports_swiper}
     />
   );
