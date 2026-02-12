@@ -18,7 +18,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { getCurrentUser } from '@/lib/firebase/firebase-server';
-import { getUserDetailsFromUser } from '@/lib/utils';
+import { IS_EMBEDDED, getUserDetailsFromUser } from '@/lib/utils';
 import {
   HeartHandshakeIcon,
   HomeIcon,
@@ -32,14 +32,13 @@ import SidebarHistorySr from './sidebar-history-sr';
 import SidebarNewChatButtons from './sidebar-new-chat-buttons';
 
 import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
-import { IS_EMBEDDED } from '@/lib/utils';
 
 type Props = {
   contextId?: string;
 };
 
 async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
-  const user = await getCurrentUser();
+  const user = !IS_EMBEDDED ? await getCurrentUser() : undefined;
 
   const userDetails = user ? getUserDetailsFromUser(user) : undefined;
 
