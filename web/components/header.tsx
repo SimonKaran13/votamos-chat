@@ -1,8 +1,7 @@
 import Logo from '@/components/chat/logo';
 import { getCurrentUser } from '@/lib/firebase/firebase-server';
-import { IS_EMBEDDED, getUserDetailsFromUser } from '@/lib/utils';
+import { getUserDetailsFromUser } from '@/lib/utils';
 import Link from 'next/link';
-import EmbedOpenWebsiteButton from './embed-open-website-button';
 import MobileNavbar from './navbar/mobile-navbar';
 import NavBar from './navbar/navbar';
 
@@ -16,12 +15,6 @@ async function Header() {
         <Link href="/">
           <Logo className="size-12 md:size-16" />
         </Link>
-
-        {IS_EMBEDDED && (
-          <div className="absolute inset-0 flex items-center justify-center md:hidden">
-            <EmbedOpenWebsiteButton />
-          </div>
-        )}
 
         <MobileNavbar userDetails={userDetails} />
         <NavBar className="hidden md:flex" />

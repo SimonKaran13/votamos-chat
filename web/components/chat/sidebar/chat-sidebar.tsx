@@ -32,6 +32,7 @@ import SidebarHistorySr from './sidebar-history-sr';
 import SidebarNewChatButtons from './sidebar-new-chat-buttons';
 
 import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
+import { IS_EMBEDDED } from '@/lib/utils';
 
 type Props = {
   contextId?: string;
@@ -80,24 +81,26 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
           <SidebarGroupLabel>Unterstütze wahl.chat</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <LoginButton
-                  userDetails={userDetails}
-                  userDialogAsChild
-                  noUserChildren={
-                    <SidebarMenuButton>
-                      <UserIcon className="size-4" />
-                      <span>Anmelden</span>
-                    </SidebarMenuButton>
-                  }
-                  userChildren={
-                    <SidebarMenuButton>
-                      <UserIcon className="size-4" />
-                      <span>Account</span>
-                    </SidebarMenuButton>
-                  }
-                />
-              </SidebarMenuItem>
+              {!IS_EMBEDDED && (
+                <SidebarMenuItem>
+                  <LoginButton
+                    userDetails={userDetails}
+                    userDialogAsChild
+                    noUserChildren={
+                      <SidebarMenuButton>
+                        <UserIcon className="size-4" />
+                        <span>Anmelden</span>
+                      </SidebarMenuButton>
+                    }
+                    userChildren={
+                      <SidebarMenuButton>
+                        <UserIcon className="size-4" />
+                        <span>Account</span>
+                      </SidebarMenuButton>
+                    }
+                  />
+                </SidebarMenuItem>
+              )}
               <SidebarMenuItem>
                 <DonationDialog>
                   <SidebarMenuButton>
