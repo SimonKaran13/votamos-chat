@@ -17,7 +17,7 @@ export default function AgentChatMessage({ message, isStreaming }: Props) {
   if (isUser) {
     return (
       <article className="flex flex-col items-end justify-end gap-1">
-        <div className="w-fit max-w-[90%] rounded-[20px] bg-muted px-4 py-2 text-foreground">
+        <div className="w-fit max-w-[90%] rounded-[20px] bg-muted px-4 py-2 text-foreground whitespace-pre-wrap">
           {message.content}
         </div>
       </article>
