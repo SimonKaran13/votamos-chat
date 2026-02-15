@@ -262,16 +262,16 @@
     "proposed_questions/wahl-chat/questions/question_1": {
         "topic": "wahl.chat",
         "location": "chat",
-        "content": "Was kann ich fragen?"
+        "content": "Was kann ich zur Landtagswahl Rheinland-Pfalz fragen?"
     },
     "proposed_questions/wahl-chat/questions/question_2": {
         "topic": "wahl.chat",
         "location": "chat",
-        "content": "Kann ich mehrere Parteien miteinander vergleichen?"
+        "content": "Kann ich mehrere Parteien für die Landtagswahl Rheinland-Pfalz miteinander vergleichen?"
     },
     "proposed_questions/wahl-chat/questions/question_3": {
         "topic": "wahl.chat",
         "location": "chat",
-        "content": "Wie entstehen die Antworten?"
+        "content": "Wie entstehen die Antworten, wenn ich Parteien zur Landtagswahl Rheinland-Pfalz vergleiche?"
     }
 }
