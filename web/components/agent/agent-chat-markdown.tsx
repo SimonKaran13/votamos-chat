@@ -258,17 +258,17 @@ function AgentChatMarkdownComponent({ content, sources }: Props) {
       </Link>
     ),
     h1: ({ children, ...props }) => (
-      <h1 className="mb-2 mt-4 text-lg font-semibold" {...props}>
+      <h1 className="mb-2 mt-4 text-2xl font-semibold" {...props}>
         {children}
       </h1>
     ),
     h2: ({ children, ...props }) => (
-      <h2 className="mb-2 mt-4 text-base font-semibold" {...props}>
+      <h2 className="mb-2 mt-4 text-xl font-semibold" {...props}>
         {children}
       </h2>
     ),
     h3: ({ children, ...props }) => (
-      <h3 className="mb-2 mt-3 text-sm font-semibold" {...props}>
+      <h3 className="mb-2 mt-3 text-lg font-semibold" {...props}>
         {children}
       </h3>
     ),
