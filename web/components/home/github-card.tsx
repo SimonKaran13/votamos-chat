@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 function GitHubCard() {
   return (
-    <div className="flex flex-col rounded-md border border-border md:col-span-2">
+    <div className="flex flex-col rounded-md border border-border">
       <div className="flex grow flex-col justify-between p-4">
         <div>
           <h2 className="font-bold">

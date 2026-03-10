@@ -4,6 +4,7 @@ import GitHubCard from '@/components/home/github-card';
 import HomeInput from '@/components/home/home-input';
 import HowToCard from '@/components/home/how-to-card';
 import KnownFrom from '@/components/home/known-from';
+import OpenCallCard from '@/components/home/open-call-card';
 import SupportUsCard from '@/components/home/support-us-card';
 import {
   getHomeInputProposedQuestions,
@@ -52,6 +53,7 @@ export default async function ContextHome({ params }: Props) {
           <SupportUsCard />
           <ContactCard />
           <GitHubCard />
+          <OpenCallCard />
           <HowToCard />
         </section>
       )}
