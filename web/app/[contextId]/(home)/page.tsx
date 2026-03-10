@@ -4,7 +4,9 @@ import GitHubCard from '@/components/home/github-card';
 import HomeInput from '@/components/home/home-input';
 import HowToCard from '@/components/home/how-to-card';
 import KnownFrom from '@/components/home/known-from';
-import OpenCallCard from '@/components/home/open-call-card';
+import OpenCallCard, {
+  getAvailableOpenCallUrl,
+} from '@/components/home/open-call-card';
 import SupportUsCard from '@/components/home/support-us-card';
 import {
   getHomeInputProposedQuestions,
@@ -22,11 +24,13 @@ type Props = {
 export default async function ContextHome({ params }: Props) {
   const { contextId } = await params;
 
-  const [wahlChatQuestions, systemStatus, user] = await Promise.all([
-    getHomeInputProposedQuestions(),
-    getSystemStatus(),
-    getUser(),
-  ]);
+  const [wahlChatQuestions, systemStatus, user, openCallUrl] =
+    await Promise.all([
+      getHomeInputProposedQuestions(),
+      getSystemStatus(),
+      getUser(),
+      getAvailableOpenCallUrl(),
+    ]);
 
   return (
     <>
@@ -52,8 +56,8 @@ export default async function ContextHome({ params }: Props) {
         <section className="grid w-full grid-cols-1 flex-wrap gap-2 md:grid-cols-2 md:gap-2">
           <SupportUsCard />
           <ContactCard />
-          <GitHubCard />
-          <OpenCallCard />
+          <GitHubCard fullWidth={!openCallUrl} />
+          {openCallUrl && <OpenCallCard url={openCallUrl} />}
           <HowToCard />
         </section>
       )}
