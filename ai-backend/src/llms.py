@@ -46,8 +46,8 @@ google_gemini_3_flash_preview = ChatGoogleGenerativeAI(
     thinking_level="low",  # Set thinking level to low for faster responses
 )
 
-google_gemini_2_5_flash_lite = ChatGoogleGenerativeAI(
-    model="gemini-2.5-flash-lite",
+google_gemini_2_5_flash = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
     api_key=safe_load_api_key("GOOGLE_API_KEY"),
     max_retries=0,
     thinking_budget=0,  # Disable thinking budget for faster responses
@@ -74,8 +74,8 @@ RESPONSE_GENERATION_LLMS: list[LLM] = [
         is_at_rate_limit=False,
     ),
     LLM(
-        name="google-gemini-2.5-flash-lite",
-        model=google_gemini_2_5_flash_lite,
+        name="google-gemini-2.5-flash",
+        model=google_gemini_2_5_flash,
         sizes=[LLMSize.SMALL, LLMSize.LARGE],
         priority=95,
         is_at_rate_limit=False,
