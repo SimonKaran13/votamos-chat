@@ -44,9 +44,8 @@ function OpenCallCard({ url }: { url: string }) {
         <div>
           <h2 className="font-bold">Masterarbeiten mit Impact</h2>
           <p className="mb-4 text-sm text-muted-foreground">
-            Du willst mit deiner Masterarbeit politische Transparenz und die
-            Überprüfbarkeit von Wahlversprechen erforschen und umsetzen? Dann
-            bewirb dich jetzt!
+            Erforsche politische Transparenz und Fact-Checking zusammen mit Open
+            Parliament TV und der University of Cambridge. Bewirb dich jetzt!
           </p>
         </div>
         <Button asChild variant="secondary" className="w-full">
