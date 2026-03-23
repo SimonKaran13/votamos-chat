@@ -6,13 +6,10 @@ import type {
   VotingBehavior,
 } from '@/lib/stores/chat-store.types';
 import { firestoreTimestampToDate, generateUuid } from '@/lib/utils';
-import type { SwiperMessage } from '@/lib/wahl-swiper/wahl-swiper-store.types';
-import type { WahlSwiperResultHistory } from '@/lib/wahl-swiper/wahl-swiper.types';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
   Timestamp,
-  addDoc,
   arrayUnion,
   collection,
   doc,
@@ -23,7 +20,6 @@ import {
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp,
   setDoc,
   updateDoc,
   where,
@@ -349,35 +345,4 @@ export async function userAllowNewsletter(uid: string, allowed: boolean) {
     },
     { merge: true },
   );
-}
-
-export async function saveWahlSwiperHistory(
-  userId: string,
-  history: WahlSwiperResultHistory,
-  chatMessages: Record<string, SwiperMessage[]>,
-  prolificMetadata?: ProlificMetadata | null,
-) {
-  const collectionRef = collection(db, 'wahl_swiper_results');
-
-  const docData: Record<string, unknown> = {
-    user_id: userId,
-    created_at: serverTimestamp(),
-    history,
-    chat_messages: chatMessages,
-  };
-
-  if (prolificMetadata) {
-    docData.prolific_metadata = prolificMetadata;
-    docData.is_prolific_study = true;
-  }
-
-  const docRef = await addDoc(collectionRef, docData);
-
-  return docRef.id;
-}
-
-export async function setWahlSwiperResultToPublic(resultId: string) {
-  await updateDoc(doc(db, 'wahl_swiper_results', resultId), {
-    is_public: true,
-  });
 }

@@ -118,15 +118,6 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  // Legacy /swiper routes → redirect to /{contextId}/swiper
-  if (pathname === '/swiper' || pathname.startsWith('/swiper/')) {
-    const contextId = DEFAULT_CONTEXT_ID;
-    const restPath = pathname.replace('/swiper', '');
-    return NextResponse.redirect(
-      buildRedirectUrl(request, `/${contextId}/swiper${restPath}`),
-    );
-  }
-
   // Legacy /share → redirect to /{contextId}/share
   if (pathname === '/share') {
     const contextId = DEFAULT_CONTEXT_ID;
@@ -161,7 +152,6 @@ export const config = {
     '/',
     '/chat/:path*',
     '/session/:path*',
-    '/swiper/:path*',
     '/share',
     '/sources',
     '/:contextId',

@@ -8,7 +8,6 @@
     "location_name": "Deutschland",
     "is_active": true,
     "icon_url": null,
-    "supports_swiper": true,
     "supports_voting_behavior": true,
     "relevant_area": null
   },
@@ -21,7 +20,6 @@
     "location_name": "Baden-Württemberg",
     "is_active": true,
     "icon_url": null,
-    "supports_swiper": false,
     "supports_voting_behavior": false,
     "relevant_area": "Baden-Württemberg"
   },
@@ -34,7 +32,6 @@
     "location_name": "München",
     "is_active": true,
     "icon_url": null,
-    "supports_swiper": false,
     "supports_voting_behavior": false,
     "relevant_area": "München"
   },
@@ -47,7 +44,6 @@
     "location_name": "Rheinland-Pfalz",
     "is_active": true,
     "icon_url": null,
-    "supports_swiper": false,
     "supports_voting_behavior": false,
     "relevant_area": "Rheinland-Pfalz"
   }

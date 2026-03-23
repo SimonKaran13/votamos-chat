@@ -13,7 +13,6 @@ import { IS_EMBEDDED } from '@/lib/utils';
 import { HelpCircleIcon } from 'lucide-react';
 import ChatEmbedHeader from './chat-embed-header';
 import ChatHeaderTitleDescription from './chat-header-title-description';
-import ChatShareButton from './chat-share-button';
 import CreateNewChatDropdownButton from './create-new-chat-dropdown-button';
 import SocketDisconnectedBanner from './socket-disconnected-banner';
 
@@ -50,7 +49,6 @@ async function ChatHeader({ contextId = DEFAULT_CONTEXT_ID }: Props) {
                 <HelpCircleIcon />
               </Button>
             </HowToDialog>
-            <ChatShareButton contextId={contextId} />
             <CreateNewChatDropdownButton contextId={contextId} />
           </div>
         </div>

@@ -8,13 +8,10 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import TenantProvider from '@/components/providers/tenant-provider';
-import { TENANT_ID_HEADER } from '@/lib/constants';
-import { getTenant } from '@/lib/firebase/firebase-admin';
 import { getUser } from '@/lib/firebase/firebase-server';
 import { productionRobots } from '@/lib/seo';
 import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
-import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://wahl.chat'),
@@ -113,9 +110,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const tenantId = headersList.get(TENANT_ID_HEADER);
-  const tenant = await getTenant(tenantId);
   const user = await getUser();
 
   return (
@@ -155,7 +149,7 @@ export default async function RootLayout({
       <AuthServiceWorkerProvider />
       <TooltipProvider>
         <AnonymousAuthProvider user={user}>
-          <TenantProvider tenant={tenant}>
+          <TenantProvider>
             <body>
               <LazyMotion features={domAnimation}>
                 <ThemeProvider

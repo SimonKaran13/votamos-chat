@@ -26,15 +26,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.9,
     });
-
-    if (context.supports_swiper) {
-      contextPages.push({
-        url: `${baseUrl}/${id}/swiper`,
-        lastModified: now,
-        changeFrequency: 'weekly',
-        priority: 0.7,
-      });
-    }
   }
 
   return [...staticPages, ...contextPages];

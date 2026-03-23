@@ -12,7 +12,6 @@ import {
   firestoreTimestampToDate,
   makeFirebaseUserSerializable,
 } from '@/lib/utils';
-import type { WahlSwiperQuestion } from '@/lib/wahl-swiper/wahl-swiper.types';
 import { initializeServerApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import {
@@ -33,7 +32,6 @@ import type {
   ChatSession,
   Context,
   ExampleQuestionShareableChatSession,
-  FirebaseWahlSwiperResult,
   LlmSystemStatus,
   ProposedQuestion,
   SourceDocument,
@@ -624,47 +622,6 @@ export async function getSystemStatus() {
     } as LlmSystemStatus;
   }
 }
-
-export async function getWahlSwiperHistory(resultId: string) {
-  const serverDb = await getServerFirestore();
-
-  const docRef = doc(serverDb, 'wahl_swiper_results', resultId);
-  const snapshot = await getDoc(docRef);
-
-  return snapshot.data() as FirebaseWahlSwiperResult;
-}
-
-export async function getWahlSwiperThesesImpl() {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const queryRef = query(collection(serverDb, 'wahl_swiper_theses'));
-  const snapshot = await getDocs(queryRef);
-
-  return snapshot.docs.map((doc) => doc.data()) as WahlSwiperQuestion[];
-}
-
-export const getWahlSwiperTheses = cache(getWahlSwiperThesesImpl, undefined, {
-  revalidate: 60 * 60 * 24,
-  tags: [CacheTags.WAHL_SWIPER_THESES],
-});
-
-async function getWahlSwiperThesesForContextImpl(contextId: string) {
-  const serverDb = await getServerFirestore({ useHeaders: false });
-  const queryRef = query(
-    collection(serverDb, 'wahl_swiper_theses', contextId, 'theses'),
-  );
-  const snapshot = await getDocs(queryRef);
-
-  return snapshot.docs.map((doc) => doc.data()) as WahlSwiperQuestion[];
-}
-
-export const getWahlSwiperThesesForContext = cache(
-  getWahlSwiperThesesForContextImpl,
-  undefined,
-  {
-    revalidate: 60 * 60 * 24,
-    tags: [CacheTags.WAHL_SWIPER_THESES],
-  },
-);
 
 export async function getUser() {
   try {

@@ -38,7 +38,6 @@ from src.prompts import (
     build_prompt_context,
     get_chat_answer_guidelines,
     get_wahl_chat_answer_guidelines,
-    get_swiper_answer_guidelines,
     get_party_vote_behavior_summary_guidelines,
     get_quick_reply_guidelines,
     party_response_system_prompt_template,
@@ -65,10 +64,6 @@ from src.prompts import (
     wahl_chat_response_system_prompt_template,
     reranking_system_prompt_template,
     reranking_user_prompt_template,
-    swiper_assistant_system_prompt_template,
-    swiper_assistant_user_prompt_template,
-    generate_swiper_assistant_title_and_quick_replies_system_prompt,
-    generate_swiper_assistant_title_and_quick_replies_user_prompt_str,
 )
 
 from src.models.chat import Message
@@ -699,74 +694,3 @@ def _format_vote_summary(
         - Nicht abgestimmt: {party_result.not_voted}
         - Begründung: {party_result.justification if party_result.justification else "Keine Begründung angegeben."}\n\n
 """
-
-
-async def generate_swiper_assistant_response(
-    current_political_question: str,
-    conversation_history: str,
-    user_message: str,
-    chat_response_llm_size: LLMSize,
-) -> Message:
-    now = datetime.now()
-    answer_guidelines = get_swiper_answer_guidelines()
-    system_prompt = swiper_assistant_system_prompt_template.format(
-        date=now.strftime("%Y-%m-%d"),
-        time=now.strftime("%H:%M"),
-        answer_guidelines=answer_guidelines,
-    )
-
-    user_prompt = swiper_assistant_user_prompt_template.format(
-        current_political_question=current_political_question,
-        conversation_history=conversation_history,
-        user_message=user_message,
-    )
-
-    # Prepare messages with explicit roles
-    messages: list[
-        ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam
-    ] = [
-        ChatCompletionSystemMessageParam(role="system", content=system_prompt),
-        ChatCompletionUserMessageParam(role="user", content=user_prompt),
-    ]
-
-    # perplexity chat completion without streaming
-    model = "sonar" if chat_response_llm_size == LLMSize.SMALL else "sonar-pro"
-    response = await perplexity_client.chat.completions.create(
-        model=model,
-        messages=messages,
-    )
-
-    return build_message_from_perplexity_response(response)
-
-
-async def generate_swiper_assistant_title_and_chick_replies(
-    chat_history_str: str,
-    current_political_question: str,
-) -> GroupChatTitleQuickReplyGenerator:
-    system_prompt = (
-        generate_swiper_assistant_title_and_quick_replies_system_prompt.format(
-            current_political_question=current_political_question,
-            conversation_history=chat_history_str,
-        )
-    )
-
-    user_prompt = (
-        generate_swiper_assistant_title_and_quick_replies_user_prompt_str.format(
-            current_political_question=current_political_question,
-            conversation_history=chat_history_str,
-        )
-    )
-    messages = [
-        SystemMessage(content=system_prompt),
-        HumanMessage(content=user_prompt),
-    ]
-
-    response = await get_structured_output_from_llms(
-        generate_chat_title_and_quick_replies_llms,
-        messages,
-        GroupChatTitleQuickReplyGenerator,
-    )
-    return GroupChatTitleQuickReplyGenerator(
-        chat_title=getattr(response, "chat_title", ""),
-        quick_replies=getattr(response, "quick_replies", []),
-    )

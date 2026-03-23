@@ -10,23 +10,18 @@ import aiohttp_cors
 from aiohttp_pydantic.decorator import inject_params
 
 from src.chatbot_async import (
-    generate_swiper_assistant_response,
-    generate_swiper_assistant_title_and_chick_replies,
     get_improved_rag_query_voting_behavior,
 )
 from src.firebase_service import aget_party_by_id
-from src.models.chat import Message, Role
 from src.models.dtos import (
     ParliamentaryQuestionDto,
     ParliamentaryQuestionRequestDto,
     Status,
     StatusIndicator,
-    WahlChatSwiperAnswerDto,
-    WahlChatSwiperAnswerRequestDto,
 )
 from src.models.vote import Vote
 from src.vector_store_helper import identify_relevant_parliamentary_questions
-from src.utils import build_chat_history_string, get_cors_allowed_origins
+from src.utils import get_cors_allowed_origins
 from src.websocket_app import sio
 
 LOGGING_FORMAT = (
@@ -104,49 +99,6 @@ async def get_parliamentary_question(body: ParliamentaryQuestionRequestDto):
     )
 
     return web.json_response(parliamentary_question_dto.model_dump())
-
-
-@routes.post(f"{route_prefix}/answer-wahl-chat-swiper-question")
-@inject_params
-async def answer_wahl_chat_swiper_question(body: WahlChatSwiperAnswerRequestDto):
-    logger.debug(f"Received request: {body}")
-
-    user_message = Message(
-        role=Role.USER,
-        content=body.user_message,
-    )
-
-    chat_history_str = build_chat_history_string(
-        body.chat_history, [], default_assistant_name="wahl.chat Swiper Assistent"
-    )
-
-    swiper_assistant_response = await generate_swiper_assistant_response(
-        current_political_question=body.current_political_question,
-        conversation_history=chat_history_str,
-        user_message=body.user_message,
-        chat_response_llm_size=body.chat_response_llm_size,
-    )
-
-    chat_history = body.chat_history
-    chat_history.append(user_message)
-    chat_history.append(swiper_assistant_response)
-
-    chat_history_str = build_chat_history_string(
-        chat_history, [], default_assistant_name="wahl.chat Swiper Assistent"
-    )
-
-    title_and_quick_replies = await generate_swiper_assistant_title_and_chick_replies(
-        chat_history_str, body.current_political_question
-    )
-
-    wahl_chat_swiper_answer_dto = WahlChatSwiperAnswerDto(
-        message=swiper_assistant_response,
-        title=title_and_quick_replies.chat_title,
-        quick_replies=title_and_quick_replies.quick_replies,
-    )
-
-    return web.json_response(wahl_chat_swiper_answer_dto.model_dump())
-
 
 app = web.Application(middlewares=[api_key_middleware])
 

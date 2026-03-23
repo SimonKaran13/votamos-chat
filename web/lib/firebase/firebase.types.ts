@@ -1,7 +1,6 @@
 import type { Topic } from '@/components/topics/topics.data';
 import type { LLMSize } from '@/lib/socket.types';
 import type { GroupedMessage } from '@/lib/stores/chat-store.types';
-import type { WahlSwiperResultHistory } from '@/lib/wahl-swiper/wahl-swiper.types';
 import type { ProlificMetadata } from '@/lib/prolific-study/prolific-metadata';
 
 export type ChatSession = {
@@ -29,7 +28,6 @@ export type Context = {
   date: string | null;
   location_name: string;
   is_active: boolean;
-  supports_swiper: boolean;
   supports_voting_behavior: boolean;
 };
 
@@ -76,13 +74,4 @@ export type ExampleQuestionShareableChatSession = {
 
 export type LlmSystemStatus = {
   is_at_rate_limit: boolean;
-};
-
-export type FirebaseWahlSwiperResult = {
-  id: string;
-  user_id: string;
-  created_at: Date;
-  history: WahlSwiperResultHistory;
-  is_prolific_study?: boolean;
-  prolific_metadata?: ProlificMetadata;
 };

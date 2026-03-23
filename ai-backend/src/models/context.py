@@ -50,9 +50,6 @@ class Context(BaseModel):
         True, description="Whether this context is currently active"
     )
     icon_url: str | None = Field(None, description="Icon URL for the context")
-    supports_swiper: bool = Field(
-        ..., description="Whether the context supports the swiper"
-    )
     supports_voting_behavior: bool = Field(
         ..., description="Whether the context supports voting behavior"
     )
