@@ -7,11 +7,9 @@ import KnownFrom from '@/components/home/known-from';
 import OpenCallCard, {
   getAvailableOpenCallUrl,
 } from '@/components/home/open-call-card';
-import SupportUsCard from '@/components/home/support-us-card';
 import {
   getHomeInputProposedQuestions,
   getSystemStatus,
-  getUser,
 } from '@/lib/firebase/firebase-server';
 import { IS_EMBEDDED } from '@/lib/utils';
 
@@ -24,13 +22,11 @@ type Props = {
 export default async function ContextHome({ params }: Props) {
   const { contextId } = await params;
 
-  const [wahlChatQuestions, systemStatus, user, openCallUrl] =
-    await Promise.all([
-      getHomeInputProposedQuestions(),
-      getSystemStatus(),
-      getUser(),
-      getAvailableOpenCallUrl(),
-    ]);
+  const [wahlChatQuestions, systemStatus, openCallUrl] = await Promise.all([
+    getHomeInputProposedQuestions(),
+    getSystemStatus(),
+    getAvailableOpenCallUrl(),
+  ]);
 
   return (
     <>
@@ -42,7 +38,6 @@ export default async function ContextHome({ params }: Props) {
         className="hidden md:block"
         questions={wahlChatQuestions}
         initialSystemStatus={systemStatus}
-        hasValidServerUser={!user?.isAnonymous}
         contextId={contextId}
       />
 
@@ -54,7 +49,6 @@ export default async function ContextHome({ params }: Props) {
         </section>
       ) : (
         <section className="grid w-full grid-cols-1 flex-wrap gap-2 md:grid-cols-2 md:gap-2">
-          <SupportUsCard />
           <ContactCard />
           <GitHubCard fullWidth={!openCallUrl} />
           {openCallUrl && <OpenCallCard url={openCallUrl} />}
@@ -66,7 +60,6 @@ export default async function ContextHome({ params }: Props) {
         className="md:hidden"
         questions={wahlChatQuestions}
         initialSystemStatus={systemStatus}
-        hasValidServerUser={!user?.isAnonymous}
         contextId={contextId}
       />
     </>

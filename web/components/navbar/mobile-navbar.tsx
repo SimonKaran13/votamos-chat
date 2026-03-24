@@ -1,16 +1,11 @@
 'use client';
 
-import type { UserDetails } from '@/lib/utils';
 import * as Dialog from '@radix-ui/react-dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { useState } from 'react';
 import MobileNavbarItems from './mobile-navbar-items';
 
-type Props = {
-  userDetails?: UserDetails;
-};
-
-function MobileNavbar({ userDetails }: Props) {
+function MobileNavbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -39,10 +34,7 @@ function MobileNavbar({ userDetails }: Props) {
             <Dialog.Description>Dialog Description</Dialog.Description>
           </VisuallyHidden>
 
-          <MobileNavbarItems
-            userDetails={userDetails}
-            mobileClose={handleClose}
-          />
+          <MobileNavbarItems mobileClose={handleClose} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

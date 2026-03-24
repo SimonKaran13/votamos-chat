@@ -1,7 +1,5 @@
-import LoginButton from '@/components/auth/login-button';
 import Logo from '@/components/chat/logo';
 import { ThemeModeToggle } from '@/components/chat/theme-mode-toggle';
-import DonationDialog from '@/components/donation-dialog';
 import FeedbackDialog from '@/components/feedback-dialog';
 import LoadingSpinner from '@/components/loading-spinner';
 import { Button } from '@/components/ui/button';
@@ -17,14 +15,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { getCurrentUser } from '@/lib/firebase/firebase-server';
-import { IS_EMBEDDED, getUserDetailsFromUser } from '@/lib/utils';
-import {
-  HeartHandshakeIcon,
-  HomeIcon,
-  MessageCircleIcon,
-  UserIcon,
-} from 'lucide-react';
+import { HomeIcon, MessageCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import ChatSidebarGroupSelect from './chat-sidebar-group-select';
@@ -38,10 +29,6 @@ type Props = {
 };
 
 async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
-  const user = !IS_EMBEDDED ? await getCurrentUser() : undefined;
-
-  const userDetails = user ? getUserDetailsFromUser(user) : undefined;
-
   return (
     <Sidebar
       mobileVisuallyHiddenTitle="wahl.chat"
@@ -77,37 +64,9 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Unterstütze wahl.chat</SidebarGroupLabel>
+          <SidebarGroupLabel>Feedback</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {!IS_EMBEDDED && (
-                <SidebarMenuItem>
-                  <LoginButton
-                    userDetails={userDetails}
-                    userDialogAsChild
-                    noUserChildren={
-                      <SidebarMenuButton>
-                        <UserIcon className="size-4" />
-                        <span>Anmelden</span>
-                      </SidebarMenuButton>
-                    }
-                    userChildren={
-                      <SidebarMenuButton>
-                        <UserIcon className="size-4" />
-                        <span>Account</span>
-                      </SidebarMenuButton>
-                    }
-                  />
-                </SidebarMenuItem>
-              )}
-              <SidebarMenuItem>
-                <DonationDialog>
-                  <SidebarMenuButton>
-                    <HeartHandshakeIcon className="size-4 text-red-400" />
-                    <span>Spenden</span>
-                  </SidebarMenuButton>
-                </DonationDialog>
-              </SidebarMenuItem>
               <SidebarMenuItem>
                 <FeedbackDialog>
                   <SidebarMenuButton>

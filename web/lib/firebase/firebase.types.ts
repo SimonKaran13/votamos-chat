@@ -1,7 +1,6 @@
 import type { Topic } from '@/components/topics/topics.data';
 import type { LLMSize } from '@/lib/socket.types';
 import type { GroupedMessage } from '@/lib/stores/chat-store.types';
-import type { ProlificMetadata } from '@/lib/prolific-study/prolific-metadata';
 
 export type ChatSession = {
   id: string;

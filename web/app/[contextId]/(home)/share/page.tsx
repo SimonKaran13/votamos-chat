@@ -6,7 +6,6 @@ type Props = {
   }>;
   searchParams: Promise<{
     snapshot_id: string;
-    ref?: InternalReferrers;
   }>;
 };
 

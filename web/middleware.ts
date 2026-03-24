@@ -14,8 +14,6 @@ const STATIC_PAGES = [
   '/about-us',
   '/how-to',
   '/budget-spent',
-  '/login',
-  '/donate',
   '/topics',
   '/api',
   '/pdf',

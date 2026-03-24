@@ -1,15 +1,12 @@
+import ChatProlificWrapper from '@/components/chat/chat-prolific-wrapper';
 import AiDisclaimer from '@/components/legal/ai-disclaimer';
 import LoadingSpinner from '@/components/loading-spinner';
 import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
-import {
-  getCurrentUser,
-  getSystemStatus,
-} from '@/lib/firebase/firebase-server';
+import { getSystemStatus } from '@/lib/firebase/firebase-server';
 import { Suspense } from 'react';
 import ChatDynamicChatInput from './chat-dynamic-chat-input';
 import ChatScrollDownIndicator from './chat-scroll-down-indicator';
 import ChatViewSsr from './chat-view-ssr';
-import ChatProlificWrapper from "@/components/chat/chat-prolific-wrapper";
 
 type Props = {
   sessionId?: string;
@@ -25,7 +22,6 @@ async function ChatView({
   contextId = DEFAULT_CONTEXT_ID,
 }: Props) {
   const systemStatus = await getSystemStatus();
-  const user = await getCurrentUser();
 
   return (
     <section className="relative mx-auto flex size-full max-w-2xl flex-col overflow-hidden">
@@ -50,10 +46,7 @@ async function ChatView({
       <div className="relative px-3 md:px-4">
         <ChatProlificWrapper />
         <ChatScrollDownIndicator />
-        <ChatDynamicChatInput
-          initialSystemStatus={systemStatus}
-          hasValidServerUser={!user?.isAnonymous}
-        />
+        <ChatDynamicChatInput initialSystemStatus={systemStatus} />
         <AiDisclaimer />
       </div>
     </section>

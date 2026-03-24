@@ -1,17 +1,13 @@
-import LoginButton from '@/components/auth/login-button';
-import UserAvatar from '@/components/auth/user-avatar';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { type UserDetails, cn } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import type { NavbarItemDetails } from './navbar-item';
 import NavbarItem from './navbar-item';
 
 type Props = {
-  userDetails?: UserDetails;
   mobileClose?: () => void;
 };
 
-function MobileNavbarItems({ userDetails, mobileClose }: Props) {
+function MobileNavbarItems({ mobileClose }: Props) {
   const tabs: NavbarItemDetails[] = [
     {
       label: 'Startseite',
@@ -28,10 +24,6 @@ function MobileNavbarItems({ userDetails, mobileClose }: Props) {
     //   icon: <SparklesIcon className="size-3" />,
     // },
     {
-      label: 'Unterstütze uns',
-      href: '/donate',
-    },
-    {
       label: 'Über uns',
       href: '/about-us',
     },
@@ -46,17 +38,7 @@ function MobileNavbarItems({ userDetails, mobileClose }: Props) {
       {tabs.map((tab) => (
         <NavbarItem key={tab.href} details={tab} mobileClose={mobileClose} />
       ))}
-
       <Separator orientation="horizontal" className="my-4 w-1/2" />
-      <LoginButton
-        userDetails={userDetails}
-        noUserChildren={
-          <Button variant="default" size="sm">
-            Anmelden
-          </Button>
-        }
-        userChildren={<UserAvatar details={userDetails} />}
-      />
     </nav>
   );
 }

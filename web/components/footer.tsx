@@ -17,7 +17,6 @@ function Footer() {
 
       <section className="flex grow flex-wrap items-center justify-center gap-2 underline md:justify-end">
         <Link href="/how-to">Anleitung</Link>
-        <Link href="/donate">Spenden</Link>
         <Link href="/about-us">Über uns</Link>
         <Link href={sourcesHref}>Quellen</Link>
         <Link href={PRESS_LINK} target="_blank">

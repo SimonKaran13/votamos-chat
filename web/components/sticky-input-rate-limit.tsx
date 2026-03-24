@@ -1,6 +1,4 @@
 'use client';
-import LoginButton from '@/components/auth/login-button';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef, useState } from 'react';
 import MessageLoadingBorderTrail from './chat/message-loading-border-trail';
@@ -89,17 +87,9 @@ function StickyInputRateLimit({
             <h2 className="font-bold">Server derzeit ausgelastet!</h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            Chatte mit den vorgeschlagenen Fragen weiter oder{' '}
-            <span className="font-bold">melde dich an</span>, um eigene Fragen
-            zu stellen.
+            Chatte mit den vorgeschlagenen Fragen weiter oder versuche es in
+            wenigen Minuten erneut.
           </p>
-          <LoginButton
-            noUserChildren={
-              <Button size="sm" className="mt-2">
-                Anmelden
-              </Button>
-            }
-          />
         </section>
 
         {isLoading && <MessageLoadingBorderTrail />}

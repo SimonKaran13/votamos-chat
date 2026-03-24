@@ -1,6 +1,3 @@
-import DonationDialog from '@/components/donation-dialog';
-import { Button } from '@/components/ui/button';
-import { HeartHandshakeIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -111,22 +108,6 @@ function AboutUs() {
           Themenvorschlag direkt bei{' '}
           <a href="mailto:robin@wahl.chat">robin@wahl.chat</a>
         </p>
-
-        <div className="flex items-center justify-between gap-4 rounded-md border border-border p-4">
-          <div className="flex flex-col">
-            <h2 className="font-bold">Unterstütze uns</h2>
-            <p className="text-sm text-muted-foreground">
-              Hilf uns, laufende Kosten für die KI zu decken!
-            </p>
-          </div>
-
-          <DonationDialog>
-            <Button>
-              <HeartHandshakeIcon />
-              Spenden
-            </Button>
-          </DonationDialog>
-        </div>
       </section>
     </div>
   );

@@ -8,7 +8,6 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import TenantProvider from '@/components/providers/tenant-provider';
-import { getUser } from '@/lib/firebase/firebase-server';
 import { productionRobots } from '@/lib/seo';
 import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
@@ -105,13 +104,11 @@ const THEME_COLOR_SCRIPT = `\
   updateThemeColor();
 })();`;
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getUser();
-
   return (
     <html lang="de" suppressHydrationWarning>
       <head>
@@ -148,7 +145,7 @@ export default async function RootLayout({
       </head>
       <AuthServiceWorkerProvider />
       <TooltipProvider>
-        <AnonymousAuthProvider user={user}>
+        <AnonymousAuthProvider user={null}>
           <TenantProvider>
             <body>
               <LazyMotion features={domAnimation}>

@@ -9,13 +9,22 @@ import {
 } from '@/components/ui/tooltip';
 import { MinusIcon, PlusIcon, ShieldAlert } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import type { PDFDocumentProxy } from 'pdfjs-dist';
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  type ComponentProps,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { FixedSizeList as List } from 'react-window';
+
+type OnDocumentLoadSuccess = NonNullable<
+  ComponentProps<typeof Document>['onLoadSuccess']
+>;
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
@@ -48,7 +57,7 @@ function PDFView() {
     }
   };
 
-  const onDocumentLoadSuccess = ({ numPages }: PDFDocumentProxy): void => {
+  const onDocumentLoadSuccess: OnDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
 
     if (page) {
