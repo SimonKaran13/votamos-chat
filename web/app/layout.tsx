@@ -12,15 +12,18 @@ import { productionRobots } from '@/lib/seo';
 import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
 
+const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000';
+const APP_NAME = 'votamos';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://wahl.chat'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'wahl.chat - Politik interaktiv verstehen',
-    template: '%s | wahl.chat',
+    default: `${APP_NAME} - Politik interaktiv verstehen`,
+    template: `%s | ${APP_NAME}`,
   },
   description:
     'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-  applicationName: 'wahl.chat',
+  applicationName: APP_NAME,
   keywords: [
     'Wahl Chat',
     'Wahl',
@@ -58,25 +61,23 @@ export const metadata: Metadata = {
   robots: productionRobots,
   openGraph: {
     title: {
-      default: 'wahl.chat - Politik interaktiv verstehen',
-      template: '%s | wahl.chat - Politik interaktiv verstehen',
+      default: `${APP_NAME} - Politik interaktiv verstehen`,
+      template: `%s | ${APP_NAME} - Politik interaktiv verstehen`,
     },
     description:
       'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['https://wahl.chat/images/logo.webp'],
-    url: 'https://wahl.chat',
-    siteName: 'wahl.chat',
+    images: [`${SITE_URL}/images/logo.webp`],
+    url: SITE_URL,
+    siteName: APP_NAME,
     locale: 'de-DE',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@wahl_chat',
-    creator: '@wahl_chat',
-    title: 'wahl.chat - Politik interaktiv verstehen',
+    title: `${APP_NAME} - Politik interaktiv verstehen`,
     description:
       'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
-    images: ['https://wahl.chat/images/logo.webp'],
+    images: [`${SITE_URL}/images/logo.webp`],
   },
 };
 
@@ -125,15 +126,15 @@ export default function RootLayout({
               '@graph': [
                 {
                   '@type': 'Organization',
-                  name: 'wahl.chat',
-                  url: 'https://wahl.chat',
+                  name: APP_NAME,
+                  url: SITE_URL,
                   description:
                     'Politische Informationsplattform – Parteipositionen interaktiv vergleichen.',
                 },
                 {
                   '@type': 'WebSite',
-                  name: 'wahl.chat',
-                  url: 'https://wahl.chat',
+                  name: APP_NAME,
+                  url: SITE_URL,
                   inLanguage: 'de',
                   description:
                     'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen.',

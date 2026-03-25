@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const partyIds = request.nextUrl.searchParams.getAll('party_id');
   const contextId = request.nextUrl.searchParams.get('context_id')?.trim();
 
-  const url = new URL('https://embed.wahl.chat', request.url);
+  const url = new URL(process.env.SITE_URL ?? request.url);
 
   if (contextId) {
     const encodedContextId = encodeURIComponent(contextId);

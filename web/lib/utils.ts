@@ -159,8 +159,10 @@ export async function generateOgImageUrl(sessionType: string) {
   }
 
   let party: PartyDetails | undefined;
+  const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
+
   try {
-    const response = await fetch(`${process.env.SITE_URL}/api/parties`);
+    const response = await fetch(`${siteUrl}/api/parties`);
     if (!response.ok) {
       throw new Error('Failed to fetch parties');
     }
@@ -176,13 +178,11 @@ export async function generateOgImageUrl(sessionType: string) {
     return;
   }
 
-  const url = new URL(process.env.SITE_URL ?? 'https://wahl.chat');
+  const url = new URL(siteUrl);
   const imageUrl = new URL('/api/og', url);
   imageUrl.searchParams.set(
     'partyImageUrl',
-    `${process.env.SITE_URL ?? 'https://wahl.chat'}${buildPartyImageUrl(
-      party.party_id,
-    )}`,
+    `${siteUrl}${buildPartyImageUrl(party.party_id)}`,
   );
   imageUrl.searchParams.set(
     'backgroundColor',

@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://wahl.chat',
+  siteUrl: process.env.SITE_URL || 'http://localhost:3000',
   generateRobotsTxt: true,
   sitemapSize: 7000,
 };

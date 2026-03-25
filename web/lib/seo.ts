@@ -1,9 +1,12 @@
 import type { Context } from '@/lib/firebase/firebase.types';
 import type { Metadata } from 'next';
 
-const BASE_URL = 'https://wahl.chat';
+const DEFAULT_BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.SITE_URL ?? DEFAULT_BASE_URL;
 
-const IS_PRODUCTION = process.env.SITE_URL === 'https://wahl.chat';
+const IS_PRODUCTION =
+  process.env.NODE_ENV === 'production' &&
+  process.env.VERCEL_ENV === 'production';
 
 export const productionRobots = IS_PRODUCTION
   ? 'index, follow'
@@ -48,7 +51,7 @@ export function buildContextJsonLd(context: Context) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: `${context.name} – wahl.chat`,
+    name: `${context.name} – votamos`,
     description:
       context.date !== null && context.date.length > 0
         ? `Parteipositionen für ${context.name} in ${context.location_name} vergleichen.`
@@ -56,7 +59,7 @@ export function buildContextJsonLd(context: Context) {
     url: `${BASE_URL}/${context.context_id}`,
     isPartOf: {
       '@type': 'WebSite',
-      name: 'wahl.chat',
+      name: 'votamos',
       url: BASE_URL,
     },
   };
