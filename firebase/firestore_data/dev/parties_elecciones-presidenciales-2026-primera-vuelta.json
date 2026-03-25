@@ -1,0 +1,14 @@
+{
+  "pacto": {
+    "is_already_in_parliament": true,
+    "candidate": "Iván Cepeda y Aida Quilcué",
+    "background_color": "#8F3292",
+    "website_url": "https://www.movimientopactohistorico.co/",
+    "party_id": "pacto",
+    "name": "Pacto Histórico",
+    "description": "El Pacto Histórico es una coalición política progresista en Colombia.",
+    "election_manifesto_url": "https://www.movimientopactohistorico.co/docs/programa-gobierno-2026-2030.pdf",
+    "long_name": "Pacto Histórico",
+    "logo_src": ""
+  }
+}
