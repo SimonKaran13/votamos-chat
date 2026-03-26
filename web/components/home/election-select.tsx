@@ -125,7 +125,7 @@ export function ElectionSelect() {
       <div
         className="flex w-full items-center gap-2 rounded-lg border border-border bg-muted/50 px-3 py-2"
         role="status"
-        aria-label={`Aktuelle Wahl: ${currentContext.name}`}
+        aria-label={`Elección actual: ${currentContext.name}`}
       >
         <CompactElectionContent context={currentContext} />
       </div>
@@ -139,18 +139,18 @@ export function ElectionSelect() {
     >
       <SelectTrigger
         className="h-auto w-full border-border bg-muted/50 px-3 py-2 [&>svg]:size-4 [&>svg]:text-muted-foreground"
-        aria-label={`Wahl auswählen. Aktuell ausgewählt: ${currentContext.name}`}
+        aria-label={`Seleccionar elección. Actualmente seleccionada: ${currentContext.name}`}
       >
         <CompactElectionContent context={currentContext} />
       </SelectTrigger>
       <SelectContent
         className="max-w-[calc(100vw-2rem)]"
-        aria-label="Verfügbare Wahlen"
+        aria-label="Elecciones disponibles"
       >
         {upcomingElections.map((ctx) => {
           const isSelected = ctx.context_id === currentContext.context_id;
           const formattedDate = formatGermanDate(ctx.date, 'long');
-          const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (ausgewählt)' : ''}`;
+          const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (seleccionada)' : ''}`;
 
           return (
             <SelectItem
@@ -169,12 +169,12 @@ export function ElectionSelect() {
             <SelectSeparator className="bg-border/50" />
             <SelectGroup>
               <SelectLabel className="pl-3 text-xs font-normal text-muted-foreground/70">
-                Vergangene Wahlen
+                Elecciones pasadas
               </SelectLabel>
               {pastElections.map((ctx) => {
                 const isSelected = ctx.context_id === currentContext.context_id;
                 const formattedDate = formatGermanDate(ctx.date, 'long');
-                const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (ausgewählt)' : ''}`;
+                const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (seleccionada)' : ''}`;
 
                 return (
                   <SelectItem

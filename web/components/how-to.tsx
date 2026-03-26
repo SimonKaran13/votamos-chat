@@ -25,58 +25,57 @@ import { Button } from './ui/button';
 
 // Content configuration - single source of truth
 const PARTY_SPECIFIC_QUESTIONS = [
-  'Was ist die Position der SPD zu Klimaschutz?',
-  'Wie steht die AfD zur Schuldenbremse?',
-  'Wie will die CDU/CSU Bürokratie reduzieren?',
-  'Wie wollen die Grünen die Digitalisierung vorantreiben?',
-  'Wie wollen die FDP und die Linke die Arbeitszeitreform umsetzen?',
-  'Wie wollen Volt und die FDP europäische Zusammenarbeit verbessern?',
+  '¿Cuál es la posición del SPD sobre el cambio climático?',
+  '¿Qué postura tiene el AfD sobre el freno de deuda?',
+  '¿Cómo quiere la CDU/CSU reducir la burocracia?',
+  '¿Cómo quieren los Verdes impulsar la digitalización?',
+  '¿Cómo quieren el FDP y Die Linke implementar la reforma laboral?',
+  '¿Cómo quieren Volt y el FDP mejorar la cooperación europea?',
 ];
 
 const COMPARE_QUESTIONS = [
-  'Wie unterscheiden sich die Parteien im Kampf gegen den Klimawandel?',
-  'Wie unterscheiden sich die Positionen der CDU/CSU und der SPD zum Thema Schuldenbremse?',
-  'Vergleiche die Positionen der FDP und AfD zum Thema Migration.',
+  '¿En qué se diferencian los partidos en la lucha contra el cambio climático?',
+  '¿En qué se diferencian las posiciones de la CDU/CSU y el SPD sobre el freno de deuda?',
+  'Compara las posiciones del FDP y AfD sobre el tema de la migración.',
 ];
 
 const GENERAL_QUESTIONS = [
-  'Wie kann ich Briefwahl beantragen?',
-  'Wer steht hinter wahl.chat?',
-  'Wie funktioniert Briefwahl?',
+  '¿Cómo puedo solicitar el voto por correo?',
+  '¿Quién está detrás de votamos.chat?',
+  '¿Cómo funciona el voto por correo?',
 ];
 
 const INTRO_TEXT = {
-  main: 'wahl.chat ist ein interaktives KI-Tool, das dir hilft, dich über die Positionen und Pläne der Parteien zu informieren. Du kannst dem KI-Assistenten Fragen zu verschiedenen politischen Themen stellen, und er liefert dir neutrale Antworten basierend auf den Wahlprogrammen und weiteren Veröffentlichungen der Parteien.',
+  main: 'votamos.chat es una herramienta interactiva de IA que te ayuda a informarte sobre las posiciones y planes de los partidos y candidatos políticos. Puedes hacerle preguntas al asistente de IA sobre diversos temas políticos, y te dará respuestas neutrales basadas en los programas de gobierno y otras publicaciones de los partidos.',
   sources:
-    'Alle Antworten sind mit den entsprechenden Quellen versehen und nutzen für die ausgewählte Wahl relevante Dokumente.',
+    'Todas las respuestas incluyen las fuentes correspondientes y utilizan documentos relevantes para la elección correspondiente.',
 };
 
 const PROCESS_STEPS = [
-  'Du stellst eine Frage',
-  'wahl.chat durchsucht relevante Dokumente wie Wahl- und Grundsatzprogramme, um die passenden Informationen zu finden.',
-  'Die relevanten Informationen werden dann genutzt, um eine verständliche und quellenbasierte Antwort zu generieren.',
-  'Du kannst dir nun die Position der Partei einordnen lassen, indem du auf den Knopf unter der Antwort klickst.',
-  'Falls uns das Abstimmungsverhalten der Partei vorliegt, kannst du die Antwort auch mit passenden Gesetzesvorschlägen abgleichen.',
+  'Haces una pregunta',
+  'votamos.chat busca en documentos relevantes como programas electorales y de partido para encontrar la información adecuada.',
+  'La información relevante se utiliza para generar una respuesta comprensible y basada en fuentes.',
+  'Ahora puedes clasificar la posición del partido haciendo clic en el botón debajo de la respuesta.',
 ];
 
 const ACCORDION_CONTENT = [
   {
     id: 'questions',
-    title: 'Welche Fragen kann ich stellen?',
+    title: '¿Qué preguntas puedo hacer?',
     content: {
       intro:
-        'Grundsätzlich kannst du alle Fragen stellen, die du zu den Positionen der Parteien hast. Falls du mehrere Parteien miteinander vergleichen willst, kannst du sie entweder dem Chat hinzufügen oder sie einfach in der Frage erwähnen. Des Weiteren kannst du auch Fragen zu generellen Themen wie dem Ablauf einer Wahl stellen.',
+        'En principio, puedes hacer todas las preguntas que tengas sobre las posiciones de los partidos. Si quieres comparar varios partidos entre sí, puedes agregarlos al chat o simplemente mencionarlos en la pregunta. Además, puedes hacer preguntas sobre temas generales como el proceso electoral.',
       sections: [
         {
-          subtitle: 'Beispiele für Partei-spezifische Fragen:',
+          subtitle: 'Ejemplos de preguntas específicas de partido:',
           list: PARTY_SPECIFIC_QUESTIONS,
         },
         {
-          subtitle: 'Beispiele für vergleichende Fragen:',
+          subtitle: 'Ejemplos de preguntas comparativas:',
           list: COMPARE_QUESTIONS,
         },
         {
-          subtitle: 'Beispiele für allgemeine Fragen:',
+          subtitle: 'Ejemplos de preguntas generales:',
           list: GENERAL_QUESTIONS,
         },
       ],
@@ -84,156 +83,157 @@ const ACCORDION_CONTENT = [
   },
   {
     id: 'elections-supported',
-    title: 'Welche Wahlen werden unterstützt?',
+    title: '¿Qué elecciones están soportadas?',
     content: {
-      intro: 'Aktuell unterstützen wir folgende Wahlen:',
+      intro: 'Actualmente soportamos las siguientes elecciones:',
       list: [
         'Landtagswahl Baden-Württemberg - 8. März 2026',
         'Landtagswahl Rheinland-Pfalz - 22. März 2026',
         'Kommunalwahl München - 8. März 2026',
       ],
       outro:
-        'Zusätzlich können im Bereich **Bundesebene** allgemeine Informationen über die Positionen der Parteien beantwortet werden.',
+        'Adicionalmente, en la sección **Nacional** se pueden responder preguntas generales sobre las posiciones de los partidos.',
     },
   },
   {
     id: 'number-parties',
-    title: 'Mit wie vielen Parteien kann ich chatten?',
+    title: '¿Con cuántos partidos puedo chatear?',
     content: {
       paragraphs: [
-        `Du kannst den Chat mit bis zu ${MAX_SELECTABLE_PARTIES} Parteien gleichzeitig starten, hast aber die Möglichkeit, während des Chattens noch weitere Parteien anzusprechen.`,
-        'Des Weiteren kannst du ganz einfach durch den Plus-Knopf über dem Textfeld weitere Parteien zum Chat hinzufügen oder auch wieder entfernen.',
+        `Puedes iniciar el chat con hasta ${MAX_SELECTABLE_PARTIES} partidos simultáneamente, pero tienes la posibilidad de agregar más partidos durante la conversación.`,
+        'Además, puedes agregar o eliminar fácilmente más partidos al chat mediante el botón sobre el campo de texto.',
       ],
     },
   },
   {
     id: 'position',
-    title: 'Position einordnen',
+    title: 'Clasificar posición',
     content: {
       paragraphs: [
-        'Wenn du diesen Knopf unter einer der Nachrichten klickst, wird die Position der Nachricht eingeordnet. Dabei werden die folgenden Kriterien berücksichtigt: Machbarkeit, kurzfristige und langfristige Effekte.',
-        'Hierbei nutzen wir aktuelle Informationen und Quellen aus dem Internet, die uns von Perplexity.ai zur Verfügung gestellt werden.',
+        'Cuando haces clic en este botón debajo de uno de los mensajes, se clasifica la posición del mensaje. Se tienen en cuenta los siguientes criterios: viabilidad, efectos a corto y largo plazo.',
+        'Para esto utilizamos información actual y fuentes de internet proporcionadas por Perplexity.ai.',
       ],
     },
   },
   {
     id: 'voting-behavior-analyze',
-    title: 'Abstimmungsverhalten analysieren',
+    title: 'Analizar comportamiento de votación',
     content: {
       paragraphs: [
-        'Mit dieser Funktion kannst du die Antwort einer Partei im Kontext vergangener Abstimmungen im Bundestag einordnen. Darüber hinaus kannst du durch einen Klick auf "Abstimmungen anzeigen" detaillierte Informationen zu den relevanten Abstimmungen anzeigen und visualisieren lassen. Dies ermöglicht es, die Pläne einer Partei laut ihrem Programm anhand ihres realpolitischen Verhaltens einzuordnen.',
+        'Con esta función puedes contextualizar la respuesta de un partido en el marco de votaciones pasadas en el parlamento. Además, haciendo clic en "Mostrar votaciones" puedes visualizar información detallada sobre las votaciones relevantes. Esto permite evaluar los planes de un partido según su programa en función de su comportamiento político real.',
       ],
     },
   },
   {
     id: 'data',
-    title: 'Welche Daten werden verwendet?',
+    title: '¿Qué datos se utilizan?',
     content: {
       intro:
-        'Um fundierte und quellenbasierte Antworten zu liefern, verwendet wahl.chat eine Vielzahl von Datenquellen:',
+        'Para ofrecer respuestas fundamentadas y basadas en fuentes, votamos.chat utiliza una variedad de fuentes de datos:',
       orderedList: [
-        'Parteidokumente: Als Datenbasis werden Grundsatzprogramme, Wahlprogramme, Positionspapiere und weitere von den Parteien stammende Dokumente herangezogen, um ein umfassendes Bild der Parteipositionen zu erhalten.',
-        'Abstimmungsverhalten im Bundestag: Für die Analyse des Abstimmungsverhaltens nutzen wir Daten zu Bundestagsabstimmungen, die über abgeordnetenwatch.de bereitgestellt werden. Diese Daten ermöglichen es, Parteipositionen mit ihrem realpolitischen Verhalten abzugleichen.',
-        'Internetquellen für die Einordnung von Positionen: Für die differenzierte Einordnung von Positionen nutzt wahl.chat den Dienst Perplexity.ai, der hochwertige Internetquellen wie Nachrichtenseiten verwendet.',
+        'Documentos de los partidos: Como base de datos se utilizan programas de principios, programas electorales, documentos de posición y otros documentos de los partidos para obtener una imagen completa de sus posiciones.',
+        'Comportamiento de votación en el parlamento: Para el análisis del comportamiento de votación utilizamos datos de votaciones parlamentarias proporcionados por abgeordnetenwatch.de. Estos datos permiten comparar las posiciones de los partidos con su comportamiento político real.',
+        'Fuentes de internet para la clasificación de posiciones: Para la clasificación diferenciada de posiciones, votamos.chat utiliza el servicio Perplexity.ai, que emplea fuentes de internet de alta calidad como sitios de noticias.',
       ],
       outro:
-        'Wir haben alle Quellen, die wahl.chat nutzt, auf unserer Webseite unter /sources aufgelistet.',
+        'Hemos listado todas las fuentes que utiliza votamos.chat en nuestra página web bajo /sources.',
     },
   },
   {
     id: 'guidelines',
-    title: 'Welchen Leitlinien folgt wahl.chat in seinen Antworten?',
+    title: '¿Qué directrices sigue votamos.chat en sus respuestas?',
     content: {
-      intro: 'Folgende Leitlinien gelten für die Antworten in den Chats:',
+      intro:
+        'Las siguientes directrices aplican para las respuestas en los chats:',
       orderedList: [
-        'Quellenbasiert: Die Antworten sollen auf den relevanten Aussagen aus den bereitgestellten Programmauszügen beruhen.',
-        'Neutralität: Parteipositionen sollen neutral und ohne Wertung wiedergegeben werden.',
-        'Transparenz: Zu jeder Aussage sollen direkt die relevanten Quellen verlinkt werden, um eine detaillierte Betrachtung und Überprüfung des Inhalts zu ermöglichen.',
+        'Basado en fuentes: Las respuestas deben basarse en las declaraciones relevantes de los extractos de programas proporcionados.',
+        'Neutralidad: Las posiciones de los partidos deben reproducirse de forma neutral y sin valoraciones.',
+        'Transparencia: A cada declaración se deben vincular directamente las fuentes relevantes para permitir una revisión y verificación detallada del contenido.',
       ],
     },
   },
   {
     id: 'party-selection',
-    title: 'Nach welchen Kriterien werden die Parteien ausgewählt?',
+    title: '¿Según qué criterios se seleccionan los partidos?',
     content: {
       paragraphs: [
-        'Die ursprüngliche Auswahl der Parteien für den bundesweiten Kontext erfolgte vor der Bundestagswahl 2025 und orientierte sich an der Veröffentlichung ihrer Wahlprogramme. Wir wollen nun nach und nach auch für die anderen unterstützten Wahlen eine möglichst vollständige Parteienauswahl anbieten und freuen uns dafür über deine Mithilfe.',
-        'Solltest du eine Partei vermissen, schreibe uns gerne eine E-Mail mit ihrem Wahl- oder Grundsatzprogramm oder anderen relevanten Dokumenten als PDF an info@wahl.chat, und wir werden sie so schnell wie möglich ergänzen.',
+        'La selección original de partidos para el contexto federal se realizó antes de las elecciones federales de 2025 y se orientó a la publicación de sus programas electorales. Ahora queremos ofrecer gradualmente una selección de partidos lo más completa posible para las demás elecciones soportadas y agradecemos tu ayuda para ello.',
+        'Si echas en falta algún partido, escríbenos un correo con su programa electoral o de principios u otros documentos relevantes en PDF a info@wahl.chat y lo añadiremos lo antes posible.',
       ],
     },
   },
   {
     id: 'about-founders',
-    title: 'Wer steckt hinter wahl.chat und wie kam es dazu?',
+    title: '¿Quién está detrás de votamos.chat y cómo surgió?',
     content: {
       intro:
-        'Gegründet wurde wahl.chat von fünf Studierenden der LMU, TUM und University of Cambridge. Sie kamen für ein gemeinsames Forschungsprojekt zum Thema KI in Cambridge zusammen und haben mittlerweile ihre Studien abgeschlossen.',
+        'votamos.chat fue fundada por cinco estudiantes de la LMU, TUM y la Universidad de Cambridge. Se reunieron para un proyecto de investigación conjunto sobre IA en Cambridge y desde entonces han concluido sus estudios.',
       sections: [
         {
-          subtitle: 'Die Gründungsmitglieder und ihre heutigen Positionen:',
+          subtitle: 'Los miembros fundadores y sus posiciones actuales:',
           list: [
-            'Sebastian Maier - Doktorand an der LMU München',
-            'Anton Wyrowski - Entwickler bei Perplexity',
-            'Michel Schimpf - Doktorand an der University of Cambridge',
-            'Robin Frasch - Doktorand an der Uni Hamburg',
-            'Roman Mayr - Entwickler bei Knowunity',
+            'Sebastian Maier - Doctorando en la LMU Múnich',
+            'Anton Wyrowski - Desarrollador en Perplexity',
+            'Michel Schimpf - Doctorando en la Universidad de Cambridge',
+            'Robin Frasch - Doctorando en la Universidad de Hamburgo',
+            'Roman Mayr - Desarrollador en Knowunity',
           ],
         },
       ],
       origin:
-        'Ende November 2024 saß das Team in Cambridge beim Mittagessen zusammen. Beim Gespräch kam das Thema auf, dass der Opa des Deutschrappers Ski Aggu am Wahl-O-Mat gearbeitet hat. Es kam die Idee auf, einen neuen Wahl-O-Mat mit KI für die Einordnung der eigenen Meinung zu den Wahlkampfthemen zu bauen. Doch wäre es nicht noch spannender, den Spieß umzudrehen und mit den für einen selbst relevanten Parteien ausführlicher zu chatten? Und nicht nur eine Aussage zu vorgeschriebenen Thesen zu erhalten, sondern ganz individuelle Anliegen klären zu können? Und so war Ende November 2024 die Idee für wahl.chat geboren.',
-      outro: 'Weitere Infos können auch unter /about-us nachgelesen werden.',
+        'A finales de noviembre de 2024, el equipo estaba almorzando juntos en Cambridge. Durante la conversación surgió el tema de que el abuelo del rapero alemán Ski Aggu había trabajado en el Wahl-O-Mat. Surgió la idea de construir un nuevo Wahl-O-Mat con IA para ayudar a clasificar las opiniones propias sobre los temas de la campaña electoral. ¿Pero no sería aún más interesante darle la vuelta al enfoque y chatear más detalladamente con los partidos relevantes para uno mismo? ¿Y no solo obtener una declaración sobre tesis predefinidas, sino poder aclarar preocupaciones completamente individuales? Así nació a finales de noviembre de 2024 la idea de wahl.chat, en la que se basa votamos.chat.',
+      outro: 'Más información también se puede consultar bajo /about-us.',
     },
   },
   {
     id: 'wahl-o-mat-difference',
-    title: 'Wie unterscheidet sich wahl.chat vom Wahl-O-Mat?',
+    title: '¿En qué se diferencia votamos.chat del Wahl-O-Mat?',
     content: {
       intro:
-        'Beim Wahl-O-Mat entscheidet man zu vorgegebenen Thesen "finde ich gut", "hier bin ich neutral", oder "hier bin ich dagegen". wahl.chat ist dagegen wie ein offenes Gespräch, um besser zu verstehen, was die Parteien fordern.',
+        'En el Wahl-O-Mat se decide sobre tesis predefinidas "estoy de acuerdo", "soy neutral en esto" o "estoy en contra". votamos.chat es como una conversación abierta para entender mejor qué exigen los partidos.',
       orderedList: [
-        'Fragen zu den Themen stellen, die einen selbst am meisten interessieren.',
-        'Ins Detail gehen, um die Begriffe, Vorstellungen und Pläne der Parteien genau zu verstehen.',
-        'Positionen kritisch einordnen, um Für- und Wider abzuwägen.',
+        'Hacer preguntas sobre los temas que más te interesan.',
+        'Entrar en detalle para comprender exactamente los términos, ideas y planes de los partidos.',
+        'Analizar posiciones críticamente para sopesar los pros y contras.',
       ],
     },
   },
   {
     id: 'data-privacy',
-    title: 'Sind meine Daten bei der Verwendung von wahl.chat sicher?',
+    title: '¿Están seguros mis datos al usar votamos.chat?',
     content: {
       paragraphs: [
-        'Ja, wahl.chat kommt ohne Cookies und ohne die Erfassung persönlicher Daten aus. Lediglich die Chats werden anonymisiert gespeichert. Durch Zugriffskontrollen verhindern wir unbefugten Zugriff auf die Chats anderer.',
-        'Man sollte dennoch vermeiden, sensible persönliche Daten in die Chats zu schreiben.',
+        'Sí, votamos.chat funciona sin cookies y sin recopilación de datos personales. Solo los chats se guardan de forma anónima. Mediante controles de acceso evitamos el acceso no autorizado a los chats de otros usuarios.',
+        'No obstante, se debe evitar escribir datos personales sensibles en los chats.',
       ],
     },
   },
   {
     id: 'usage-statistics',
-    title: 'Werden Nutzungsstatistiken erfasst?',
+    title: '¿Se recopilan estadísticas de uso?',
     content: {
       paragraphs: [
-        'Um wahl.chat kontinuierlich zu verbessern, werden die Webseitenanfragen und die anonymisierten Chatverläufe verwendet, um aggregierte Statistiken, wie die Anzahl der beantworteten Fragen oder die Parteien, mit denen am meisten gechattet wird, zu bestimmen.',
-        'Da wir die Entwicklung von wahl.chat wissenschaftlich begleiten, werden wir von Zeit zu Zeit unseren Nutzerinnen und Nutzern die Möglichkeit geben, an Studien teilzunehmen. Diese werden 100% freiwillig sein und eine Ablehnung wird keinen Einfluss auf die weitere Verwendbarkeit von wahl.chat haben. In diesen Studien werden wir die anonymisierten Nutzungsstatistiken verwenden, um die Wirkung von wahl.chat zu analysieren und den positiven Impact weiter zu verbessern.',
+        'Para mejorar continuamente votamos.chat, se utilizan las solicitudes del sitio web y los historiales de chat anonimizados para determinar estadísticas agregadas, como el número de preguntas respondidas o los partidos con los que más se chatea.',
+        'Como acompañamos el desarrollo de votamos.chat de forma científica, de vez en cuando daremos a nuestros usuarios la posibilidad de participar en estudios. Estos serán 100% voluntarios y la negativa no tendrá ningún efecto sobre el uso posterior de votamos.chat. En estos estudios utilizaremos las estadísticas de uso anonimizadas para analizar el impacto de votamos.chat y mejorar su efecto positivo.',
       ],
     },
   },
   {
     id: 'learning',
-    title: 'Lernt wahl.chat mit der Zeit selbstständig dazu?',
+    title: '¿Aprende votamos.chat de forma autónoma con el tiempo?',
     content: {
       paragraphs: [
-        'Nein, die Chatverläufe werden nicht für weiteres Training der LLMs verwendet. Wir arbeiten allerdings kontinuierlich daran, die Qualität der Antworten zu verbessern, halten unsere Datenbasis stets aktuell und planen, weitere relevante Dokumente zur Antwortgenerierung hinzuzufügen.',
+        'No, los historiales de chat no se utilizan para el entrenamiento adicional de los LLMs. Sin embargo, trabajamos continuamente para mejorar la calidad de las respuestas, mantenemos nuestra base de datos siempre actualizada y planeamos agregar más documentos relevantes para la generación de respuestas.',
       ],
     },
   },
   {
     id: 'contribute',
-    title: 'Wie kann ich zu wahl.chat beitragen?',
+    title: '¿Cómo puedo contribuir a votamos.chat?',
     content: {
       paragraphs: [
-        'wahl.chat ist ein Open-Source-Projekt und unser Code ist öffentlich auf GitHub einsehbar unter https://github.com/wahl-chat.',
-        'Wir freuen uns über Unterstützung und sind immer auf der Suche nach Freiwilligen, die mit uns gemeinsam die Demokratie stärken möchten. Wenn du Interesse hast, dich einzubringen, kontaktiere uns gerne unter info@wahl.chat.',
+        'votamos.chat es un proyecto Open Source y nuestro código es públicamente accesible en GitHub bajo https://github.com/SimonKaran13/votamos-chat.',
+        'Agradecemos el apoyo y siempre estamos en busca de voluntarios que quieran fortalecer la democracia junto a nosotros. Si tienes interés en colaborar, contáctanos en info@wahl.chat.',
       ],
     },
   },
@@ -273,15 +273,15 @@ function HowTo() {
       <article>
         <section>
           <p>
-            <span className="font-bold underline">wahl.chat</span>{' '}
-            {INTRO_TEXT.main.startsWith('wahl.chat ')
-              ? INTRO_TEXT.main.slice('wahl.chat '.length)
+            <span className="font-bold underline">votamos.chat</span>{' '}
+            {INTRO_TEXT.main.startsWith('votamos.chat ')
+              ? INTRO_TEXT.main.slice('votamos.chat '.length)
               : INTRO_TEXT.main}
             <br />
             {INTRO_TEXT.sources}
           </p>
 
-          <p className="mt-4 text-sm font-semibold">Der Prozess ist einfach:</p>
+          <p className="mt-4 text-sm font-semibold">El proceso es simple:</p>
 
           <ul className="[&_li]:mt-4 [&_li]:text-sm">
             {PROCESS_STEPS.map((step, index) => (
@@ -351,14 +351,15 @@ function HowTo() {
                     <br />
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[1] || '';
-                      const parts = text.split('Plus-Knopf');
+                      const parts = text.split('botón');
                       return (
                         <>
                           {parts[0]}
+                          botón{' '}
                           <span className="inline-block">
                             <PlusIcon className="size-4 rounded-full bg-primary p-1 text-primary-foreground" />
                           </span>
-                          -Knopf{parts[1]}
+                          {parts[1]}
                         </>
                       );
                     })()}
@@ -373,11 +374,11 @@ function HowTo() {
                         <Button
                           variant="outline"
                           className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-                          tooltip="Ordne die Position in Pro oder Contra ein"
+                          tooltip="Clasifica la posición en Pro o Contra"
                           type="button"
                         >
                           <ProConIcon />
-                          <span className="text-xs">Position einordnen</span>
+                          <span className="text-xs">Clasificar posición</span>
                         </Button>
                         <ChatActionButtonHighlight showHighlight />
                       </div>
@@ -401,10 +402,12 @@ function HowTo() {
                         <Button
                           variant="outline"
                           className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-                          tooltip="Analysiere das Abstimmungsverhalten der Partei"
+                          tooltip="Analiza el comportamiento de votación del partido"
                         >
                           <VoteIcon />
-                          <span className="text-xs">Abstimmungsverhalten</span>
+                          <span className="text-xs">
+                            Comportamiento de votación
+                          </span>
                         </Button>
                         <ChatActionButtonHighlight showHighlight />
                       </div>
@@ -418,11 +421,13 @@ function HowTo() {
                   <>
                     {(() => {
                       const intro = accordionItem.content.intro || '';
-                      const introParts = intro.split('wahl.chat');
+                      const introParts = intro.split('votamos.chat');
                       return (
                         <>
                           {introParts[0]}
-                          <span className="font-bold underline">wahl.chat</span>
+                          <span className="font-bold underline">
+                            votamos.chat
+                          </span>
                           {introParts[1]}
                         </>
                       );
@@ -430,13 +435,13 @@ function HowTo() {
                     <ol className="list-outside list-decimal py-4 pl-4 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => {
                         const parts = item.split(':');
-                        const isAbstimmungsverhalten = parts[0].includes(
-                          'Abstimmungsverhalten',
+                        const isVotingBehavior = parts[0].includes(
+                          'Comportamiento de votación',
                         );
                         return (
                           <li key={item}>
                             <div className="pl-2">
-                              {isAbstimmungsverhalten ? (
+                              {isVotingBehavior ? (
                                 <>
                                   <span className="font-bold">{parts[0]}:</span>{' '}
                                   {(() => {
@@ -474,22 +479,21 @@ function HowTo() {
                     <br />
                     {(() => {
                       const outro = accordionItem.content.outro || '';
-                      const outroParts = outro.split('wahl.chat');
+                      const outroParts = outro.split('votamos.chat');
                       const beforeLink = outroParts[0];
-                      const afterWahlChat = outroParts[1] || '';
-                      const sourceParts = afterWahlChat.split('/sources');
+                      const afterVotamosChat = outroParts[1] || '';
+                      const sourceParts = afterVotamosChat.split('/sources');
                       return (
                         <>
                           {beforeLink}
-                          <span className="font-bold underline">wahl.chat</span>
+                          <span className="font-bold underline">
+                            votamos.chat
+                          </span>
                           {sourceParts[0]}
                           <Link href="/sources" className="underline">
-                            hier
+                            aquí
                           </Link>
-                          {sourceParts[1]?.replace(
-                            ' aufgelistet.',
-                            ' aufgelistet.',
-                          )}
+                          {sourceParts[1]}
                         </>
                       );
                     })()}
@@ -555,7 +559,9 @@ function HowTo() {
                         <br />
                       </div>
                     ))}
-                    <span className="font-bold">Wie kam es zu wahl.chat?</span>
+                    <span className="font-bold">
+                      ¿Cómo surgió votamos.chat?
+                    </span>
                     <br />
                     <br />
                     {accordionItem.content.origin}
@@ -583,7 +589,7 @@ function HowTo() {
                     {accordionItem.content.intro}
                     <br />
                     <br />
-                    <span className="font-bold">Bei wahl.chat kann man:</span>
+                    <span className="font-bold">Con votamos.chat puedes:</span>
                     <ol className="list-outside list-decimal py-2 pl-4 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => (
                         <li key={item}>{item}</li>
@@ -632,17 +638,19 @@ function HowTo() {
                   <>
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[0] || '';
-                      const parts = text.split('https://github.com/wahl-chat');
+                      const parts = text.split(
+                        'https://github.com/SimonKaran13/votamos-chat',
+                      );
                       return (
                         <p>
                           {parts[0]}
                           <a
-                            href="https://github.com/wahl-chat"
+                            href="https://github.com/SimonKaran13/votamos-chat"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="underline"
                           >
-                            https://github.com/wahl-chat
+                            https://github.com/SimonKaran13/votamos-chat
                           </a>
                           {parts[1]}
                         </p>
@@ -677,7 +685,7 @@ function HowTo() {
             size="lg"
           >
             <DownloadIcon />
-            {isExporting ? 'Erstelle PDF...' : 'Als PDF exportieren'}
+            {isExporting ? 'Generando PDF...' : 'Exportar como PDF'}
           </Button>
         </div>
       </article>

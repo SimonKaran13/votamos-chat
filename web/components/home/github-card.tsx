@@ -12,17 +12,18 @@ function GitHubCard({ fullWidth = false }: { fullWidth?: boolean }) {
       <div className="flex grow flex-col justify-between p-4">
         <div>
           <h2 className="font-bold">
-            Der Code hinter <span className="underline">wahl.chat</span>
+            El código de <span className="underline">votamos.chat</span>
           </h2>
           <p className="mb-4 text-sm text-muted-foreground">
-            Du willst wissen wie <span className="underline">wahl.chat</span>{' '}
-            funktioniert oder sogar selbst mitentwickeln? Der gesamte Code ist
-            Open Source und auf GitHub verfügbar.
+            ¿Quieres saber cómo funciona{' '}
+            <span className="underline">votamos.chat</span> o incluso colaborar
+            en su desarrollo? Todo el código es Open Source y está disponible en
+            GitHub.
           </p>
         </div>
         <Button asChild variant="secondary" className="w-full">
           <Link
-            href="https://github.com/wahl-chat"
+            href="https://github.com/SimonKaran13/votamos-chat"
             target="_blank"
             rel="noopener noreferrer"
           >
