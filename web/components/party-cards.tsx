@@ -24,6 +24,7 @@ type Props = {
   gridColumns?: number;
   showWahlChatButton?: boolean;
   contextId: string;
+  partyImageClassName?: string;
 };
 
 function PartyCards({
@@ -34,6 +35,7 @@ function PartyCards({
   gridColumns = 4,
   showWahlChatButton = false,
   contextId,
+  partyImageClassName,
 }: Props) {
   const { parties } = useElectionContext();
 
@@ -111,6 +113,7 @@ function PartyCards({
             onPartyClicked={onPartyClicked}
             selectable={selectable}
             contextId={contextId}
+            imageClassName={partyImageClassName}
           />
         ))}
         {remainingParties.length > 0 && (
@@ -160,6 +163,7 @@ function PartyCards({
                     onPartyClicked={onPartyClicked}
                     selectable={selectable}
                     contextId={contextId}
+                    imageClassName={partyImageClassName}
                   />
                 ))}
               </div>
