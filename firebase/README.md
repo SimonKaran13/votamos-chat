@@ -135,7 +135,7 @@ firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
 # Seed parties for a specific context
 firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
   -n contexts/bundestagswahl-2025/parties \
-  -b firestore_data/dev/parties_bundestagswahl-2025.json -y
+  -b firestore_data/dev/parties_elecciones-presidenciales-2026-primera-vuelta.json -y
 ```
 
 ### Adding a New Context
