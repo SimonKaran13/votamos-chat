@@ -7,6 +7,7 @@ import os
 import tempfile
 import time
 import uuid
+from urllib.parse import quote
 
 from firebase_functions.params import StringParam
 from firebase_functions.options import SupportedRegion, MemoryOption
@@ -38,11 +39,6 @@ QDRANT_API_KEY = StringParam("QDRANT_API_KEY")
 EMBEDDING_MODEL = "text-embedding-3-large"
 EMBEDDING_SIZE = 3072  # Embedding sizes for the OpenAI models: https://platform.openai.com/docs/guides/embeddings#how-to-get-embeddings
 
-# Get environment from OS environment variable or Firebase project ID for region selection
-# This is evaluated at module load time, before StringParam values are available
-_env_from_os = os.getenv("ENV", "dev")
-_project_id = os.getenv("GCLOUD_PROJECT", os.getenv("GCP_PROJECT", ""))
-
 # Get environment suffix for collection naming
 env_suffix = f"_{ENV.value}" if ENV.value in ["prod", "dev"] else "_dev"
 
@@ -71,13 +67,10 @@ def get_context_collection_name(context_id: str) -> str:
     return f"context_{context_id}_party_docs{env_suffix}"
 
 
-# Set region based on environment at module load time
-# For prod (project: wahl-chat), use US_EAST1; for dev (project: wahl-chat-dev), use EUROPE_WEST1
-# Check both ENV variable and project ID to determine region
-_is_prod = _env_from_os == "prod" or _project_id == "wahl-chat"
-STORAGE_TRIGGER_FN_REGION = (
-    SupportedRegion.US_EAST1 if _is_prod else SupportedRegion.EUROPE_WEST1
-)
+# Set region based on environment at module load time.
+# Both dev and prod currently deploy storage-triggered functions in US_EAST1
+# to align with the current Firebase project setup.
+STORAGE_TRIGGER_FN_REGION = SupportedRegion.US_EAST1
 
 initialize_app()
 
@@ -133,6 +126,26 @@ def download_pdf(bucket_name: str, name: str):
     logger.info(f"Downloaded file to temporary path: {tmp_file_name}")
 
     return tmp_file_name, pdf_blob
+
+
+def build_firebase_download_url(pdf_blob, bucket_name: str, name: str) -> str:
+    """Return a browser-accessible Firebase download URL for an object."""
+    metadata = pdf_blob.metadata or {}
+    token = metadata.get("firebaseStorageDownloadTokens")
+
+    if token:
+        token = token.split(",")[0]
+    else:
+        token = str(uuid.uuid4())
+        metadata["firebaseStorageDownloadTokens"] = token
+        pdf_blob.metadata = metadata
+        pdf_blob.patch()
+
+    encoded_name = quote(name, safe="")
+    return (
+        f"https://firebasestorage.googleapis.com/v0/b/{bucket_name}/o/"
+        f"{encoded_name}?alt=media&token={token}"
+    )
 
 
 def split_pdf(file_path: str):
@@ -489,9 +502,8 @@ def on_party_document_upload(
             f"Document date {document_date_str} does not match the expected format: YYYY-MM-DD"
         )
 
-    # Enable and create a public URL for the PDF
-    pdf_blob.make_public()
-    download_url = pdf_blob.public_url
+    # Store a browser-accessible Firebase download URL without using object ACLs.
+    download_url = build_firebase_download_url(pdf_blob, bucket_name, name)
 
     # Get the context-scoped collection name
     collection_name = get_context_collection_name(context_id)
