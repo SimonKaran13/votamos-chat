@@ -146,9 +146,12 @@ export function formatGermanDate(
 
 export function buildPdfUrl(source: Source) {
   return new URL(
-    `/pdf/view?page=${encodeURIComponent(
-      source.page,
-    )}&pdf=${encodeURIComponent(source.url)}`,
+    `/pdf/view?page=${encodeURIComponent(source.page)}&pdf=${encodeURIComponent(
+      new URL(
+        `/api/pdf?url=${encodeURIComponent(source.url)}`,
+        window.location.origin,
+      ).toString(),
+    )}`,
     window.location.href,
   );
 }

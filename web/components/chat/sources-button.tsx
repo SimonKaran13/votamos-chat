@@ -146,7 +146,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
         )}
       </div>
       <p className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-muted px-2 text-xs text-muted-foreground">
-        p. {source.page}
+        Pág. {source.page}
       </p>
       {source.party_id && <ChatMessageIcon partyId={source.party_id} />}
     </button>

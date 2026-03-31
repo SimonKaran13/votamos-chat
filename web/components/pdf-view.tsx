@@ -26,10 +26,7 @@ type OnDocumentLoadSuccess = NonNullable<
   ComponentProps<typeof Document>['onLoadSuccess']
 >;
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 function PDFView() {
   const searchParams = useSearchParams();
@@ -150,14 +147,14 @@ function PDFView() {
                 loading={
                   <div className="flex h-svh w-screen flex-col items-center justify-center">
                     <LoadingSpinner />
-                    <span className="mt-4">Loading PDF...</span>
+                    <span className="mt-4">Cargando PDF...</span>
                   </div>
                 }
                 error={
                   <div className="flex h-svh w-screen flex-col items-center justify-center">
                     <ShieldAlert className="size-12 text-red-500" />
                     <span className="mt-4 font-semibold text-red-500">
-                      Error loading PDF
+                      Error al cargar el PDF
                     </span>
                   </div>
                 }

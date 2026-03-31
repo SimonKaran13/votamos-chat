@@ -21,10 +21,9 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
     const email = formData.get('email') as string;
 
     toast.promise(handleAddEmail(email), {
-      loading: 'Einen Moment, wir fügen deine E-Mail hinzu...',
-      success:
-        'Vielen Dank! Wir werden dich benachrichtigen, wenn der Koalitionsvertrag verfügbar ist.',
-      error: 'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.',
+      loading: 'Un momento, estamos agregando tu correo...',
+      success: 'Gracias. Te avisaremos cuando la información esté disponible.',
+      error: 'Ocurrió un error. Por favor, inténtalo de nuevo más tarde.',
       duration: 5000,
     });
   };
