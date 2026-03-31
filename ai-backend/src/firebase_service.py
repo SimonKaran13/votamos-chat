@@ -19,9 +19,9 @@ load_env()
 logger = logging.getLogger(__name__)
 
 credentials_path = (
-    "wahl-chat-firebase-adminsdk.json"
+    "votamos-chat-firebase-adminsdk.json"
     if os.getenv("ENV") == "prod"
-    else "wahl-chat-dev-firebase-adminsdk.json"
+    else "votamos-chat-dev-firebase-adminsdk.json"
 )
 
 # If the credentials file does not exist, use the application default credentials
