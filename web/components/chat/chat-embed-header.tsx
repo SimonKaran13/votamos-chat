@@ -18,7 +18,7 @@ function ChatEmbedHeader() {
             <TooltipTrigger asChild>
               <SidebarTrigger />
             </TooltipTrigger>
-            <TooltipContent>Menü öffnen</TooltipContent>
+            <TooltipContent>Abrir menu</TooltipContent>
           </Tooltip>
         </div>
         <div className="flex items-center gap-1">

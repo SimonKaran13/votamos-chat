@@ -20,9 +20,9 @@ function FeedbackDialog({ children }: Props) {
 
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Feedback!</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Comentarios</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Wir freuen uns über Feedback zu wahl.chat.
+            Nos encantaria recibir tus comentarios sobre votamos.chat.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
@@ -30,7 +30,7 @@ function FeedbackDialog({ children }: Props) {
           <Button asChild variant="outline">
             <Link href="mailto:info@wahl.chat">
               <MailIcon />
-              Schreibe uns eine E-Mail
+              Escribenos un correo
             </Link>
           </Button>
           <Button asChild variant="outline">
@@ -39,7 +39,7 @@ function FeedbackDialog({ children }: Props) {
               target="_blank"
             >
               <MessageSquareHeart />
-              Fülle unser Feedback-Formular aus
+              Llena nuestro formulario
             </Link>
           </Button>
         </div>

@@ -33,33 +33,31 @@ function ChatProlificDisclaimer({ minInteractions }: Props) {
     >
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Willkommen zur Studie</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Bienvenido al estudio</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Wichtige Informationen
+            Informacion importante
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <div className="px-4 text-sm md:px-0">
           <p className="mb-4">
-            Vielen Dank, dass du an unserer Studie teilnimmst! Um die Studie
-            abzuschließen, musst du mindestens{' '}
-            <strong>{minInteractions} Nachrichten</strong> an den Chatbot
-            senden.
+            Gracias por participar en nuestro estudio. Para completarlo, debes
+            enviar al menos <strong>{minInteractions} mensajes</strong> al chat.
           </p>
           <div className="rounded-md border border-border bg-muted p-4">
             <p className="font-semibold text-foreground">
-              Bitte schließe diesen Browser-Tab nicht, bevor du den
-              Abschlusscode erhalten hast.
+              No cierres esta pestana del navegador antes de recibir el codigo
+              final.
             </p>
             <p className="mt-2 text-muted-foreground">
-              Der Code wird dir angezeigt, sobald du genügend Nachrichten
-              gesendet hast, und ist notwendig, um die Studie abzuschließen.
+              El codigo aparecera cuando hayas enviado suficientes mensajes y es
+              necesario para terminar el estudio.
             </p>
           </div>
         </div>
 
         <ResponsiveDialogFooter>
           <ResponsiveDialogClose asChild>
-            <Button className="w-full">Verstanden, los geht&apos;s!</Button>
+            <Button className="w-full">Entendido, empecemos</Button>
           </ResponsiveDialogClose>
         </ResponsiveDialogFooter>
       </ResponsiveDialogContent>

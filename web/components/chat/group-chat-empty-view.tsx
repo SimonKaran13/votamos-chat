@@ -51,7 +51,7 @@ function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
           ))}
         </div>
         <p className="text-center">
-          Starte deinen Vergleichschat mit folgenden Parteien:
+          Empieza un chat comparativo con estas candidaturas:
           <br />
           {parties?.map((party, index) => (
             <span key={party.party_id} className="font-semibold">

@@ -35,7 +35,7 @@ function ChatSidebarGroupSelect({ contextId }: Props) {
           variant="secondary"
         >
           <GitCompareIcon />
-          Parteien vergleichen
+          Comparar candidaturas
         </Button>
       </ChatGroupPartySelect>
     </div>

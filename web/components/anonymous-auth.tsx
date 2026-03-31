@@ -120,9 +120,7 @@ export function AnonymousAuthProvider({
     } catch (error) {
       console.error(error);
 
-      toast.error(
-        'Es ist ein Fehler aufgetreten. Bitte lade die Seite erneut.',
-      );
+      toast.error('Ocurrio un error. Recarga la pagina.');
     }
   }
 

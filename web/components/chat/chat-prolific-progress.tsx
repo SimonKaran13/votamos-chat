@@ -41,10 +41,10 @@ function ChatProlificProgress({ minInteractions }: Props) {
           {isComplete ? (
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4" />
-              Studienanforderung erfüllt!
+              Requisito del estudio cumplido
             </span>
           ) : (
-            `${prolificMessageCount} von ${minInteractions} Nachrichten`
+            `${prolificMessageCount} de ${minInteractions} mensajes`
           )}
         </span>
       </div>

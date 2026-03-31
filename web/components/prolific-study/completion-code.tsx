@@ -21,7 +21,7 @@ function CompletionCode() {
     if (!completionCode) return;
     await navigator.clipboard.writeText(completionCode);
     setCopied(true);
-    toast.success('Code in die Zwischenablage kopiert!');
+    toast.success('Codigo copiado al portapapeles');
     setTimeout(() => setCopied(false), 2000);
   }, [completionCode]);
 
@@ -29,15 +29,14 @@ function CompletionCode() {
     <>
       <div className="rounded-lg border-2 border-green-500 bg-green-50 p-4 dark:bg-green-950">
         <h2 className="text-lg font-bold text-green-800 dark:text-green-200">
-          Danke für deine Teilnahme!
+          Gracias por participar
         </h2>
         <p className="mt-1 text-sm text-green-700 dark:text-green-300">
-          Bitte kopiere den folgenden Code, um mit der Studie auf Prolific
-          fortzufahren:
+          Copia el siguiente codigo para continuar el estudio en Prolific:
         </p>
         <div className="mt-3 flex items-center gap-2">
           <code className="flex-1 rounded-md bg-white px-4 py-2 font-mono text-lg font-bold text-green-900 dark:bg-green-900 dark:text-green-100">
-            {completionCode ?? 'Could not fetch completion code.'}
+            {completionCode ?? 'No fue posible obtener el codigo final.'}
           </code>
           <Button
             variant="outline"

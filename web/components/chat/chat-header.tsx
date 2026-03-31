@@ -34,7 +34,7 @@ async function ChatHeader({ contextId = DEFAULT_CONTEXT_ID }: Props) {
               <TooltipTrigger asChild>
                 <SidebarTrigger />
               </TooltipTrigger>
-              <TooltipContent>Menü öffnen</TooltipContent>
+              <TooltipContent>Abrir menu</TooltipContent>
             </Tooltip>
             <ChatHeaderTitleDescription />
           </div>

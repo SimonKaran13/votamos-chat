@@ -47,8 +47,8 @@ function PartyCard({
     : `/session?party_id=${id}`;
 
   const ariaLabel = selectable
-    ? `${name}${isSelected ? ' (ausgewählt)' : ''}`
-    : `Chat mit ${name} starten`;
+    ? `${name}${isSelected ? ' (seleccionado)' : ''}`
+    : `Iniciar chat con ${name}`;
 
   return (
     <Button

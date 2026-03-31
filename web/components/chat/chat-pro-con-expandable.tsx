@@ -87,11 +87,11 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
           <AnimatedMessageSequence
             className="text-muted-foreground"
             messages={[
-              'Thema verstehen...',
-              'Machbarkeit analysieren...',
-              'Kurzfristige Effekte identifizieren...',
-              'Langfristige Effekte identifizieren...',
-              'Analyse abschließen...',
+              'Entendiendo el tema...',
+              'Analizando viabilidad...',
+              'Identificando efectos a corto plazo...',
+              'Identificando efectos a largo plazo...',
+              'Terminando analisis...',
             ]}
           />
         </div>
@@ -160,13 +160,13 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
         >
           {!isExpanded ? (
             <p className="text-xs text-muted-foreground">
-              Diese Nachricht enthält eine{' '}
-              <span className="font-bold">eingeordnete Position</span>.
+              Este mensaje contiene una{' '}
+              <span className="font-bold">posicion contextualizada</span>.
             </p>
           ) : (
             <span className="flex flex-row items-center gap-1.5 text-xs text-muted-foreground">
               <PerplexityIcon className="size-4" />
-              <span>Powered by Perplexity</span>
+              <span>Con tecnologia de Perplexity</span>
             </span>
           )}
           <Tooltip>
@@ -178,7 +178,7 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
               </TooltipTrigger>
             </CollapsibleTrigger>
             <TooltipContent>
-              {isExpanded ? 'Verbergen' : 'Anzeigen'}
+              {isExpanded ? 'Ocultar' : 'Mostrar'}
             </TooltipContent>
           </Tooltip>
         </div>

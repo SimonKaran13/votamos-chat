@@ -50,20 +50,20 @@ function ChatDislikeFeedbackButton({
       </ResponsiveDialogTrigger>
       <ResponsiveDialogContent className="px-4">
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Feedback abgeben</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Enviar comentarios</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Was gefällt dir nicht an dieser Antwort?
+            Que no te gusto de esta respuesta?
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <form onSubmit={handleSubmit}>
           <Textarea
-            placeholder="Bitte gib hier dein Feedback ein. (optional)"
+            placeholder="Escribe aqui tus comentarios. (opcional)"
             className="w-full"
             name="details"
             defaultValue={feedbackDetail}
           />
           <Button className="my-4 w-full md:mb-0" type="submit">
-            Feedback abgeben
+            Enviar comentarios
           </Button>
         </form>
       </ResponsiveDialogContent>

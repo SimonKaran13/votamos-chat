@@ -28,11 +28,11 @@ function ChatGroupPartySelect({
       <ResponsiveDialogTrigger asChild>{children}</ResponsiveDialogTrigger>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader className="text-left">
-          <ResponsiveDialogTitle>Parteiauswahl</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Selecciona candidaturas</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
             {addPartiesToChat
-              ? 'Ändere die ausgewählten Parteien.'
-              : 'Wähle bis zu sieben Parteien, mit denen du den Chat starten möchtest.'}
+              ? 'Cambia las candidaturas seleccionadas.'
+              : 'Elige hasta siete candidaturas con las que quieres iniciar el chat.'}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <ChatGroupPartySelectContent

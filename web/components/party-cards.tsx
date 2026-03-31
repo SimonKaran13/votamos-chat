@@ -72,8 +72,8 @@ function PartyCards({
   }
 
   const sectionLabel = selectable
-    ? 'Parteien zur Auswahl'
-    : 'Verfügbare Parteien';
+    ? 'Candidaturas para seleccionar'
+    : 'Candidaturas disponibles';
 
   return (
     <Collapsible open={showMore} onOpenChange={setShowMore} asChild>
@@ -92,13 +92,13 @@ function PartyCards({
               'border border-muted-foreground/20 bg-background dark:bg-zinc-900 hover:bg-muted p-0',
             )}
             type="button"
-            tooltip="wahl.chat"
+            tooltip="votamos.chat"
             asChild
           >
             <Link
               href={`/${contextId}/session`}
               onClick={() => onPartyClicked?.('wahl.chat')}
-              aria-label="Chat mit wahl.chat starten"
+              aria-label="Iniciar chat con votamos.chat"
             >
               <Logo className="!size-10" aria-hidden="true" />
             </Link>
@@ -130,8 +130,8 @@ function PartyCards({
                 aria-expanded={showMore}
                 aria-label={
                   showMore
-                    ? 'Weniger Parteien anzeigen'
-                    : 'Mehr Parteien anzeigen'
+                    ? 'Mostrar menos candidaturas'
+                    : 'Mostrar mas candidaturas'
                 }
               >
                 {showMore ? (
@@ -140,7 +140,7 @@ function PartyCards({
                   <EllipsisIcon className="size-4" aria-hidden="true" />
                 )}
                 {gridColumns >= 4 &&
-                  `${showMore ? 'Weniger' : 'Mehr'} Parteien`}
+                  `${showMore ? 'Menos' : 'Mas'} candidaturas`}
               </Button>
             </CollapsibleTrigger>
 
@@ -152,7 +152,7 @@ function PartyCards({
                   gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
                 }}
                 role="group"
-                aria-label="Weitere Parteien"
+                aria-label="Mas candidaturas"
               >
                 {remainingParties.map((party) => (
                   <PartyCard

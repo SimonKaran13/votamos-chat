@@ -14,8 +14,8 @@ function OverallVoteChart({ vote }: Props) {
 
     if (totalVotes === 0) {
       return [
-        'Keine gültigen Stimmen abgegeben',
-        'Es konnten keine Ergebnisse ermittelt werden',
+        'No se registraron votos validos',
+        'No fue posible determinar un resultado',
       ];
     }
 
@@ -23,19 +23,19 @@ function OverallVoteChart({ vote }: Props) {
     let percentage: number;
 
     if (yes > no) {
-      outcome = 'angenommen';
+      outcome = 'aprobado';
       percentage = (yes / totalVotes) * 100;
     } else if (no > yes) {
-      outcome = 'abgelehnt';
+      outcome = 'rechazado';
       percentage = (no / totalVotes) * 100;
     } else {
-      outcome = 'unentschieden';
+      outcome = 'empatado';
       percentage = (no / totalVotes) * 100;
     }
 
     const resultStatement = (
       <>
-        Antrag wurde{' '}
+        La propuesta fue{' '}
         <span className="font-bold">
           {outcome.charAt(0).toUpperCase() + outcome.slice(1)}.
         </span>
@@ -43,12 +43,12 @@ function OverallVoteChart({ vote }: Props) {
     );
 
     let percentageStatement: string;
-    if (outcome === 'unentschieden') {
-      percentageStatement = `Antrag wurde unentschieden mit jeweils ${percentage.toFixed(
+    if (outcome === 'empatado') {
+      percentageStatement = `La propuesta quedo empatada con ${percentage.toFixed(
         1,
-      )}% der Stimmen.`;
+      )}% de los votos para cada lado.`;
     } else {
-      percentageStatement = `Antrag wurde mit ${percentage.toFixed(1)}% der Stimmen ${outcome}.`;
+      percentageStatement = `La propuesta fue ${outcome} con ${percentage.toFixed(1)}% de los votos.`;
     }
 
     return [resultStatement, percentageStatement];

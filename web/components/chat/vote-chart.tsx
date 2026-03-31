@@ -20,19 +20,19 @@ type Props = {
 
 const chartConfig = {
   not_voted: {
-    label: 'Nicht abgestimmt',
+    label: 'No voto',
     color: 'hsl(var(--chart-1))',
   },
   abstain: {
-    label: 'Enthaltung',
+    label: 'Abstencion',
     color: 'hsl(var(--chart-2))',
   },
   no: {
-    label: 'Nein',
+    label: 'No',
     color: 'hsl(var(--chart-3))',
   },
   yes: {
-    label: 'Ja',
+    label: 'Si',
     color: 'hsl(var(--chart-4))',
   },
 } satisfies ChartConfig;
@@ -81,7 +81,7 @@ function VoteChart({ voteResults, memberCount }: Props) {
       </ChartContainer>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <NumberFlow className="text-lg font-bold" value={memberCount} />
-        <p className="text-xs text-muted-foreground">Mitglieder</p>
+        <p className="text-xs text-muted-foreground">Miembros</p>
       </div>
     </div>
   );

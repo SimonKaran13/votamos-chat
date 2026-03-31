@@ -10,7 +10,7 @@ function Logo({ variant = 'default', className }: Props) {
     fill: 'none',
     xmlns: 'http://www.w3.org/2000/svg',
     className: cn('text-primary', className),
-    'aria-label': 'wahl.chat Logo',
+    'aria-label': 'votamos.chat logo',
   };
 
   if (variant === 'small') {
