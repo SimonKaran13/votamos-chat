@@ -20,7 +20,7 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
   const { user } = useAnonymousAuth();
   const addUserMessage = useChatStore((state) => state.addUserMessage);
   const currentContext = useCurrentContext({ optional: true });
-  const currentContextName = currentContext?.name ?? 'esta eleccion';
+  const currentContextName = currentContext?.name ?? 'esta elección';
 
   function handleSuggestionClick(suggestion: string) {
     if (!user?.uid) return;

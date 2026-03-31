@@ -35,7 +35,7 @@ function ChatProlificDisclaimer({ minInteractions }: Props) {
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>Bienvenido al estudio</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Informacion importante
+            Información importante
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <div className="px-4 text-sm md:px-0">
@@ -45,11 +45,11 @@ function ChatProlificDisclaimer({ minInteractions }: Props) {
           </p>
           <div className="rounded-md border border-border bg-muted p-4">
             <p className="font-semibold text-foreground">
-              No cierres esta pestana del navegador antes de recibir el codigo
+              No cierres esta pestaña del navegador antes de recibir el código
               final.
             </p>
             <p className="mt-2 text-muted-foreground">
-              El codigo aparecera cuando hayas enviado suficientes mensajes y es
+              El código aparecerá cuando hayas enviado suficientes mensajes y es
               necesario para terminar el estudio.
             </p>
           </div>

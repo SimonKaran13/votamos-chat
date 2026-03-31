@@ -52,22 +52,22 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
       <div className="flex items-center gap-4">
         <Logo variant="small" className="size-6" />
         <div className="flex flex-col">
-          <h1 className="text-base font-bold">Der Koalitionsvertrag!</h1>
+          <h1 className="text-base font-bold">¡El acuerdo de coalición!</h1>
           <p className="text-sm text-muted-foreground">
-            Bald auf <span className="font-bold">wahl.chat</span>
+            Pronto en <span className="font-bold">wahl.chat</span>
           </p>
         </div>
       </div>
 
       <p className="text-sm text-muted-foreground">
-        Teile uns deine E-Mail mit, um benachrichtigt zu werden, wenn der
-        Koalitionsvertrag auf wahl.chat verfügbar ist.
+        Déjanos tu correo electrónico para avisarte cuando el acuerdo de
+        coalición esté disponible en wahl.chat.
       </p>
 
       <form className="flex flex-col gap-2 md:flex-row" onSubmit={handleSubmit}>
         <Input
           name="email"
-          placeholder="Email"
+          placeholder="Correo electrónico"
           type="email"
           autoComplete="email"
           autoCapitalize="off"
@@ -77,7 +77,7 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
 
         <Button type="submit">
           <MailCheckIcon />
-          Benachrichtige mich
+          Avísame
         </Button>
       </form>
     </div>

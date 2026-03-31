@@ -25,7 +25,7 @@ function ChatSingleUserMessage({ message, isLastMessage }: Props) {
 
   const handleResendMessage = () => {
     if (!user) {
-      toast.error('Recarga la pagina para volver a enviar el mensaje.');
+      toast.error('Recarga la página para volver a enviar el mensaje.');
       return;
     }
 

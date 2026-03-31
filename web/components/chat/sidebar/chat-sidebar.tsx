@@ -32,7 +32,7 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
   return (
     <Sidebar
       mobileVisuallyHiddenTitle="votamos.chat"
-      mobileVisuallyHiddenDescription="Inicia un nuevo chat o elige una conversacion anterior."
+      mobileVisuallyHiddenDescription="Inicia un nuevo chat o elige una conversación anterior."
     >
       <SidebarHeader className="flex h-chat-header flex-row items-center justify-between border-b border-b-muted pl-4 pr-2">
         <Link href={`/${contextId}`} className="flex items-center gap-4">
@@ -89,7 +89,7 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
           <SidebarHistorySr />
         </Suspense>
         <SidebarGroup>
-          <SidebarGroupLabel>Informacion</SidebarGroupLabel>
+          <SidebarGroupLabel>Información</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -99,7 +99,7 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/how-to">Como funciona votamos.chat?</Link>
+                  <Link href="/how-to">¿Cómo funciona votamos.chat?</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

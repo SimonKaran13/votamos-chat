@@ -91,7 +91,7 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
               'Analizando viabilidad...',
               'Identificando efectos a corto plazo...',
               'Identificando efectos a largo plazo...',
-              'Terminando analisis...',
+              'Terminando análisis...',
             ]}
           />
         </div>
@@ -161,12 +161,12 @@ function ChatProConExpandable({ message, isGroupChat }: Props) {
           {!isExpanded ? (
             <p className="text-xs text-muted-foreground">
               Este mensaje contiene una{' '}
-              <span className="font-bold">posicion contextualizada</span>.
+              <span className="font-bold">posición contextualizada</span>.
             </p>
           ) : (
             <span className="flex flex-row items-center gap-1.5 text-xs text-muted-foreground">
               <PerplexityIcon className="size-4" />
-              <span>Con tecnologia de Perplexity</span>
+              <span>Con tecnología de Perplexity</span>
             </span>
           )}
           <Tooltip>

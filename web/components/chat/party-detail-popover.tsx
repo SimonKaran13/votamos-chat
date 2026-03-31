@@ -37,7 +37,7 @@ function PartyDetailPopover({ parties }: Props) {
               <span className="font-bold">{party.candidate}</span>
             </p>
             <p>
-              Mas informacion sobre esta candidatura en{' '}
+              Más información sobre esta candidatura en{' '}
               <a href={party.website_url} target="_blank" className="underline">
                 {party.website_url}
               </a>

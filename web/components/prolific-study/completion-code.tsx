@@ -21,7 +21,7 @@ function CompletionCode() {
     if (!completionCode) return;
     await navigator.clipboard.writeText(completionCode);
     setCopied(true);
-    toast.success('Codigo copiado al portapapeles');
+    toast.success('Código copiado al portapapeles');
     setTimeout(() => setCopied(false), 2000);
   }, [completionCode]);
 
@@ -32,11 +32,11 @@ function CompletionCode() {
           Gracias por participar
         </h2>
         <p className="mt-1 text-sm text-green-700 dark:text-green-300">
-          Copia el siguiente codigo para continuar el estudio en Prolific:
+          Copia el siguiente código para continuar el estudio en Prolific:
         </p>
         <div className="mt-3 flex items-center gap-2">
           <code className="flex-1 rounded-md bg-white px-4 py-2 font-mono text-lg font-bold text-green-900 dark:bg-green-900 dark:text-green-100">
-            {completionCode ?? 'No fue posible obtener el codigo final.'}
+            {completionCode ?? 'No fue posible obtener el código final.'}
           </code>
           <Button
             variant="outline"

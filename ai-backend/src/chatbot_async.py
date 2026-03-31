@@ -381,7 +381,7 @@ def get_rag_context(relevant_docs: List[Document]) -> str:
         rag_context += context_obj
     if rag_context == "":
         rag_context = (
-            "No se encontro informacion relevante en la coleccion de documentos."
+            "No se encontró información relevante en la colección de documentos."
         )
     return rag_context
 
@@ -392,20 +392,20 @@ def get_rag_comparison_context(
     rag_context = ""
     doc_num = 0
     for party in relevant_parties:
-        rag_context += f"\n\nInformationen von {party.name}:\n"
+        rag_context += f"\n\nInformación de {party.name}:\n"
         for doc in relevant_docs[party.party_id]:
             context_obj = f"""- ID: {doc_num}
-- Dokumentname: {doc.metadata.get("document_name", "unbekannt")}
-- Partei: {party.name}
-- Veröffentlichungsdatum: {doc.metadata.get("document_publish_date", "unbekannt")}
-- Inhalt: "{doc.page_content}"
+- Nombre del documento: {doc.metadata.get("document_name", "desconocido")}
+- Partido: {party.name}
+- Fecha de publicación: {doc.metadata.get("document_publish_date", "desconocido")}
+- Contenido: "{doc.page_content}"
 
 """
             doc_num += 1
             rag_context += context_obj
     if rag_context == "":
         rag_context = (
-            "No se encontro informacion relevante en la coleccion de documentos."
+            "No se encontró información relevante en la colección de documentos."
         )
     return rag_context
 

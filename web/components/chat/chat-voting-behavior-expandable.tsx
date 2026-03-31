@@ -106,7 +106,7 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
               'Buscando iniciativas legislativas...',
               'Revisando votaciones...',
               'Analizando autores de las iniciativas...',
-              'Comparando informacion...',
+              'Comparando información...',
               'Resumiendo resultados...',
             ]}
           />
@@ -153,7 +153,7 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
         >
           {!isExpanded ? (
             <p className="text-xs text-muted-foreground">
-              Este mensaje contiene mas informacion sobre el{' '}
+              Este mensaje contiene más información sobre el{' '}
               <span className="font-bold">comportamiento de voto</span> de la
               candidatura.
             </p>

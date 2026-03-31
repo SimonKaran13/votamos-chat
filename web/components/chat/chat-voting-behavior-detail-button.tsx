@@ -90,7 +90,7 @@ const ChatVotingBehaviorDetailButton = forwardRef<
           <VisuallyHidden>
             <DialogTitle>Comportamiento de voto</DialogTitle>
             <DialogDescription>
-              Este mensaje contiene mas informacion sobre el comportamiento de
+              Este mensaje contiene más información sobre el comportamiento de
               voto de la candidatura.
             </DialogDescription>
           </VisuallyHidden>
@@ -112,7 +112,7 @@ const ChatVotingBehaviorDetailButton = forwardRef<
         <VisuallyHidden>
           <DrawerTitle>Comportamiento de voto</DrawerTitle>
           <DrawerDescription>
-            Este mensaje contiene mas informacion sobre el comportamiento de
+            Este mensaje contiene más información sobre el comportamiento de
             voto de la candidatura.
           </DrawerDescription>
         </VisuallyHidden>

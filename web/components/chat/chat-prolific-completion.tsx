@@ -40,7 +40,7 @@ function ChatProlificCompletion({ minInteractions }: Props) {
             Estudio completado
           </p>
           <p className="text-sm text-green-700 dark:text-green-300">
-            Haz clic aqui para obtener tu codigo final.
+            Haz clic aquí para obtener tu código final.
           </p>
         </div>
       </button>

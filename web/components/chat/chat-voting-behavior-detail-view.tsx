@@ -59,7 +59,7 @@ function ChatVotingBehaviorDetailView({
               <CarouselItem key={vote.id}>
                 <div className="p-4">
                   <div className="flex flex-row items-center justify-between">
-                    <h2 className="text-base font-bold">Descripcion</h2>
+                    <h2 className="text-base font-bold">Descripción</h2>
                     <Button variant="link" asChild>
                       <Link href={vote.url} target="_blank">
                         <ArrowUpRightIcon />
@@ -76,7 +76,7 @@ function ChatVotingBehaviorDetailView({
 
                   <ChatVotingBehaviorSubmittingParties vote={vote} />
 
-                  <p className="pb-2 pt-4 text-sm font-bold">Mas enlaces</p>
+                  <p className="pb-2 pt-4 text-sm font-bold">Más enlaces</p>
 
                   <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
                     {vote.links.map((link, index) => (

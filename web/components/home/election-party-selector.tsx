@@ -51,7 +51,7 @@ export function ElectionPartySelector({ contextId }: Props) {
             className="size-7 shrink-0"
             aria-hidden="true"
           />
-          Escoge un candidato y chatea!
+          Escoge una candidatura y chatea
         </h2>
 
         {!parties || isLoading ? (
@@ -69,10 +69,10 @@ export function ElectionPartySelector({ contextId }: Props) {
             className="w-full max-w-xl whitespace-normal border border-border"
             variant="secondary"
             disabled={isLoading}
-            aria-label="Escoger múltiples candidatos para compararlos"
+            aria-label="Escoger múltiples candidaturas para compararlas"
           >
             <GitCompareIcon aria-hidden="true" />
-            Selecciona múltiples candidatos para compararlos
+            Selecciona múltiples candidaturas para compararlas
           </Button>
         </ChatGroupPartySelect>
       </section>

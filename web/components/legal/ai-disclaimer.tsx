@@ -18,11 +18,11 @@ function AiDisclaimerContent() {
       <p>
         Las respuestas de votamos.chat son generadas por una{' '}
         <span className="font-semibold">inteligencia artificial</span>. Se basan
-        en informacion extraida de{' '}
+        en información extraída de{' '}
         <span className="font-semibold">programas de gobierno</span> y otras
-        fuentes <span className="font-semibold">publicamente disponibles</span>.
-        Aunque votamos.chat busca ofrecer informacion precisa sobre posturas y
-        propuestas politicas, ten en cuenta lo siguiente:
+        fuentes <span className="font-semibold">públicamente disponibles</span>.
+        Aunque votamos.chat busca ofrecer información precisa sobre posturas y
+        propuestas políticas, ten en cuenta lo siguiente:
       </p>
 
       <ul className="flex list-inside flex-col gap-4 py-4 *:flex *:items-center *:gap-2">
@@ -49,7 +49,7 @@ function AiDisclaimerContent() {
           <GitBranch className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
             Las{' '}
-            <span className="font-semibold">posturas politicas complejas</span>{' '}
+            <span className="font-semibold">posturas políticas complejas</span>{' '}
             pueden no quedar reflejadas en todos sus matices.
           </span>
         </li>
@@ -66,7 +66,7 @@ function AiDisclaimerContent() {
       <p>
         Este chat con IA es una{' '}
         <span className="font-semibold">herramienta informativa</span> para
-        conocer distintas posiciones politicas. Si necesitas informacion{' '}
+        conocer distintas posiciones políticas. Si necesitas información{' '}
         <span className="font-semibold">oficial o vinculante</span>, consulta
         las <span className="font-semibold">fuentes oficiales</span> de cada
         candidatura.
@@ -81,7 +81,7 @@ function AiDisclaimer() {
       <p className="my-2 text-center text-xs text-muted-foreground">
         votamos.chat puede cometer errores.{' '}
         <ResponsiveDialogTrigger className="font-semibold underline">
-          Mas informacion aqui.
+          Más información aquí.
         </ResponsiveDialogTrigger>
       </p>
       <ResponsiveDialogContent>

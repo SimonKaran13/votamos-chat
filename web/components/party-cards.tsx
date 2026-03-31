@@ -131,7 +131,7 @@ function PartyCards({
                 aria-label={
                   showMore
                     ? 'Mostrar menos candidaturas'
-                    : 'Mostrar mas candidaturas'
+                    : 'Mostrar más candidaturas'
                 }
               >
                 {showMore ? (
@@ -140,7 +140,7 @@ function PartyCards({
                   <EllipsisIcon className="size-4" aria-hidden="true" />
                 )}
                 {gridColumns >= 4 &&
-                  `${showMore ? 'Menos' : 'Mas'} candidaturas`}
+                  `${showMore ? 'Menos' : 'Más'} candidaturas`}
               </Button>
             </CollapsibleTrigger>
 
@@ -152,7 +152,7 @@ function PartyCards({
                   gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
                 }}
                 role="group"
-                aria-label="Mas candidaturas"
+                aria-label="Más candidaturas"
               >
                 {remainingParties.map((party) => (
                   <PartyCard

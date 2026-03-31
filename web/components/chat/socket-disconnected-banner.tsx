@@ -12,7 +12,7 @@ function SocketDisconnectedBanner() {
   return (
     <div className="flex items-center justify-center bg-red-500 py-2 text-center text-xs text-white">
       <CircleAlertIcon className="mr-2 size-4" />
-      El chat no esta disponible. Espera un momento o recarga la pagina.
+      El chat no está disponible. Espera un momento o recarga la página.
     </div>
   );
 }

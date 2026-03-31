@@ -52,12 +52,12 @@ function ChatDislikeFeedbackButton({
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>Enviar comentarios</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Que no te gusto de esta respuesta?
+            ¿Qué no te gustó de esta respuesta?
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
         <form onSubmit={handleSubmit}>
           <Textarea
-            placeholder="Escribe aqui tus comentarios. (opcional)"
+            placeholder="Escribe aquí tus comentarios. (opcional)"
             className="w-full"
             name="details"
             defaultValue={feedbackDetail}

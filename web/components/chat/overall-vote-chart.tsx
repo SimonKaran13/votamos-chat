@@ -14,7 +14,7 @@ function OverallVoteChart({ vote }: Props) {
 
     if (totalVotes === 0) {
       return [
-        'No se registraron votos validos',
+        'No se registraron votos válidos',
         'No fue posible determinar un resultado',
       ];
     }
@@ -44,7 +44,7 @@ function OverallVoteChart({ vote }: Props) {
 
     let percentageStatement: string;
     if (outcome === 'empatado') {
-      percentageStatement = `La propuesta quedo empatada con ${percentage.toFixed(
+      percentageStatement = `La propuesta quedó empatada con ${percentage.toFixed(
         1,
       )}% de los votos para cada lado.`;
     } else {
