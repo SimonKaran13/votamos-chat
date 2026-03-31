@@ -153,31 +153,14 @@ export function buildPdfUrl(source: Source) {
   );
 }
 
-export async function generateOgImageUrl(sessionType: string) {
-  if (sessionType === GROUP_PARTY_ID) {
+export function generateOgImageUrl(
+  party: Pick<PartyDetails, 'party_id' | 'background_color'>,
+) {
+  if (party.party_id === GROUP_PARTY_ID) {
     return;
   }
 
-  let party: PartyDetails | undefined;
   const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
-
-  try {
-    const response = await fetch(`${siteUrl}/api/parties`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch parties');
-    }
-
-    const parties = await response.json();
-
-    party = parties.find((p: PartyDetails) => p.party_id === sessionType);
-  } catch (error) {
-    console.error(error);
-  }
-
-  if (!party) {
-    return;
-  }
-
   const url = new URL(siteUrl);
   const imageUrl = new URL('/api/og', url);
   imageUrl.searchParams.set(

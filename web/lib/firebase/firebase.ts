@@ -91,6 +91,9 @@ export function listenToHistory(
         })) as ChatSession[],
       );
     },
+    (error) => {
+      console.warn('Failed to listen to chat history updates', error);
+    },
   );
 
   return unsubscribe;
