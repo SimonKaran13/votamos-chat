@@ -10,5 +10,29 @@
     "election_manifesto_url": "https://www.movimientopactohistorico.co/docs/programa-gobierno-2026-2030.pdf",
     "long_name": "Pacto Histórico",
     "logo_src": ""
+  },
+  "adle": {
+    "is_already_in_parliament": true,
+    "candidate": "Abelardo de la Espriella y José Manuel Restrepo",
+    "background_color": "#FF0000",
+    "website_url": "https://defensoresdelapatria.com/",
+    "party_id": "adle",
+    "name": "Defensores de la Patria",
+    "description": "Defensores de la Patria es un movimiento independiente colombiano conservador.",
+    "election_manifesto_url": "https://defensoresdelapatria.com/wp-content/uploads/2026/04/PROPUESTAS-ABELARDO-DE-LA-ESPRIELLA-EL-TIGRE.pdf",
+    "long_name": "Defensores de la Patria",
+    "logo_src": ""
+  },
+  "cd": {
+    "is_already_in_parliament": true,
+    "candidate": "Paloma Valencia y Juan Daniel Oviedo",
+    "background_color": "#253D6B",
+    "website_url": "https://palomapresidente.com.co/",
+    "party_id": "cd",
+    "name": "Centro Democrático",
+    "description": "El Centro Democrático es un partido político colombiano de derecha.",
+    "election_manifesto_url": "https://palomapresidente.com.co/manifiesto.html",
+    "long_name": "Centro Democrático",
+    "logo_src": ""
   }
 }
