@@ -97,8 +97,12 @@ generate_chat_title_and_quick_replies_llms: list[LLM] = PRE_AND_POST_PROCESSING_
 
 reranking_llms = PRE_AND_POST_PROCESSING_LLMS
 
-perplexity_client = AsyncOpenAI(
-    api_key=os.getenv("PERPLEXITY_API_KEY"), base_url="https://api.perplexity.ai"
+perplexity_client = (
+    AsyncOpenAI(
+        api_key=os.getenv("PERPLEXITY_API_KEY"), base_url="https://api.perplexity.ai"
+    )
+    if os.getenv("PERPLEXITY_API_KEY")
+    else None
 )
 
 
@@ -336,6 +340,9 @@ async def generate_pro_con_perspective(
     ]
 
     # chat completion without streaming
+    if perplexity_client is None:
+        raise ValueError("PERPLEXITY_API_KEY is not configured")
+
     response = await perplexity_client.chat.completions.create(
         model="sonar",
         messages=messages,
