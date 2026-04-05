@@ -4,17 +4,16 @@ SPDX-FileCopyrightText: 2025 2025 wahl.chat
 SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 -->
 
-# wahl.chat
+# votamos.chat
 
-The leading political information chatbot for the German federal elections 2025.
+The leading political information chatbot for the Colombian presidential elections 2026.
 
-**Application**: https://wahl.chat/
-**About**: https://wahl.chat/about-us
-**Press**: https://wahl-chat.notion.site/press
+**Application**: https://votamos.chat/
+**About**: https://votamos.chat/about-us
 
 ## About
 
-The aim of wahl.chat is to enable users to engage in a contemporary way with the positions of political parties and to receive answers to individual questions that can be substantiated with sources.
+The aim of votamos.chat is to enable users to engage in a contemporary way with the positions of political parties and to receive answers to individual questions that can be substantiated with sources.
 
 ## Repository Structure
 
@@ -58,7 +57,7 @@ This starts both the Next.js frontend (`localhost:3000`) and the Python backend 
 ## Contributing
 
 We appreciate contributions from our community. Please take a look at the open issues if you are interested.
-If you are unsure where to start, please contact robin@wahl.chat.
+If you are unsure where to start, please contact simon@wahl.chat.
 
 ## License
 
