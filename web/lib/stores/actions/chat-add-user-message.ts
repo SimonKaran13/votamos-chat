@@ -32,7 +32,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
     const safeContextId = contextId ?? DEFAULT_CONTEXT_ID;
 
     if (!socket.io?.connected) {
-      if (!fromInitialQuestion) toast.error('wahl.chat ist nicht verbunden.');
+      if (!fromInitialQuestion) toast.error('votamos.chat no está conectado.');
       else
         set((state) => {
           state.initialQuestionError = message;
