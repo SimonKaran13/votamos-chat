@@ -16,6 +16,15 @@ load_env()
 
 logger = logging.getLogger(__name__)
 
+RATE_LIMIT_ERROR_PATTERNS = (
+    "429",
+    "rate limit",
+    "rate_limit",
+    "resource exhausted",
+    "too many requests",
+    "quota exceeded",
+)
+
 def _azure_configured() -> bool:
     return bool(
         os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -259,7 +268,31 @@ PRE_AND_POST_PROCESSING_LLMS: list[LLM] = [
 
 
 async def handle_rate_limit_hit_for_all_llms():
-    await awrite_llm_status(is_at_rate_limit=True)
+    await _write_global_llm_status(is_at_rate_limit=True)
+
+
+async def _write_global_llm_status(is_at_rate_limit: bool) -> None:
+    try:
+        await awrite_llm_status(is_at_rate_limit=is_at_rate_limit)
+    except Exception as error:
+        logger.warning(
+            "Failed to persist global LLM status %s: %s",
+            is_at_rate_limit,
+            error,
+        )
+
+
+def _is_rate_limit_error(error: Exception) -> bool:
+    status_code = getattr(error, "status_code", None)
+    if status_code == 429:
+        return True
+
+    response = getattr(error, "response", None)
+    if getattr(response, "status_code", None) == 429:
+        return True
+
+    message = str(error).lower()
+    return any(pattern in message for pattern in RATE_LIMIT_ERROR_PATTERNS)
 
 
 async def get_answer_from_llms(
@@ -268,29 +301,45 @@ async def get_answer_from_llms(
     llms = sorted(llms, key=lambda x: x.priority, reverse=True)
     back_up_llms = [llm for llm in llms if llm.back_up_only]
     llms = [llm for llm in llms if not llm.back_up_only]
+    all_errors_rate_limit = True
+    last_error: Optional[Exception] = None
     for llm in llms:
         try:
             logger.debug(f"Invoking LLM {llm.name}...")
             response = await llm.model.ainvoke(messages)
             llm.is_at_rate_limit = False
+            await _write_global_llm_status(is_at_rate_limit=False)
             return response
         except Exception as e:
+            last_error = e
+            llm.is_at_rate_limit = _is_rate_limit_error(e)
+            all_errors_rate_limit = all_errors_rate_limit and llm.is_at_rate_limit
             logger.warning(f"Error invoking LLM {llm.name}: {e}")
-            llm.is_at_rate_limit = True
             continue
-
-    await handle_rate_limit_hit_for_all_llms()
 
     for llm in back_up_llms:
         try:
             logger.debug(f"Invoking LLM {llm.name}...")
             response = await llm.model.ainvoke(messages)
             llm.is_at_rate_limit = False
+            await _write_global_llm_status(is_at_rate_limit=False)
             return response
         except Exception as e:
+            last_error = e
+            llm.is_at_rate_limit = _is_rate_limit_error(e)
+            all_errors_rate_limit = all_errors_rate_limit and llm.is_at_rate_limit
             logger.warning(f"Error invoking LLM {llm.name}: {e}")
-            llm.is_at_rate_limit = True
-    raise Exception("All LLMs are at rate limit.")
+
+    if last_error is None:
+        await _write_global_llm_status(is_at_rate_limit=False)
+        raise RuntimeError("No LLMs are configured.")
+
+    if all_errors_rate_limit:
+        await handle_rate_limit_hit_for_all_llms()
+        raise Exception("All LLMs are at rate limit.")
+
+    await _write_global_llm_status(is_at_rate_limit=False)
+    raise last_error
 
 
 async def get_structured_output_from_llms(
@@ -299,20 +348,22 @@ async def get_structured_output_from_llms(
     llms = sorted(llms, key=lambda x: x.priority, reverse=True)
     back_up_llms = [llm for llm in llms if llm.back_up_only]
     llms = [llm for llm in llms if not llm.back_up_only]
+    all_errors_rate_limit = True
+    last_error: Optional[Exception] = None
     for llm in llms:
         try:
             logger.debug(f"Invoking LLM {llm.name}...")
             prepared_model = llm.model.with_structured_output(schema)
             response = await prepared_model.ainvoke(messages)
             llm.is_at_rate_limit = False
+            await _write_global_llm_status(is_at_rate_limit=False)
             return response
         except Exception as e:
+            last_error = e
+            llm.is_at_rate_limit = _is_rate_limit_error(e)
+            all_errors_rate_limit = all_errors_rate_limit and llm.is_at_rate_limit
             logger.warning(f"Error invoking LLM {llm.name}: {e}")
-            llm.is_at_rate_limit = True
-            # TODO: consider writing to Firestore that this LLM now is at rate limit
             continue
-
-    await handle_rate_limit_hit_for_all_llms()
 
     for llm in back_up_llms:
         try:
@@ -320,11 +371,24 @@ async def get_structured_output_from_llms(
             prepared_model = llm.model.with_structured_output(schema)
             response = await prepared_model.ainvoke(messages)
             llm.is_at_rate_limit = False
+            await _write_global_llm_status(is_at_rate_limit=False)
             return response
         except Exception as e:
+            last_error = e
+            llm.is_at_rate_limit = _is_rate_limit_error(e)
+            all_errors_rate_limit = all_errors_rate_limit and llm.is_at_rate_limit
             logger.warning(f"Error invoking LLM {llm.name}: {e}")
-            llm.is_at_rate_limit = True
-    raise Exception("All LLMs are at rate limit.")
+
+    if last_error is None:
+        await _write_global_llm_status(is_at_rate_limit=False)
+        raise RuntimeError("No LLMs are configured.")
+
+    if all_errors_rate_limit:
+        await handle_rate_limit_hit_for_all_llms()
+        raise Exception("All LLMs are at rate limit.")
+
+    await _write_global_llm_status(is_at_rate_limit=False)
+    raise last_error
 
 
 async def stream_answer_from_llms(
@@ -358,15 +422,29 @@ async def stream_answer_from_llms(
         llms = small_llms + large_llms
     else:
         raise ValueError(f"Invalid preferred LLM size: {preferred_llm_size}")
+    all_errors_rate_limit = True
+    last_error: Optional[Exception] = None
     for llm in llms:
         try:
             logger.debug(f"Invoking LLM {llm.name}...")
             response = llm.model.astream(messages)
             llm.is_at_rate_limit = False
+            await _write_global_llm_status(is_at_rate_limit=False)
             return response
         except Exception as e:
+            last_error = e
+            llm.is_at_rate_limit = _is_rate_limit_error(e)
+            all_errors_rate_limit = all_errors_rate_limit and llm.is_at_rate_limit
             logger.warning(f"Error invoking LLM {llm.name}: {e}")
-            llm.is_at_rate_limit = True
             continue
 
-    return await handle_rate_limit_hit_for_all_llms()
+    if last_error is None:
+        await _write_global_llm_status(is_at_rate_limit=False)
+        raise RuntimeError("No LLMs are configured.")
+
+    if all_errors_rate_limit:
+        await handle_rate_limit_hit_for_all_llms()
+        raise Exception("All LLMs are at rate limit.")
+
+    await _write_global_llm_status(is_at_rate_limit=False)
+    raise last_error
