@@ -71,7 +71,7 @@ async function SourcesPage({ params }: Props) {
       </div>
       <p className="mb-2 mt-4 text-sm text-muted-foreground">
         Nuestra IA utiliza estas fuentes para las respuestas generales. Para
-        contextualizar posiciones, utilizamos
+        contextualizar posiciones, utilizamos{' '}
         <span className="underline">Perplexity.ai</span>, que se basa en
         información actualizada de internet.
       </p>
