@@ -89,7 +89,7 @@ function PartyCards({
           <Button
             className={cn(
               'flex aspect-square size-full items-center justify-center rounded-md',
-              'border border-muted-foreground/20 bg-background dark:bg-zinc-900 hover:bg-muted p-0',
+              'border border-muted-foreground/20 bg-background p-0 text-foreground hover:bg-muted dark:bg-zinc-900',
             )}
             type="button"
             tooltip="votamos.chat"
@@ -100,7 +100,7 @@ function PartyCards({
               onClick={() => onPartyClicked?.('wahl.chat')}
               aria-label="Iniciar chat con votamos.chat"
             >
-              <Logo className="!size-10" aria-hidden="true" />
+              <Logo variant="small" className="!size-10" aria-hidden="true" />
             </Link>
           </Button>
         )}
