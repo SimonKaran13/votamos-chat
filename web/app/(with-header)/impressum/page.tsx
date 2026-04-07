@@ -2,23 +2,23 @@ import { Markdown } from '@/components/markdown';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Impressum',
-  description: 'Impressum und Kontaktdaten von wahl.chat.',
+  title: 'Aviso Legal',
+  description: 'Datos de contacto de votamos.chat',
   robots: 'noindex',
 };
 
 function Impressum() {
   const markdown = `
-# Impressum
+# Aviso Legal
         
-## Adresse
-*Robin Frasch*  
-An der Verbindungsbahn 7 
-20146 Hamburg  
-Deutschland
+## Dirección
+*Simón Karan*  
+Carrera 14 #127A-85 
+Bogotá 
+Colombia
 
 ## Kontakt
-**E-Mail:** info@wahl.chat
+**E-Mail:** simon@wahl.chat
   `;
 
   return (
