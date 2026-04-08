@@ -57,8 +57,8 @@ This starts both the Next.js frontend (`localhost:3000`) and the Python backend 
 ## Contributing
 
 We appreciate contributions from our community. Please take a look at the open issues if you are interested.
-If you are unsure where to start, please contact simon@wahl.chat.
+If you are unsure where to start, please contact info@votamos.chat.
 
 ## License
 
-This project is **source-available** under the [PolyForm Noncommercial 1.0.0](LICENSE) license. Please contact simon@wahl.chat for commercial use inquiries.
+This project is **source-available** under the [PolyForm Noncommercial 1.0.0](LICENSE) license. Please contact info@votamos.chat for commercial use inquiries.

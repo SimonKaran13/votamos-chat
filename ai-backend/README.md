@@ -17,7 +17,7 @@ To adapt it for use in other countries, you will need to adjust the prompts and 
 
 ## Setup
 
-> Need help? Contact us at [simon@wahl.chat](mailto:simon@wahl.chat).
+> Need help? Contact us at [info@votamos.chat](mailto:info@votamos.chat).
 
 ### 1. Install dependencies
 

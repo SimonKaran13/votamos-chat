@@ -90,7 +90,7 @@ function AboutUs() {
           >
             Github
           </a>{' '}
-          o escribe a <a href="mailto:simon@wahl.chat">simon@wahl.chat</a>
+          o escribe a <a href="mailto:info@votamos.chat">info@votamos.chat</a>
         </p>
       </section>
     </div>

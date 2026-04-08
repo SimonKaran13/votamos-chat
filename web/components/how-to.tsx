@@ -244,7 +244,7 @@ function buildAccordionContent({
       content: {
         paragraphs: [
           `La selección actual para ${contextName} se basa en la disponibilidad de programas de gobierno y otros documentos públicos verificables. Queremos ampliar gradualmente la cobertura para incluir más candidaturas, movimientos y coaliciones relevantes.`,
-          'Si echas en falta alguna candidatura o movimiento, escríbenos un correo con su programa de gobierno, manifiesto u otros documentos relevantes en PDF a simon@wahl.chat y lo añadiremos lo antes posible.',
+          'Si echas en falta alguna candidatura o movimiento, escríbenos un correo con su programa de gobierno, manifiesto u otros documentos relevantes en PDF a info@votamos.chat y lo añadiremos lo antes posible.',
         ],
       },
     },
@@ -297,7 +297,7 @@ function buildAccordionContent({
       content: {
         paragraphs: [
           'votamos.chat es un proyecto Open Source y nuestro código es públicamente accesible en GitHub bajo https://github.com/SimonKaran13/votamos-chat.',
-          'Agradecemos el apoyo y siempre estamos en busca de voluntarios que quieran fortalecer la democracia junto a nosotros. Si tienes interés en colaborar, puedes contactar al e-mail simon@wahl.chat.',
+          'Agradecemos el apoyo y siempre estamos en busca de voluntarios que quieran fortalecer la democracia junto a nosotros. Si tienes interés en colaborar, puedes contactar al e-mail info@votamos.chat.',
         ],
       },
     },
@@ -577,15 +577,15 @@ function HowTo() {
                     <br />
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[1] || '';
-                      const parts = text.split('simon@wahl.chat');
+                      const parts = text.split('info@votamos.chat');
                       return (
                         <>
                           {parts[0]}
                           <a
-                            href="mailto:simon@wahl.chat"
+                            href="mailto:info@votamos.chat"
                             className="underline"
                           >
-                            simon@wahl.chat
+                            info@votamos.chat
                           </a>
                           {parts[1]}
                         </>
@@ -670,15 +670,15 @@ function HowTo() {
                     <br />
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[1] || '';
-                      const parts = text.split('simon@wahl.chat');
+                      const parts = text.split('info@votamos.chat');
                       return (
                         <p>
                           {parts[0]}
                           <a
-                            href="mailto:simon@wahl.chat"
+                            href="mailto:info@votamos.chat"
                             className="underline"
                           >
-                            simon@wahl.chat
+                            info@votamos.chat
                           </a>
                           {parts[1]}
                         </p>

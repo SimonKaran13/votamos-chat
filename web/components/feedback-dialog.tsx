@@ -28,7 +28,7 @@ function FeedbackDialog({ children }: Props) {
 
         <div className="flex w-full flex-col gap-2 p-4 md:p-0">
           <Button asChild variant="outline">
-            <Link href="mailto:simon@wahl.chat">
+            <Link href="mailto:info@votamos.chat">
               <MailIcon />
               Escríbenos un correo
             </Link>

@@ -18,7 +18,7 @@ Bogotá
 Colombia
 
 ## Kontakt
-**E-Mail:** simon@wahl.chat
+**E-Mail:** info@votamos.chat
   `;
 
   return (
