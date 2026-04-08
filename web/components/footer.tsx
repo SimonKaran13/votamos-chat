@@ -1,6 +1,5 @@
 'use client';
 
-import { PRESS_LINK } from '@/lib/contact-config';
 import Link from 'next/link';
 import Logo from './chat/logo';
 import { ThemeModeToggle } from './chat/theme-mode-toggle';
@@ -19,9 +18,9 @@ function Footer() {
         <Link href="/how-to">Guía</Link>
         <Link href="/about-us">Sobre nosotros</Link>
         <Link href={sourcesHref}>Fuentes</Link>
-        <Link href={PRESS_LINK} target="_blank">
-          Prensa
-        </Link>
+        {/*<Link href={PRESS_LINK} target="_blank">*/}
+        {/*  Prensa*/}
+        {/*</Link>*/}
         <FeedbackDialog>
           <button type="button">Feedback</button>
         </FeedbackDialog>
