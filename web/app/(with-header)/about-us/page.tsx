@@ -3,18 +3,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Über uns',
+  title: 'Sobre nosotros',
   description:
-    'Das Team hinter wahl.chat – wer wir sind und warum wir Politik interaktiv zugänglich machen.',
+    'Las personas detrás de votamos.chat – quienes somos y por qué queremos hacer la política accesible de manera interactiva.',
   robots: 'noindex',
 };
 
 function AboutUs() {
   return (
     <div className="mx-auto flex max-w-xl flex-col items-center justify-center space-y-6 pt-4">
-      <div className="relative aspect-[4/3] w-full">
+      <div className="relative aspect-[3/4] w-72">
         <Image
-          src="/images/team.webp"
+          src="/images/simon-karan.webp"
           alt="About Us"
           fill
           sizes="(max-width: 768px) 100vw, 75vw"
@@ -24,89 +24,73 @@ function AboutUs() {
       <section className="space-y-4">
         <p>
           <span className="font-bold [&_a]:underline">
-            Hinter <Link href="http://wahl.chat/">wahl.chat</Link> stehen:{' '}
-            <a href="https://www.linkedin.com/in/sebmai/" target="_blank">
-              Sebastian
+            Detrás de <Link href="http://votamos.chat/">votamos.chat</Link>{' '}
+            está:{' '}
+            <a href="https://www.linkedin.com/in/simonkaran/" target="_blank">
+              Simon
             </a>
-            ,{' '}
-            <a href="https://www.linkedin.com/in/antonwy/" target="_blank">
-              Anton
-            </a>
-            ,{' '}
-            <a
-              href="https://www.linkedin.com/in/michel-schimpf-55069b198/"
-              target="_blank"
-            >
-              Michel
-            </a>
-            ,{' '}
-            <a href="https://www.linkedin.com/in/robin-frasch/" target="_blank">
-              Robin
-            </a>
-            ,{' '}
-            <a href="https://www.linkedin.com/in/roman-mayr/" target="_blank">
-              Roman
-            </a>{' '}
+            .
           </span>
-          (im Bild von links nach rechts)
         </p>
 
-        <p>
-          Das Team von wahl.chat stammt aus München und hat sich ursprünglich in
-          Cambridge, UK zur gemeinsamen Forschung an KI zusammengefunden.
-          Mittlerweile sind wir über drei Länder verstreut aber haben weiterhin
-          ein gemeinsames Ziel: Mit wahl.chat möchten wir einen Beitrag zur
-          Demokratie leisten, indem wir Politik leichter zugänglich machen.
-          Basierend auf den Grundsatzprogrammen und Positionspapieren der
-          Parteien ermöglichen wir eine einfache, quellengestützte
-          Informationsmöglichkeit mit der wir politische Bildung neu denken.
+        <p className="[&_a]:underline">
+          La idea de <Link href="http://votamos.chat/">votamos.chat</Link> surge
+          en 2025 apartir de una conversación en reflexión al atentado en contra
+          de Miguel Uribe. Asumiendo el impacto que una noticia así llegaría a
+          tener en la política colombiana y con las elecciones presidenciales a
+          la vuelta de la esquina, era el momento de tomar acción y desarrollar
+          una herramienta para ayudar a los colombianos a poder informarse, de
+          manera neutral, clara y accesible acerca las diferentes propuestas de
+          los candidatos a la presidencia.
         </p>
         <p className="[&_a]:underline">
-          Zudem bedanken wir uns für ihre Unterstützung bei:{' '}
-          <a target="_blank" href="https://www.linkedin.com/in/simonkaran/">
-            Simon
+          Amigos de mi universidad en Alemania, ya habían explorado esta idea
+          para las elecciones parlamentarias alemanas de 2025. Es así como
+          decidí unirme al equipo de{' '}
+          <a target="_blank" href="https://wahl.chat/">
+            wahl.chat
+          </a>
+          . Durante mi tiempo con ellos, contribuí al desarrollo de la
+          plataforma en Alemania, donde ampliamos soporte a elecciones
+          regionales y de la alcaldía en la ciudad donde estoy localizado,
+          Múnich.
+        </p>
+        <p className="[&_a]:underline">
+          Gracias a esta experiencia, decidí crear{' '}
+          <Link href="http://votamos.chat/">votamos.chat</Link>, con el objetivo
+          de ofrecer una forma más intuitiva, interactiva y moderna de entender
+          la política y tomar decisiones informadas. A futuro, la visión es
+          expandir este modelo a más países y contextos electorales.
+        </p>
+
+        <p className="[&_a]:underline">
+          Agradezco profundamente por su ayuda a:{' '}
+          <a target="_blank" href="https://www.linkedin.com/in/robin-frasch/">
+            Robin
           </a>
           ,{' '}
           <a
             target="_blank"
-            href="https://www.linkedin.com/in/nathan-orester-898014247/"
+            href="https://www.linkedin.com/in/jos%C3%A9-pablo-%C3%A1lvarez-acosta/"
           >
-            Nathan
+            José Pablo
           </a>
-          ,{' '}
-          <a
-            target="_blank"
-            href="https://www.linkedin.com/in/anton-kluge-0b0aa6220/"
-          >
-            Anton
+          , Julia, y a todo el equipo detrás de {''}
+          <a target="_blank" href="https://wahl.chat/about-us">
+            wahl.chat
           </a>
-          ,{' '}
-          <a
-            target="_blank"
-            href="https://www.linkedin.com/in/paul-barbu-8391b7216/"
-          >
-            Paul
-          </a>
-          ,{' '}
-          <a target="_blank" href="https://www.linkedin.com/in/etiennekoehler/">
-            Etienne
-          </a>
-          ,{' '}
-          <a target="_blank" href="https://www.linkedin.com/in/nikhil-j-roy/">
-            Nikhil
-          </a>
-          , Mai
         </p>
         <p className="[&_a]:underline">
-          Wenn du uns helfen möchtest, kannst du gerne Teil des{' '}
-          <Link href="http://wahl.chat/">wahl.chat</Link> Teams werden. Melde
-          dich einfach unter: <a href="mailto:info@wahl.chat">info@wahl.chat</a>
-        </p>
-        <p className="[&_a]:underline">
-          Es besteht auch die Möglichkeit, eine Bachelor- oder Masterarbeit bei
-          uns zu schreiben. Melde dich hierfür am besten mit einem
-          Themenvorschlag direkt bei{' '}
-          <a href="mailto:robin@wahl.chat">robin@wahl.chat</a>
+          Te gustaría ayudar a{' '}
+          <Link href="http://votamos.chat/">votamos.chat</Link>? Puedes
+          contribuir en{' '}
+          <a
+            target="_blank"
+            href="https://github.com/SimonKaran13/votamos-chat"
+          >
+            Github
+          </a>{' '}
+          o escribe a <a href="mailto:simon@wahl.chat">simon@wahl.chat</a>
         </p>
       </section>
     </div>
