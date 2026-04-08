@@ -512,7 +512,7 @@ function HowTo() {
                         </>
                       );
                     })()}
-                    <ol className="list-outside list-decimal py-4 pl-4 [&_li]:pt-1">
+                    <ol className="list-outside list-decimal py-4 pl-6 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => {
                         const parts = item.split(':');
                         return (
@@ -553,7 +553,7 @@ function HowTo() {
                 {accordionItem.id === 'guidelines' && (
                   <>
                     {accordionItem.content.intro}
-                    <ol className="list-outside list-decimal py-4 pl-4 [&_li]:pt-1">
+                    <ol className="list-outside list-decimal py-4 pl-6 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => {
                         const parts = item.split(':');
                         return (
@@ -601,7 +601,7 @@ function HowTo() {
                     <br />
                     <br />
                     <span className="font-bold">Con votamos.chat puedes:</span>
-                    <ol className="list-outside list-decimal py-2 pl-4 [&_li]:pt-1">
+                    <ol className="list-outside list-decimal py-2 pl-6 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
