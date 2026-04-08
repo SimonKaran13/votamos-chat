@@ -61,4 +61,4 @@ If you are unsure where to start, please contact simon@wahl.chat.
 
 ## License
 
-This project is **source-available** under the [PolyForm Noncommercial 1.0.0](LICENSE) license. Please contact info@wahl.chat for commercial use inquiries.
+This project is **source-available** under the [PolyForm Noncommercial 1.0.0](LICENSE) license. Please contact simon@wahl.chat for commercial use inquiries.
