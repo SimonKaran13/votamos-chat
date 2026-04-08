@@ -46,9 +46,9 @@ export default async function ContextHome({ params }: Props) {
       ) : (
         <section className="grid w-full grid-cols-1 flex-wrap gap-2 md:grid-cols-2 md:gap-2">
           {/*<ContactCard />*/}
-          <GitHubCard fullWidth={!openCallUrl} />
-          {/*{openCallUrl && <OpenCallCard url={openCallUrl} />}*/}
           <HowToCard />
+          {/*{openCallUrl && <OpenCallCard url={openCallUrl} />}*/}
+          <GitHubCard fullWidth={!openCallUrl} />
         </section>
       )}
 
