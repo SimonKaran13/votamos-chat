@@ -1,4 +1,4 @@
-import { MailIcon, MessageSquareHeart } from 'lucide-react';
+import { MailIcon } from 'lucide-react';
 import Link from 'next/link';
 import {
   ResponsiveDialog,
@@ -33,15 +33,15 @@ function FeedbackDialog({ children }: Props) {
               Escríbenos un correo
             </Link>
           </Button>
-          <Button asChild variant="outline">
-            <Link
-              href="https://forms.fillout.com/t/cGozfJUor9us"
-              target="_blank"
-            >
-              <MessageSquareHeart />
-              Completa nuestro formulario
-            </Link>
-          </Button>
+          {/*<Button asChild variant="outline">*/}
+          {/*  <Link*/}
+          {/*    href="https://forms.fillout.com/t/cGozfJUor9us"*/}
+          {/*    target="_blank"*/}
+          {/*  >*/}
+          {/*    <MessageSquareHeart />*/}
+          {/*    Completa nuestro formulario*/}
+          {/*  </Link>*/}
+          {/*</Button>*/}
         </div>
       </ResponsiveDialogContent>
     </ResponsiveDialog>
