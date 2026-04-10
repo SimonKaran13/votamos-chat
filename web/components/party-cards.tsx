@@ -100,7 +100,11 @@ function PartyCards({
               onClick={() => onPartyClicked?.('wahl.chat')}
               aria-label="Iniciar chat con votamos.chat"
             >
-              <Logo variant="small" className="!size-10" aria-hidden="true" />
+              <Logo
+                variant="default"
+                className="!h-8 !w-auto"
+                aria-hidden="true"
+              />
             </Link>
           </Button>
         )}
