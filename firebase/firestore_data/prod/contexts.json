@@ -1,0 +1,14 @@
+{
+  "elecciones-presidenciales-2026-primera-vuelta": {
+    "context_id": "elecciones-presidenciales-2026-primera-vuelta",
+    "name": "Elecciones Presidenciales 2026 (Primera Vuelta)",
+    "short_name": "EP 2026 P1",
+    "type": "election",
+    "date": "2026-05-31",
+    "location_name": "Colombia",
+    "is_active": true,
+    "icon_url": null,
+    "supports_voting_behavior": false,
+    "relevant_area": null
+  }
+}

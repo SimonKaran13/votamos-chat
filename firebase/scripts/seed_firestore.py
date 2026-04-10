@@ -39,24 +39,29 @@ FIREBASE_DIR = SCRIPT_DIR.parent
 REPO_ROOT = FIREBASE_DIR.parent
 DATA_DIR = FIREBASE_DIR / "firestore_data" / ENV
 
-# Service account JSON file (looked up in ai-backend/ where it's typically placed)
-CREDENTIALS_FILE = (
-    "wahl-chat-firebase-adminsdk.json"
+# Service account JSON files (new name first, legacy fallback second)
+CREDENTIALS_FILES = (
+    [
+        "votamos-chat-prod-firebase-adminsdk.json",
+        "votamos-chat-firebase-adminsdk.json",
+        "wahl-chat-firebase-adminsdk.json",
+    ]
     if ENV == "prod"
-    else "wahl-chat-dev-firebase-adminsdk.json"
+    else ["votamos-chat-dev-firebase-adminsdk.json", "wahl-chat-dev-firebase-adminsdk.json"]
 )
 
 
 def _find_credentials_file():
     """Search for the service account JSON in common locations."""
-    search_paths = [
-        REPO_ROOT / "ai-backend" / CREDENTIALS_FILE,
-        REPO_ROOT / CREDENTIALS_FILE,
-        Path.cwd() / CREDENTIALS_FILE,
-    ]
-    for path in search_paths:
-        if path.exists():
-            return path
+    for filename in CREDENTIALS_FILES:
+        search_paths = [
+            REPO_ROOT / "ai-backend" / filename,
+            REPO_ROOT / filename,
+            Path.cwd() / filename,
+        ]
+        for path in search_paths:
+            if path.exists():
+                return path
     return None
 
 

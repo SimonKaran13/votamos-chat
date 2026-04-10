@@ -17,8 +17,8 @@ RUN poetry install --no-root
 
 # Copy the rest of the application code and optional Firebase credentials
 # This will include files like:
-# - wahl-chat-dev-firebase-adminsdk.json
-# - wahl-chat-firebase-adminsdk.json
+# - votamos-chat-dev-firebase-adminsdk.json
+# - votamos-chat-prod-firebase-adminsdk.json
 # if they are present in the project root.
 # If these files are absent, Google Application Default Credentials must be provided when running the container
 COPY . /app

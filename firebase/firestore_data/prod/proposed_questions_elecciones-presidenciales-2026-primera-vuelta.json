@@ -1,0 +1,142 @@
+{
+  "proposed_questions/pacto/questions/banner_question_1": {
+    "location": "banner",
+    "topic": "Economía",
+    "content": "¿Qué opina el Pacto Histórico del salario mínimo?"
+  },
+  "proposed_questions/pacto/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/pacto/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/pacto/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/pacto/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
+  "proposed_questions/adle/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/adle/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/adle/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/adle/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
+  "proposed_questions/cd/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/cd/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/cd/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/cd/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
+  "proposed_questions/fajardo/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/fajardo/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/fajardo/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/fajardo/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
+  "proposed_questions/claudia/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/claudia/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/claudia/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/claudia/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
+  "proposed_questions/group/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/group/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/group/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/group/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
+  "proposed_questions/wahl-chat/questions/question_1": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Qué le puedo preguntar a las candidaturas?"
+  },
+  "proposed_questions/wahl-chat/questions/question_3": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Cómo se generan las respuestas en votamos.chat?"
+  },
+  "proposed_questions/wahl-chat/questions/question_2": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Puedo comparar múltiples candidaturas?"
+  }
+}

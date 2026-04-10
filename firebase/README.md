@@ -6,7 +6,7 @@ SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 # Firebase
 
-Firebase configuration for [wahl.chat](https://wahl.chat/) — Firestore rules, Storage rules, Cloud Functions, and seed data.
+Firebase configuration for [votamos.chat](https://votamos.chat/) — Firestore rules, Storage rules, Cloud Functions, and seed data.
 
 ## Directory Structure
 
@@ -49,6 +49,13 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Per-project function parameters live in untracked env files:
+
+- Dev: `functions/.env.votamos-chat-dev`
+- Prod: `functions/.env.votamos-chat-prod`
+
+Use [`functions/.env.votamos-chat-prod.example`](./functions/.env.votamos-chat-prod.example) as the production template and copy it to `.env.votamos-chat-prod` before deploying functions.
+
 ## Deploying Firebase Changes
 
 First select your target environment:
@@ -66,6 +73,11 @@ firebase deploy --only storage               # Storage security rules
 firebase deploy --only functions             # All Cloud Functions
 firebase deploy --only functions:FUNC_NAME   # A specific function
 ```
+
+The repository aliases are:
+
+- `dev` -> `votamos-chat-dev`
+- `prod` -> `votamos-chat-prod`
 
 ## Seeding Data
 
@@ -115,6 +127,22 @@ make seed
 make seed-prod
 ```
 
+If you seed `proposed_questions` and need the Next.js app to pick them up immediately, manually revalidate the cached question tags after seeding:
+
+```bash
+curl -X POST http://localhost:3000/api/revalidate \
+  -H "Authorization: Bearer <REVALIDATE_SECRET>" \
+  -H "Content-Type: application/json" \
+  -d '{"tag":"proposed_questions"}'
+
+curl -X POST http://localhost:3000/api/revalidate \
+  -H "Authorization: Bearer <REVALIDATE_SECRET>" \
+  -H "Content-Type: application/json" \
+  -d '{"tag":"home_proposed_questions"}'
+```
+
+For non-local environments, replace `http://localhost:3000` with the deployed web app URL. The cache tags are documented in [`web/README.md`](../web/README.md).
+
 The script requires `firebase-admin`. The `make seed` targets use the ai-backend's Poetry environment automatically. To run standalone:
 
 ```bash
@@ -129,11 +157,11 @@ Run from this (`firebase/`) directory:
 
 ```bash
 # Seed contexts
-firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
+firestore-import -a ../ai-backend/votamos-chat-dev-firebase-adminsdk.json \
   -n contexts -b firestore_data/dev/contexts.json -y
 
 # Seed parties for a specific context
-firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
+firestore-import -a ../ai-backend/votamos-chat-dev-firebase-adminsdk.json \
   -n contexts/bundestagswahl-2025/parties \
   -b firestore_data/dev/parties_elecciones-presidenciales-2026-primera-vuelta.json -y
 ```
@@ -149,23 +177,23 @@ firestore-import -a ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
 
 ### Importing party data from dev to prod
 
-1. Export parties: `firestore-export --accountCredentials ../ai-backend/wahl-chat-dev-firebase-adminsdk.json --backupFile firestore_data/dev/parties.json --nodePath parties`
+1. Export parties: `firestore-export --accountCredentials ../ai-backend/votamos-chat-dev-firebase-adminsdk.json --backupFile firestore_data/dev/parties.json --nodePath parties`
 2. Copy `firestore_data/dev/parties.json` to `firestore_data/prod/parties.json`
 3. **Important**: Replace dev storage URLs with prod URLs:
-   - Find: `https://storage.googleapis.com/wahl-chat-dev.firebasestorage.app`
-   - Replace: `https://storage.googleapis.com/wahl-chat.firebasestorage.app`
-4. Import parties: `firestore-import --accountCredentials ../ai-backend/wahl-chat-firebase-adminsdk.json --backupFile firestore_data/prod/parties.json --nodePath parties`
+   - Find: `https://storage.googleapis.com/votamos-chat-dev.firebasestorage.app`
+   - Replace: `https://storage.googleapis.com/votamos-chat-prod.firebasestorage.app`
+4. Import parties: `firestore-import --accountCredentials ../ai-backend/votamos-chat-prod-firebase-adminsdk.json --backupFile firestore_data/prod/parties.json --nodePath parties`
 
 ### Exporting proposed questions between parties
 
 ```bash
 # Export from source party
-firestore-export --accountCredentials ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
+firestore-export --accountCredentials ../ai-backend/votamos-chat-dev-firebase-adminsdk.json \
   --backupFile firestore_data/proposed_questions_afd_questions.json \
   --nodePath proposed_questions/afd/questions -p
 
 # Import to target party
-firestore-import --accountCredentials ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
+firestore-import --accountCredentials ../ai-backend/votamos-chat-dev-firebase-adminsdk.json \
   --backupFile firestore_data/proposed_questions_afd_questions.json \
   --nodePath proposed_questions/bsw/questions
 ```
@@ -174,11 +202,11 @@ firestore-import --accountCredentials ../ai-backend/wahl-chat-dev-firebase-admin
 
 ```bash
 # Export from dev
-firestore-export --accountCredentials ../ai-backend/wahl-chat-dev-firebase-adminsdk.json \
+firestore-export --accountCredentials ../ai-backend/votamos-chat-dev-firebase-adminsdk.json \
   --backupFile firestore_data/proposed_questions.json --nodePath proposed_questions -p
 
 # Import to prod
-firestore-import --accountCredentials ../ai-backend/wahl-chat-firebase-adminsdk.json \
+firestore-import --accountCredentials ../ai-backend/votamos-chat-prod-firebase-adminsdk.json \
   --backupFile firestore_data/proposed_questions.json --nodePath proposed_questions
 ```
 
@@ -197,8 +225,8 @@ cp dev/proposed_questions_{context_id}.json prod/proposed_questions_{context_id}
 ### 2. Update Firebase Storage URLs
 
 Replace dev storage URLs with prod URLs in all copied files:
-- Find: `https://storage.googleapis.com/wahl-chat-dev.firebasestorage.app`
-- Replace: `https://storage.googleapis.com/wahl-chat.firebasestorage.app`
+- Find: `https://storage.googleapis.com/votamos-chat-dev.firebasestorage.app`
+- Replace: `https://storage.googleapis.com/votamos-chat-prod.firebasestorage.app`
 
 ### 3. Upload assets to prod storage
 
@@ -218,10 +246,21 @@ ENV=prod python scripts/seed_firestore.py
 
 The vector store collections are context-specific:
 - Dev: `context_{context_id}_party_docs_dev`
-- Prod: `context_{context_id}_party_docs`
+- Prod: `context_{context_id}_party_docs_prod`
+
+The same `QDRANT_URL` and `QDRANT_API_KEY` can be reused in dev and prod. The environment separation happens via collection naming.
 
 ### 6. Verify
 
 1. Check the Firebase Console to confirm data was imported correctly
 2. Test the context in the production application
 3. Verify party responses and proposed questions work as expected
+
+## Production Checklist
+
+1. Run `firebase use prod`.
+2. Create `functions/.env.votamos-chat-prod` from `functions/.env.votamos-chat-prod.example`.
+3. Place `votamos-chat-prod-firebase-adminsdk.json` in `ai-backend/`, or use ADC with `make auth-prod`.
+4. Populate `firestore_data/prod/`.
+5. Run `make seed-prod`.
+6. Deploy rules, indexes, storage, and functions with `firebase deploy`.

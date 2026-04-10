@@ -2,31 +2,21 @@
 #
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
+from __future__ import annotations
+
 from datetime import datetime
 import os
 import tempfile
 import time
 import uuid
 from urllib.parse import quote
+from typing import Any
 
 from firebase_functions.params import StringParam
 from firebase_functions.options import SupportedRegion, MemoryOption
 from firebase_functions import storage_fn, logger
 from firebase_admin import initialize_app, storage, firestore
 import google.cloud.firestore
-
-from langchain_openai import OpenAIEmbeddings
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_core.documents import Document
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from qdrant_client import QdrantClient
-from qdrant_client.models import (
-    Distance,
-    VectorParams,
-    PointIdsList,
-    PayloadSchemaType,
-    PointStruct,
-)
 
 from models import PartySource  # type: ignore
 
@@ -149,6 +139,9 @@ def build_firebase_download_url(pdf_blob, bucket_name: str, name: str) -> str:
 
 
 def split_pdf(file_path: str):
+    from langchain_community.document_loaders import PyPDFLoader
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
     # Load the document as a PDF and split it into chunks
     # TODO: consider switching to PDFMiner (https://www.reddit.com/r/LangChain/comments/13jd9wo/comment/jkh2f9j/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
     loader = PyPDFLoader(file_path)
@@ -177,8 +170,10 @@ def split_pdf(file_path: str):
 
 
 def create_collection_if_not_exists(
-    qdrant_client: QdrantClient, collection_name: str, embedding_size: int
+    qdrant_client: Any, collection_name: str, embedding_size: int
 ):
+    from qdrant_client.models import Distance, PayloadSchemaType, VectorParams
+
     existing_collections = [
         col.name for col in qdrant_client.get_collections().collections
     ]
@@ -225,6 +220,10 @@ def create_collection_if_not_exists(
 
 
 def add_to_collection(splits: list[Document], collection_name: str, namespace: str):
+    from langchain_openai import OpenAIEmbeddings
+    from qdrant_client import QdrantClient
+    from qdrant_client.models import PointStruct
+
     logger.info(
         f"Adding {len(splits)} splits to collection {collection_name} with namespace {namespace}"
     )
@@ -616,6 +615,9 @@ def on_party_document_deleted(
     logger.info(f"Deleted source document {file_name} from Firestore")
 
     # Initialize Qdrant client
+    from qdrant_client import QdrantClient
+    from qdrant_client.models import PayloadSchemaType
+
     qdrant_client = QdrantClient(
         url=QDRANT_URL.value,
         api_key=QDRANT_API_KEY.value if QDRANT_API_KEY.value else None,
@@ -666,7 +668,7 @@ def on_party_document_deleted(
 
     # In Qdrant, we need to use filters to find and delete documents
     # Filter based on namespace and source_document (following migration pattern)
-    from qdrant_client.models import Filter, FieldCondition, MatchValue
+    from qdrant_client.models import Filter, FieldCondition, MatchValue, PointIdsList
 
     filter_condition = Filter(
         must=[
