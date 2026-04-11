@@ -4,6 +4,7 @@ import {
   useContextParties,
   useCurrentContext,
 } from '@/components/providers/context-provider';
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import { exportHowToPDF } from '@/lib/how-to-pdf-export';
 import type { PartyDetails } from '@/lib/party-details';
 import {
@@ -315,6 +316,7 @@ function HowTo() {
   const [isExporting, setIsExporting] = useState(false);
   const context = useCurrentContext({ optional: true });
   const parties = useContextParties();
+  const contextId = context?.context_id ?? DEFAULT_CONTEXT_ID;
 
   const partyNames = getOrderedPartyNames(parties);
   const contextName = context?.name ?? FALLBACK_CONTEXT_NAME;
@@ -330,7 +332,9 @@ function HowTo() {
   });
 
   const buildQuestionLink = (question: string) => {
-    return `/session?q=${question}`;
+    const searchParams = new URLSearchParams({ q: question });
+
+    return `/${contextId}/session?${searchParams.toString()}`;
   };
 
   const exportToPDF = async () => {
