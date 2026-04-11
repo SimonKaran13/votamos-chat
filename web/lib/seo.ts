@@ -37,18 +37,24 @@ function formatContextDate(
 export function buildContextMetadata(
   context: Context,
   pageSuffix?: string,
+  pagePath?: string,
 ): Metadata {
   const formattedDate = formatContextDate(context.date);
-  const title = pageSuffix
+  const titleString = pageSuffix
     ? `${pageSuffix} | ${context.name}`
     : `${context.name} | ${APP_NAME}`;
+
+  // Use absolute to prevent the root layout template from appending APP_NAME
+  // a second time when there is no pageSuffix.
+  const title = pageSuffix ? titleString : { absolute: titleString };
 
   const description =
     context.type === 'election' && formattedDate
       ? `Compara propuestas y posturas de las candidaturas para ${context.name} en ${context.location_name}. Haz preguntas sobre los temas que te importan y revisa respuestas con fuentes. Jornada electoral: ${formattedDate}.`
       : `Compara propuestas y posturas políticas en ${context.location_name}. Haz preguntas sobre los temas que te importan y revisa respuestas con fuentes en ${APP_NAME}.`;
 
-  const url = `${BASE_URL}/${context.context_id}`;
+  const contextUrl = `${BASE_URL}/${context.context_id}`;
+  const url = pagePath ? `${contextUrl}/${pagePath}` : contextUrl;
 
   return {
     title,
@@ -58,7 +64,7 @@ export function buildContextMetadata(
       canonical: url,
     },
     openGraph: {
-      title,
+      title: titleString,
       description,
       url,
       siteName: APP_NAME,
@@ -67,7 +73,7 @@ export function buildContextMetadata(
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: titleString,
       description,
     },
   };
