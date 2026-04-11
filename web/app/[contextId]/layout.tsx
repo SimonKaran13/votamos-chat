@@ -31,7 +31,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return buildContextMetadata(context, undefined, true);
+  return buildContextMetadata(context);
 }
 
 async function ContextLayout({ children, params }: Props) {

@@ -18,11 +18,11 @@ const APP_NAME = 'votamos.chat';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${APP_NAME} - Entiende la política de forma interactiva`,
+    default: `${APP_NAME} | Elecciones presidenciales de Colombia 2026`,
     template: `%s | ${APP_NAME}`,
   },
   description:
-    'Entiende las posiciones de los partidos en las elecciones presidenciales de Colombia. Conversa con los programas de gobierno, haz preguntas sobre los temas que te importan y compara respuestas con fuentes.',
+    'Compara propuestas y posturas de las candidaturas en las elecciones presidenciales de Colombia 2026. Conversa con programas de gobierno, haz preguntas sobre los temas que te importan y revisa respuestas con fuentes.',
   applicationName: APP_NAME,
   keywords: [
     'votamos.chat',
@@ -39,6 +39,8 @@ export const metadata: Metadata = {
     'comparar propuestas',
     'elecciones 2026',
     'Colombia 2026',
+    'elecciones presidenciales 2026 primera vuelta',
+    '31 de mayo de 2026',
     'inteligencia artificial',
     'Chatbot',
     'chat electoral',
@@ -50,11 +52,11 @@ export const metadata: Metadata = {
   robots: productionRobots,
   openGraph: {
     title: {
-      default: `${APP_NAME} - Entiende la política de forma interactiva`,
-      template: `%s | ${APP_NAME} - Entiende la política de forma interactiva`,
+      default: `${APP_NAME} | Elecciones presidenciales de Colombia 2026`,
+      template: `%s | ${APP_NAME}`,
     },
     description:
-      'Entiende las posiciones de los candidatos en las elecciones presidenciales de Colombia. Conversa con los programas de gobierno, haz preguntas sobre los temas que te importan y compara respuestas con fuentes verificables.',
+      'Compara propuestas y posturas de las candidaturas en las elecciones presidenciales de Colombia 2026. Conversa con programas de gobierno, haz preguntas sobre los temas que te importan y revisa respuestas con fuentes.',
     images: [`${SITE_URL}/images/logo.webp`],
     url: SITE_URL,
     siteName: APP_NAME,
@@ -63,10 +65,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${APP_NAME} - Entiende la política de forma interactiva`,
+    title: `${APP_NAME} | Elecciones presidenciales de Colombia 2026`,
     description:
-      'Entiende las posiciones de los candidatos en las elecciones presidenciales de Colombia. Conversa con los programas de gobierno, haz preguntas sobre los temas que te importan y compara respuestas con fuentes verificables.',
+      'Compara propuestas y posturas de las candidaturas en las elecciones presidenciales de Colombia 2026. Conversa con programas de gobierno, haz preguntas sobre los temas que te importan y revisa respuestas con fuentes.',
     images: [`${SITE_URL}/images/logo.webp`],
+  },
+  alternates: {
+    canonical: SITE_URL,
   },
 };
 
@@ -118,7 +123,7 @@ export default function RootLayout({
                   name: APP_NAME,
                   url: SITE_URL,
                   description:
-                    'Plataforma de información política para comparar propuestas y conversar con programas de gobierno.',
+                    'Plataforma de información política para comparar propuestas y conversar con candidaturas y programas de gobierno en Colombia.',
                 },
                 {
                   '@type': 'WebSite',
@@ -126,7 +131,7 @@ export default function RootLayout({
                   url: SITE_URL,
                   inLanguage: 'es-CO',
                   description:
-                    'Entiende las posiciones de los partidos en las elecciones presidenciales de Colombia.',
+                    'Compara propuestas y posturas de las candidaturas en las elecciones presidenciales de Colombia 2026.',
                 },
               ],
             }),
