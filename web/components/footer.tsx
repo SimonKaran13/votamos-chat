@@ -11,8 +11,18 @@ function Footer() {
   const sourcesHref = context ? `/${context.context_id}/sources` : '/sources';
 
   return (
-    <footer className="flex h-footer w-full flex-col items-center justify-center gap-4 border-t p-4 text-xs text-muted-foreground md:flex-row">
-      <Logo className="size-5" variant="small" />
+    <footer className="flex h-footer w-full flex-col items-center gap-4 border-t p-4 text-xs text-muted-foreground md:flex-row md:justify-between">
+      <section className="flex items-center gap-2 self-start md:self-auto">
+        <Logo className="size-5" variant="small" />
+        <Link
+          className="transition-colors hover:text-foreground"
+          href="https://wahl.chat"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Powered by wahl.chat (Germany)
+        </Link>
+      </section>
 
       <section className="flex grow flex-wrap items-center justify-center gap-2 underline md:justify-end">
         <Link href="/how-to">Guía</Link>
