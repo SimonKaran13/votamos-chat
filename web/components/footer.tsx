@@ -20,7 +20,7 @@ function Footer() {
           target="_blank"
           rel="noreferrer"
         >
-          Powered by wahl.chat (Germany)
+          Con tecnología de wahl.chat 🇩🇪
         </Link>
       </section>
 
