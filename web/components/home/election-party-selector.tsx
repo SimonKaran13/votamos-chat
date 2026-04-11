@@ -28,12 +28,12 @@ export function ElectionPartySelector({ contextId }: Props) {
     <div
       className="flex w-full flex-col gap-6"
       role="group"
-      aria-label="Wahl und Parteiauswahl"
+      aria-label="Selección de elección y partido"
     >
       {/* Election Context Banner */}
       <section aria-labelledby="election-context">
         <span id="election-context" className="sr-only">
-          Aktuelle Wahl
+          Elección actual
         </span>
         <ElectionSelect />
       </section>
@@ -51,7 +51,7 @@ export function ElectionPartySelector({ contextId }: Props) {
             className="size-7 shrink-0"
             aria-hidden="true"
           />
-          Wähle eine Partei, um den Chat mit ihr zu starten
+          Escoge una candidatura y chatea
         </h2>
 
         {!parties || isLoading ? (
@@ -69,10 +69,10 @@ export function ElectionPartySelector({ contextId }: Props) {
             className="w-full max-w-xl whitespace-normal border border-border"
             variant="secondary"
             disabled={isLoading}
-            aria-label="Mehrere Parteien zum Vergleichen auswählen"
+            aria-label="Escoger múltiples candidaturas para compararlas"
           >
             <GitCompareIcon aria-hidden="true" />
-            Wähle mehrere Parteien zum Vergleichen
+            Selecciona múltiples candidaturas para compararlas
           </Button>
         </ChatGroupPartySelect>
       </section>

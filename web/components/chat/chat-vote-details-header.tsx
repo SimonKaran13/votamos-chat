@@ -13,7 +13,7 @@ function ChatVoteDetailsHeader({ votes }: Props) {
   const vote = votes[selectedIndex];
 
   const formattedDate = useMemo(() => {
-    return new Date(vote.date).toLocaleDateString('de-DE', {
+    return new Date(vote.date).toLocaleDateString('es-CO', {
       day: '2-digit',
       month: 'long',
       year: 'numeric',

@@ -24,6 +24,7 @@ export default function HomePartyCards({
       selectable={false}
       onPartyClicked={handlePartyClick}
       contextId={contextId}
+      partyImageClassName="p-[8%]"
     />
   );
 }

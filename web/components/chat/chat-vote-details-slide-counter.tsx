@@ -13,7 +13,7 @@ function ChatVoteDetailsSlideCounter({ votes }: Props) {
       <p className="text-sm font-bold">
         {selectedIndex + 1} / {votes.length}
       </p>
-      <span className="text-xs text-muted-foreground">Abstimmungen</span>
+      <span className="text-xs text-muted-foreground">Votaciones</span>
     </div>
   );
 }

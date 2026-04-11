@@ -27,7 +27,7 @@ function PartiesVoteChart({ vote }: Props) {
       key: party.party,
       name:
         party.party === 'fraktionslose'
-          ? 'Fraktionslose'
+          ? 'Sin bancada'
           : (parties?.find((p) => p.party_id === party.party)?.name ??
             party.party),
     }));
@@ -55,7 +55,7 @@ function PartiesVoteChart({ vote }: Props) {
           onValueChange={setSelectedPartyId}
         >
           <SelectTrigger className="h-8 w-[130px] rounded-lg">
-            <SelectValue placeholder="Wähle eine Partei" />
+            <SelectValue placeholder="Elige una candidatura" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>

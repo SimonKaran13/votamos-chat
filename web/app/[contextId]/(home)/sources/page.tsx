@@ -34,11 +34,11 @@ export async function generateMetadata({
   const context = await getContext(contextId);
 
   if (!context) {
-    return { title: 'Quellen' };
+    return { title: 'Fuentes' };
   }
 
   return {
-    ...buildContextMetadata(context, 'Quellen'),
+    ...buildContextMetadata(context, 'Fuentes'),
     robots: 'noindex',
   };
 }
@@ -65,15 +65,15 @@ async function SourcesPage({ params }: Props) {
     <article>
       <div className="mt-4 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
         <h1 className="text-xl font-bold md:text-2xl">
-          <span className="underline">wahl.chat&apos;s</span> Quellen
-          {context ? ' für:' : ''}
+          Fuentes de <span className="underline">votamos.chat</span>:
         </h1>
         {context && <SourcesContextBadge context={context} />}
       </div>
       <p className="mb-2 mt-4 text-sm text-muted-foreground">
-        Diese Quellen nutzt unsere KI für die allgemeinen Antworten. Für das
-        Einordnen von Positionen verwenden wir Perplexity.ai, welches sich auf
-        aktuelle Informationen aus dem Internet stützt.
+        Nuestra IA utiliza estas fuentes para las respuestas generales. Para
+        contextualizar posiciones, utilizamos{' '}
+        <span className="underline">Perplexity.ai</span>, que se basa en
+        información actualizada de internet.
       </p>
       <Accordion type="single" collapsible asChild>
         <section>

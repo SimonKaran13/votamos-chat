@@ -18,7 +18,7 @@ from src.models.context import ContextParty
 from src.models.party import WAHL_CHAT_PARTY
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-EXPECTED_API_NAME = "wahl-chat-api"
+EXPECTED_API_NAME = "votamos-chat-api"
 
 logger = logging.getLogger(__name__)
 
@@ -62,14 +62,19 @@ def safe_load_api_key(api_key: str) -> Optional[SecretStr]:
 
 
 def get_cors_allowed_origins(env: Optional[str]) -> Union[str, list[str]]:
+    configured_origins = os.getenv("CORS_ALLOWED_ORIGINS")
+    if configured_origins:
+        return [
+            origin.strip()
+            for origin in configured_origins.split(",")
+            if origin.strip()
+        ]
     if env == "dev":
         return "*"
     else:
         return [
-            "https://wahl.chat",
-            "https://embed.wahl.chat",
-            "https://pre-prod.wahl.chat",
-            "https://dev.wahl.chat",
+            "https://votamos.chat",
+            "https://www.votamos.chat",
             "http://localhost:3000",
             "http://localhost:8080",
         ]
@@ -113,8 +118,8 @@ def build_party_str(party: ContextParty):
 - Abkürzung: {party.name}
 - Langform: {party.long_name}
 - Beschreibung: {party.description}
-- Spitzenkandidat*In für die Bundestagswahl 2025: {party.candidate}
-- Ist im aktuellen Bundestag vertreten: {party.is_already_in_parliament}
+- Candidatura principal en el contexto actual: {party.candidate}
+- Tiene representacion parlamentaria actual: {party.is_already_in_parliament}
 """
 
 

@@ -33,7 +33,7 @@ function CreateNewChatDropdownButtonTrigger({ onTriggerClick }: Props) {
           </Button>
         </DropdownMenuTrigger>
       </TooltipTrigger>
-      <TooltipContent>Erstelle einen neuen Chat</TooltipContent>
+      <TooltipContent>Crear un nuevo chat</TooltipContent>
     </Tooltip>
   );
 }

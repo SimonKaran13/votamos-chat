@@ -24,6 +24,7 @@ type Props = {
   gridColumns?: number;
   showWahlChatButton?: boolean;
   contextId: string;
+  partyImageClassName?: string;
 };
 
 function PartyCards({
@@ -34,6 +35,7 @@ function PartyCards({
   gridColumns = 4,
   showWahlChatButton = false,
   contextId,
+  partyImageClassName,
 }: Props) {
   const { parties } = useElectionContext();
 
@@ -70,8 +72,8 @@ function PartyCards({
   }
 
   const sectionLabel = selectable
-    ? 'Parteien zur Auswahl'
-    : 'Verfügbare Parteien';
+    ? 'Candidaturas para seleccionar'
+    : 'Candidaturas disponibles';
 
   return (
     <Collapsible open={showMore} onOpenChange={setShowMore} asChild>
@@ -87,18 +89,22 @@ function PartyCards({
           <Button
             className={cn(
               'flex aspect-square size-full items-center justify-center rounded-md',
-              'border border-muted-foreground/20 bg-background dark:bg-zinc-900 hover:bg-muted p-0',
+              'border border-muted-foreground/20 bg-background p-0 text-foreground hover:bg-muted dark:bg-zinc-900',
             )}
             type="button"
-            tooltip="wahl.chat"
+            tooltip="votamos.chat"
             asChild
           >
             <Link
               href={`/${contextId}/session`}
               onClick={() => onPartyClicked?.('wahl.chat')}
-              aria-label="Chat mit wahl.chat starten"
+              aria-label="Iniciar chat con votamos.chat"
             >
-              <Logo className="!size-10" aria-hidden="true" />
+              <Logo
+                variant="default"
+                className="!h-8 !w-auto"
+                aria-hidden="true"
+              />
             </Link>
           </Button>
         )}
@@ -111,6 +117,7 @@ function PartyCards({
             onPartyClicked={onPartyClicked}
             selectable={selectable}
             contextId={contextId}
+            imageClassName={partyImageClassName}
           />
         ))}
         {remainingParties.length > 0 && (
@@ -127,8 +134,8 @@ function PartyCards({
                 aria-expanded={showMore}
                 aria-label={
                   showMore
-                    ? 'Weniger Parteien anzeigen'
-                    : 'Mehr Parteien anzeigen'
+                    ? 'Mostrar menos candidaturas'
+                    : 'Mostrar más candidaturas'
                 }
               >
                 {showMore ? (
@@ -137,7 +144,7 @@ function PartyCards({
                   <EllipsisIcon className="size-4" aria-hidden="true" />
                 )}
                 {gridColumns >= 4 &&
-                  `${showMore ? 'Weniger' : 'Mehr'} Parteien`}
+                  `${showMore ? 'Menos' : 'Más'} candidaturas`}
               </Button>
             </CollapsibleTrigger>
 
@@ -149,7 +156,7 @@ function PartyCards({
                   gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))`,
                 }}
                 role="group"
-                aria-label="Weitere Parteien"
+                aria-label="Más candidaturas"
               >
                 {remainingParties.map((party) => (
                   <PartyCard
@@ -160,6 +167,7 @@ function PartyCards({
                     onPartyClicked={onPartyClicked}
                     selectable={selectable}
                     contextId={contextId}
+                    imageClassName={partyImageClassName}
                   />
                 ))}
               </div>

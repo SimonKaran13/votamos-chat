@@ -1,6 +1,12 @@
 'use client';
 
+import {
+  useContextParties,
+  useCurrentContext,
+} from '@/components/providers/context-provider';
+import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
 import { exportHowToPDF } from '@/lib/how-to-pdf-export';
+import type { PartyDetails } from '@/lib/party-details';
 import {
   DownloadIcon,
   MessageCircleQuestionIcon,
@@ -23,221 +29,281 @@ import {
 } from './ui/accordion';
 import { Button } from './ui/button';
 
-// Content configuration - single source of truth
-const PARTY_SPECIFIC_QUESTIONS = [
-  'Was ist die Position der SPD zu Klimaschutz?',
-  'Wie steht die AfD zur Schuldenbremse?',
-  'Wie will die CDU/CSU Bürokratie reduzieren?',
-  'Wie wollen die Grünen die Digitalisierung vorantreiben?',
-  'Wie wollen die FDP und die Linke die Arbeitszeitreform umsetzen?',
-  'Wie wollen Volt und die FDP europäische Zusammenarbeit verbessern?',
-];
-
-const COMPARE_QUESTIONS = [
-  'Wie unterscheiden sich die Parteien im Kampf gegen den Klimawandel?',
-  'Wie unterscheiden sich die Positionen der CDU/CSU und der SPD zum Thema Schuldenbremse?',
-  'Vergleiche die Positionen der FDP und AfD zum Thema Migration.',
-];
-
 const GENERAL_QUESTIONS = [
-  'Wie kann ich Briefwahl beantragen?',
-  'Wer steht hinter wahl.chat?',
-  'Wie funktioniert Briefwahl?',
+  '¿Cómo funciona la primera vuelta de la elección presidencial en Colombia?',
+  '¿Qué papel cumple la Registraduría Nacional en estas elecciones?',
+  '¿Qué funciones tiene el Consejo Nacional Electoral?',
 ];
 
 const INTRO_TEXT = {
-  main: 'wahl.chat ist ein interaktives KI-Tool, das dir hilft, dich über die Positionen und Pläne der Parteien zu informieren. Du kannst dem KI-Assistenten Fragen zu verschiedenen politischen Themen stellen, und er liefert dir neutrale Antworten basierend auf den Wahlprogrammen und weiteren Veröffentlichungen der Parteien.',
+  main: 'votamos.chat es una herramienta interactiva de IA que te ayuda a informarte sobre las posiciones y planes de los partidos y candidatos políticos. Puedes hacerle preguntas al asistente de IA sobre diversos temas políticos, y te dará respuestas neutrales basadas en los programas de gobierno y otras publicaciones de los partidos.',
   sources:
-    'Alle Antworten sind mit den entsprechenden Quellen versehen und nutzen für die ausgewählte Wahl relevante Dokumente.',
+    'Todas las respuestas incluyen las fuentes correspondientes y utilizan documentos relevantes para la elección correspondiente.',
 };
 
 const PROCESS_STEPS = [
-  'Du stellst eine Frage',
-  'wahl.chat durchsucht relevante Dokumente wie Wahl- und Grundsatzprogramme, um die passenden Informationen zu finden.',
-  'Die relevanten Informationen werden dann genutzt, um eine verständliche und quellenbasierte Antwort zu generieren.',
-  'Du kannst dir nun die Position der Partei einordnen lassen, indem du auf den Knopf unter der Antwort klickst.',
-  'Falls uns das Abstimmungsverhalten der Partei vorliegt, kannst du die Antwort auch mit passenden Gesetzesvorschlägen abgleichen.',
+  'Haces una pregunta',
+  'votamos.chat busca en documentos relevantes como programas electorales y de partido para encontrar la información adecuada.',
+  'La información relevante se utiliza para generar una respuesta comprensible y basada en fuentes.',
+  'Ahora puedes clasificar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
 ];
 
-const ACCORDION_CONTENT = [
-  {
-    id: 'questions',
-    title: 'Welche Fragen kann ich stellen?',
-    content: {
-      intro:
-        'Grundsätzlich kannst du alle Fragen stellen, die du zu den Positionen der Parteien hast. Falls du mehrere Parteien miteinander vergleichen willst, kannst du sie entweder dem Chat hinzufügen oder sie einfach in der Frage erwähnen. Des Weiteren kannst du auch Fragen zu generellen Themen wie dem Ablauf einer Wahl stellen.',
-      sections: [
-        {
-          subtitle: 'Beispiele für Partei-spezifische Fragen:',
-          list: PARTY_SPECIFIC_QUESTIONS,
-        },
-        {
-          subtitle: 'Beispiele für vergleichende Fragen:',
-          list: COMPARE_QUESTIONS,
-        },
-        {
-          subtitle: 'Beispiele für allgemeine Fragen:',
-          list: GENERAL_QUESTIONS,
-        },
-      ],
-    },
-  },
-  {
-    id: 'elections-supported',
-    title: 'Welche Wahlen werden unterstützt?',
-    content: {
-      intro: 'Aktuell unterstützen wir folgende Wahlen:',
-      list: [
-        'Landtagswahl Baden-Württemberg - 8. März 2026',
-        'Landtagswahl Rheinland-Pfalz - 22. März 2026',
-        'Kommunalwahl München - 8. März 2026',
-      ],
-      outro:
-        'Zusätzlich können im Bereich **Bundesebene** allgemeine Informationen über die Positionen der Parteien beantwortet werden.',
-    },
-  },
-  {
-    id: 'number-parties',
-    title: 'Mit wie vielen Parteien kann ich chatten?',
-    content: {
-      paragraphs: [
-        `Du kannst den Chat mit bis zu ${MAX_SELECTABLE_PARTIES} Parteien gleichzeitig starten, hast aber die Möglichkeit, während des Chattens noch weitere Parteien anzusprechen.`,
-        'Des Weiteren kannst du ganz einfach durch den Plus-Knopf über dem Textfeld weitere Parteien zum Chat hinzufügen oder auch wieder entfernen.',
-      ],
-    },
-  },
-  {
-    id: 'position',
-    title: 'Position einordnen',
-    content: {
-      paragraphs: [
-        'Wenn du diesen Knopf unter einer der Nachrichten klickst, wird die Position der Nachricht eingeordnet. Dabei werden die folgenden Kriterien berücksichtigt: Machbarkeit, kurzfristige und langfristige Effekte.',
-        'Hierbei nutzen wir aktuelle Informationen und Quellen aus dem Internet, die uns von Perplexity.ai zur Verfügung gestellt werden.',
-      ],
-    },
-  },
-  {
-    id: 'voting-behavior-analyze',
-    title: 'Abstimmungsverhalten analysieren',
-    content: {
-      paragraphs: [
-        'Mit dieser Funktion kannst du die Antwort einer Partei im Kontext vergangener Abstimmungen im Bundestag einordnen. Darüber hinaus kannst du durch einen Klick auf "Abstimmungen anzeigen" detaillierte Informationen zu den relevanten Abstimmungen anzeigen und visualisieren lassen. Dies ermöglicht es, die Pläne einer Partei laut ihrem Programm anhand ihres realpolitischen Verhaltens einzuordnen.',
-      ],
-    },
-  },
-  {
-    id: 'data',
-    title: 'Welche Daten werden verwendet?',
-    content: {
-      intro:
-        'Um fundierte und quellenbasierte Antworten zu liefern, verwendet wahl.chat eine Vielzahl von Datenquellen:',
-      orderedList: [
-        'Parteidokumente: Als Datenbasis werden Grundsatzprogramme, Wahlprogramme, Positionspapiere und weitere von den Parteien stammende Dokumente herangezogen, um ein umfassendes Bild der Parteipositionen zu erhalten.',
-        'Abstimmungsverhalten im Bundestag: Für die Analyse des Abstimmungsverhaltens nutzen wir Daten zu Bundestagsabstimmungen, die über abgeordnetenwatch.de bereitgestellt werden. Diese Daten ermöglichen es, Parteipositionen mit ihrem realpolitischen Verhalten abzugleichen.',
-        'Internetquellen für die Einordnung von Positionen: Für die differenzierte Einordnung von Positionen nutzt wahl.chat den Dienst Perplexity.ai, der hochwertige Internetquellen wie Nachrichtenseiten verwendet.',
-      ],
-      outro:
-        'Wir haben alle Quellen, die wahl.chat nutzt, auf unserer Webseite unter /sources aufgelistet.',
-    },
-  },
-  {
-    id: 'guidelines',
-    title: 'Welchen Leitlinien folgt wahl.chat in seinen Antworten?',
-    content: {
-      intro: 'Folgende Leitlinien gelten für die Antworten in den Chats:',
-      orderedList: [
-        'Quellenbasiert: Die Antworten sollen auf den relevanten Aussagen aus den bereitgestellten Programmauszügen beruhen.',
-        'Neutralität: Parteipositionen sollen neutral und ohne Wertung wiedergegeben werden.',
-        'Transparenz: Zu jeder Aussage sollen direkt die relevanten Quellen verlinkt werden, um eine detaillierte Betrachtung und Überprüfung des Inhalts zu ermöglichen.',
-      ],
-    },
-  },
-  {
-    id: 'party-selection',
-    title: 'Nach welchen Kriterien werden die Parteien ausgewählt?',
-    content: {
-      paragraphs: [
-        'Die ursprüngliche Auswahl der Parteien für den bundesweiten Kontext erfolgte vor der Bundestagswahl 2025 und orientierte sich an der Veröffentlichung ihrer Wahlprogramme. Wir wollen nun nach und nach auch für die anderen unterstützten Wahlen eine möglichst vollständige Parteienauswahl anbieten und freuen uns dafür über deine Mithilfe.',
-        'Solltest du eine Partei vermissen, schreibe uns gerne eine E-Mail mit ihrem Wahl- oder Grundsatzprogramm oder anderen relevanten Dokumenten als PDF an info@wahl.chat, und wir werden sie so schnell wie möglich ergänzen.',
-      ],
-    },
-  },
-  {
-    id: 'about-founders',
-    title: 'Wer steckt hinter wahl.chat und wie kam es dazu?',
-    content: {
-      intro:
-        'Gegründet wurde wahl.chat von fünf Studierenden der LMU, TUM und University of Cambridge. Sie kamen für ein gemeinsames Forschungsprojekt zum Thema KI in Cambridge zusammen und haben mittlerweile ihre Studien abgeschlossen.',
-      sections: [
-        {
-          subtitle: 'Die Gründungsmitglieder und ihre heutigen Positionen:',
-          list: [
-            'Sebastian Maier - Doktorand an der LMU München',
-            'Anton Wyrowski - Entwickler bei Perplexity',
-            'Michel Schimpf - Doktorand an der University of Cambridge',
-            'Robin Frasch - Doktorand an der Uni Hamburg',
-            'Roman Mayr - Entwickler bei Knowunity',
-          ],
-        },
-      ],
-      origin:
-        'Ende November 2024 saß das Team in Cambridge beim Mittagessen zusammen. Beim Gespräch kam das Thema auf, dass der Opa des Deutschrappers Ski Aggu am Wahl-O-Mat gearbeitet hat. Es kam die Idee auf, einen neuen Wahl-O-Mat mit KI für die Einordnung der eigenen Meinung zu den Wahlkampfthemen zu bauen. Doch wäre es nicht noch spannender, den Spieß umzudrehen und mit den für einen selbst relevanten Parteien ausführlicher zu chatten? Und nicht nur eine Aussage zu vorgeschriebenen Thesen zu erhalten, sondern ganz individuelle Anliegen klären zu können? Und so war Ende November 2024 die Idee für wahl.chat geboren.',
-      outro: 'Weitere Infos können auch unter /about-us nachgelesen werden.',
-    },
-  },
-  {
-    id: 'wahl-o-mat-difference',
-    title: 'Wie unterscheidet sich wahl.chat vom Wahl-O-Mat?',
-    content: {
-      intro:
-        'Beim Wahl-O-Mat entscheidet man zu vorgegebenen Thesen "finde ich gut", "hier bin ich neutral", oder "hier bin ich dagegen". wahl.chat ist dagegen wie ein offenes Gespräch, um besser zu verstehen, was die Parteien fordern.',
-      orderedList: [
-        'Fragen zu den Themen stellen, die einen selbst am meisten interessieren.',
-        'Ins Detail gehen, um die Begriffe, Vorstellungen und Pläne der Parteien genau zu verstehen.',
-        'Positionen kritisch einordnen, um Für- und Wider abzuwägen.',
-      ],
-    },
-  },
-  {
-    id: 'data-privacy',
-    title: 'Sind meine Daten bei der Verwendung von wahl.chat sicher?',
-    content: {
-      paragraphs: [
-        'Ja, wahl.chat kommt ohne Cookies und ohne die Erfassung persönlicher Daten aus. Lediglich die Chats werden anonymisiert gespeichert. Durch Zugriffskontrollen verhindern wir unbefugten Zugriff auf die Chats anderer.',
-        'Man sollte dennoch vermeiden, sensible persönliche Daten in die Chats zu schreiben.',
-      ],
-    },
-  },
-  {
-    id: 'usage-statistics',
-    title: 'Werden Nutzungsstatistiken erfasst?',
-    content: {
-      paragraphs: [
-        'Um wahl.chat kontinuierlich zu verbessern, werden die Webseitenanfragen und die anonymisierten Chatverläufe verwendet, um aggregierte Statistiken, wie die Anzahl der beantworteten Fragen oder die Parteien, mit denen am meisten gechattet wird, zu bestimmen.',
-        'Da wir die Entwicklung von wahl.chat wissenschaftlich begleiten, werden wir von Zeit zu Zeit unseren Nutzerinnen und Nutzern die Möglichkeit geben, an Studien teilzunehmen. Diese werden 100% freiwillig sein und eine Ablehnung wird keinen Einfluss auf die weitere Verwendbarkeit von wahl.chat haben. In diesen Studien werden wir die anonymisierten Nutzungsstatistiken verwenden, um die Wirkung von wahl.chat zu analysieren und den positiven Impact weiter zu verbessern.',
-      ],
-    },
-  },
-  {
-    id: 'learning',
-    title: 'Lernt wahl.chat mit der Zeit selbstständig dazu?',
-    content: {
-      paragraphs: [
-        'Nein, die Chatverläufe werden nicht für weiteres Training der LLMs verwendet. Wir arbeiten allerdings kontinuierlich daran, die Qualität der Antworten zu verbessern, halten unsere Datenbasis stets aktuell und planen, weitere relevante Dokumente zur Antwortgenerierung hinzuzufügen.',
-      ],
-    },
-  },
-  {
-    id: 'contribute',
-    title: 'Wie kann ich zu wahl.chat beitragen?',
-    content: {
-      paragraphs: [
-        'wahl.chat ist ein Open-Source-Projekt und unser Code ist öffentlich auf GitHub einsehbar unter https://github.com/wahl-chat.',
-        'Wir freuen uns über Unterstützung und sind immer auf der Suche nach Freiwilligen, die mit uns gemeinsam die Demokratie stärken möchten. Wenn du Interesse hast, dich einzubringen, kontaktiere uns gerne unter info@wahl.chat.',
-      ],
-    },
-  },
+const FALLBACK_CONTEXT_NAME = 'Elecciones Presidenciales 2026 (Primera Vuelta)';
+const FALLBACK_CONTEXT_DATE = '2026-05-31';
+const FALLBACK_LOCATION_NAME = 'Colombia';
+const PREFERRED_PARTY_NAMES = [
+  'Pacto Histórico',
+  'Centro Democrático',
+  'Con Claudia Imparables',
+  'Dignidad & Compromiso',
+  'Defensores de la Patria',
 ];
+
+function formatContextDate(date: string | null | undefined) {
+  if (!date) return null;
+
+  const parsedDate = new Date(`${date}T12:00:00Z`);
+  if (Number.isNaN(parsedDate.getTime())) return null;
+
+  return new Intl.DateTimeFormat('es-CO', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(parsedDate);
+}
+
+function getOrderedPartyNames(parties?: PartyDetails[]) {
+  if (!parties?.length) {
+    return PREFERRED_PARTY_NAMES;
+  }
+
+  const availableNames = new Set(parties.map((party) => party.name));
+  const prioritized = PREFERRED_PARTY_NAMES.filter((name) =>
+    availableNames.has(name),
+  );
+  const remaining = [...availableNames]
+    .filter((name) => !prioritized.includes(name))
+    .sort((left, right) => left.localeCompare(right, 'es-CO'));
+
+  return [...prioritized, ...remaining];
+}
+
+function buildPartySpecificQuestions(partyNames: string[]) {
+  const [
+    partyA = 'Pacto Histórico',
+    partyB = 'Centro Democrático',
+    partyC = 'Con Claudia Imparables',
+    partyD = 'Dignidad & Compromiso',
+    partyE = 'Defensores de la Patria',
+  ] = partyNames;
+
+  return [
+    `¿Cuál es la posición de ${partyA} sobre el salario mínimo?`,
+    `¿Qué propone ${partyB} en materia de seguridad?`,
+    `¿Cómo plantea ${partyC} combatir la corrupción?`,
+    `¿Qué medidas propone ${partyD} para mejorar la educación pública?`,
+    `¿Cómo quiere ${partyE} impulsar el crecimiento económico?`,
+  ];
+}
+
+function buildCompareQuestions(partyNames: string[]) {
+  const [
+    partyA = 'Pacto Histórico',
+    partyB = 'Centro Democrático',
+    partyC = 'Con Claudia Imparables',
+    partyD = 'Dignidad & Compromiso',
+  ] = partyNames;
+
+  return [
+    `¿En qué se diferencian ${partyA} y ${partyB} en seguridad?`,
+    `Compara las propuestas de ${partyA} y ${partyC} sobre salud.`,
+    `¿Qué diferencias hay entre ${partyD} y ${partyB} frente al empleo y la economía?`,
+  ];
+}
+
+function buildAccordionContent({
+  contextName,
+  contextDate,
+  locationName,
+  partyNames,
+  supportsVotingBehavior,
+}: {
+  contextName: string;
+  contextDate: string | null;
+  locationName: string;
+  partyNames: string[];
+  supportsVotingBehavior: boolean;
+}) {
+  const partySpecificQuestions = buildPartySpecificQuestions(partyNames);
+  const compareQuestions = buildCompareQuestions(partyNames);
+  const supportedContextLabel = contextDate
+    ? `${contextName} - ${contextDate}`
+    : contextName;
+
+  return [
+    {
+      id: 'questions',
+      title: '¿Qué preguntas puedo hacer?',
+      content: {
+        intro:
+          'Puedes hacer preguntas sobre las posiciones de las candidaturas y movimientos de esta elección. Si quieres comparar varias opciones entre sí, puedes agregarlas al chat o simplemente mencionarlas en la pregunta. También puedes hacer preguntas generales sobre el proceso electoral en Colombia.',
+        sections: [
+          {
+            subtitle: 'Ejemplos de preguntas específicas por candidatura:',
+            list: partySpecificQuestions,
+          },
+          {
+            subtitle: 'Ejemplos de preguntas comparativas:',
+            list: compareQuestions,
+          },
+          {
+            subtitle: 'Ejemplos de preguntas generales:',
+            list: GENERAL_QUESTIONS,
+          },
+        ],
+      },
+    },
+    {
+      id: 'elections-supported',
+      title: '¿Qué elecciones están soportadas?',
+      content: {
+        intro: 'Actualmente soportamos el siguiente contexto electoral:',
+        list: [supportedContextLabel],
+        outro:
+          'Iremos añadiendo nuevos contextos electorales a medida que estén disponibles.',
+      },
+    },
+    {
+      id: 'number-parties',
+      title: '¿Con cuántas candidaturas puedo chatear?',
+      content: {
+        paragraphs: [
+          `Puedes iniciar el chat con hasta ${MAX_SELECTABLE_PARTIES} candidaturas simultáneamente, pero tienes la posibilidad de agregar más durante la conversación.`,
+          'Además, puedes agregar o eliminar fácilmente más candidaturas en el chat mediante el botón sobre el campo de texto.',
+        ],
+      },
+    },
+    {
+      id: 'position',
+      title: 'Clasificar posición',
+      content: {
+        paragraphs: [
+          'Cuando haces clic en este botón debajo de uno de los mensajes, se clasifica la posición de la propuesta. Se tienen en cuenta los siguientes criterios: viabilidad, efectos a corto plazo y efectos a largo plazo.',
+          'Para esto utilizamos información actual y fuentes de internet proporcionadas por Perplexity.ai.',
+        ],
+      },
+    },
+    ...(supportsVotingBehavior
+      ? [
+          {
+            id: 'voting-behavior-analyze',
+            title: 'Analizar comportamiento de votación',
+            content: {
+              paragraphs: [
+                'Con esta función puedes contextualizar la respuesta de una organización política a partir de votaciones registradas. Además, al hacer clic en "Mostrar votaciones" puedes ver detalles adicionales sobre los registros relevantes para contrastar discurso y actuación política.',
+              ],
+            },
+          },
+        ]
+      : []),
+    {
+      id: 'data',
+      title: '¿Qué datos se utilizan?',
+      content: {
+        intro:
+          'Para ofrecer respuestas fundamentadas y basadas en fuentes, votamos.chat utiliza una variedad de fuentes de datos:',
+        orderedList: [
+          `Documentos de las candidaturas: Como base de datos se utilizan programas de gobierno, manifiestos, documentos de posición y otros materiales públicos de las candidaturas y movimientos de ${locationName}.`,
+          ...(supportsVotingBehavior
+            ? [
+                'Comportamiento de votación: Para el análisis del comportamiento de votación utilizamos registros públicos de votaciones institucionales para contrastar las posiciones declaradas con actuaciones previas.',
+              ]
+            : []),
+          'Fuentes de internet para la clasificación de posiciones: Para la clasificación diferenciada de posiciones, votamos.chat utiliza el servicio Perplexity.ai, que emplea fuentes de internet de alta calidad como medios de comunicación y fuentes institucionales.',
+        ],
+        outro:
+          'Hemos listado todas las fuentes que utiliza votamos.chat en nuestra página web bajo /sources.',
+      },
+    },
+    {
+      id: 'guidelines',
+      title: '¿Qué directrices sigue votamos.chat en sus respuestas?',
+      content: {
+        intro:
+          'Las siguientes directrices aplican para las respuestas en los chats:',
+        orderedList: [
+          'Basado en fuentes: Las respuestas deben basarse en las declaraciones relevantes de los documentos proporcionados.',
+          'Neutralidad: Las posiciones de las candidaturas deben reproducirse de forma neutral y sin valoraciones.',
+          'Transparencia: A cada afirmación se deben vincular directamente las fuentes relevantes para permitir una revisión detallada del contenido.',
+        ],
+      },
+    },
+    {
+      id: 'party-selection',
+      title: '¿Según qué criterios se seleccionan las candidaturas?',
+      content: {
+        paragraphs: [
+          `La selección actual para ${contextName} se basa en la disponibilidad de programas de gobierno y otros documentos públicos verificables. Queremos ampliar gradualmente la cobertura para incluir más candidaturas, movimientos y coaliciones relevantes.`,
+          'Si echas en falta alguna candidatura o movimiento, escríbenos un correo con su programa de gobierno, manifiesto u otros documentos relevantes en PDF a info@votamos.chat y lo añadiremos lo antes posible.',
+        ],
+      },
+    },
+    {
+      id: 'affinity-test-difference',
+      title:
+        '¿En qué se diferencia votamos.chat de un test de afinidad política tradicional?',
+      content: {
+        intro:
+          'En un test de afinidad electoral tradicional respondes un conjunto cerrado de preguntas. votamos.chat, en cambio, funciona como una conversación abierta para entender mejor qué proponen las candidaturas.',
+        orderedList: [
+          'Hacer preguntas sobre los temas que más te interesan.',
+          'Entrar en detalle para comprender exactamente los términos, ideas y planes de las candidaturas.',
+          'Analizar posiciones críticamente para entender los pros y los contras.',
+        ],
+      },
+    },
+    {
+      id: 'data-privacy',
+      title: '¿Están seguros mis datos al usar votamos.chat?',
+      content: {
+        paragraphs: [
+          'Sí, votamos.chat funciona sin cookies y sin recopilación de datos personales. Solo los chats se guardan de forma anónima. Mediante controles de acceso evitamos el acceso no autorizado a los chats de otros usuarios.',
+          'No obstante, se debe evitar escribir datos personales sensibles en los chats.',
+        ],
+      },
+    },
+    {
+      id: 'usage-statistics',
+      title: '¿Se recopilan estadísticas de uso?',
+      content: {
+        paragraphs: [
+          'Para poder mejorar votamos.chat, se utilizan las acciones realizadas en la página web y los historiales de chat anonimizados para determinar estadísticas agregadas, como el número de preguntas respondidas o las candidaturas con las que más se chatea.',
+          'El desarrollo de votamos.chat se hace de forma científica, de vez en cuando daremos a nuestros usuarios la posibilidad de participar en estudios. Estos serán 100% voluntarios y no participar no tendrá ningún efecto sobre el uso posterior de votamos.chat. En estos estudios utilizaremos las estadísticas de uso anonimizadas para analizar el impacto de votamos.chat y mejorar su efecto positivo en la sociedad.',
+        ],
+      },
+    },
+    {
+      id: 'learning',
+      title: '¿Aprende votamos.chat de forma autónoma con el tiempo?',
+      content: {
+        paragraphs: [
+          'No, los historiales de chat no se utilizan para el entrenamiento adicional de los LLMs. Sin embargo, trabajamos continuamente para mejorar la calidad de las respuestas, mantenemos nuestra base de datos siempre actualizada y planeamos agregar más documentos relevantes para la generación de respuestas.',
+        ],
+      },
+    },
+    {
+      id: 'contribute',
+      title: '¿Cómo puedo contribuir a votamos.chat?',
+      content: {
+        paragraphs: [
+          'votamos.chat es un proyecto Open Source y nuestro código es públicamente accesible en GitHub bajo https://github.com/SimonKaran13/votamos-chat.',
+          'Agradecemos el apoyo y siempre estamos en busca de voluntarios que quieran fortalecer la democracia junto a nosotros. Si tienes interés en colaborar, puedes contactar al e-mail info@votamos.chat.',
+        ],
+      },
+    },
+  ];
+}
 
 const PROCESS_STEP_ICONS = [
   <MessageCircleQuestionIcon key="icon1" className="absolute left-0 top-0" />,
@@ -248,9 +314,27 @@ const PROCESS_STEP_ICONS = [
 
 function HowTo() {
   const [isExporting, setIsExporting] = useState(false);
+  const context = useCurrentContext({ optional: true });
+  const parties = useContextParties();
+  const contextId = context?.context_id ?? DEFAULT_CONTEXT_ID;
+
+  const partyNames = getOrderedPartyNames(parties);
+  const contextName = context?.name ?? FALLBACK_CONTEXT_NAME;
+  const contextDate = formatContextDate(context?.date ?? FALLBACK_CONTEXT_DATE);
+  const locationName = context?.location_name ?? FALLBACK_LOCATION_NAME;
+  const supportsVotingBehavior = context?.supports_voting_behavior ?? false;
+  const accordionContent = buildAccordionContent({
+    contextName,
+    contextDate,
+    locationName,
+    partyNames,
+    supportsVotingBehavior,
+  });
 
   const buildQuestionLink = (question: string) => {
-    return `/session?q=${question}`;
+    const searchParams = new URLSearchParams({ q: question });
+
+    return `/${contextId}/session?${searchParams.toString()}`;
   };
 
   const exportToPDF = async () => {
@@ -259,7 +343,7 @@ function HowTo() {
       await exportHowToPDF({
         introText: INTRO_TEXT,
         processSteps: PROCESS_STEPS,
-        accordionContent: ACCORDION_CONTENT,
+        accordionContent,
       });
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -273,15 +357,15 @@ function HowTo() {
       <article>
         <section>
           <p>
-            <span className="font-bold underline">wahl.chat</span>{' '}
-            {INTRO_TEXT.main.startsWith('wahl.chat ')
-              ? INTRO_TEXT.main.slice('wahl.chat '.length)
+            <span className="font-bold underline">votamos.chat</span>{' '}
+            {INTRO_TEXT.main.startsWith('votamos.chat ')
+              ? INTRO_TEXT.main.slice('votamos.chat '.length)
               : INTRO_TEXT.main}
             <br />
             {INTRO_TEXT.sources}
           </p>
 
-          <p className="mt-4 text-sm font-semibold">Der Prozess ist einfach:</p>
+          <p className="mt-4 text-sm font-semibold">El proceso es simple:</p>
 
           <ul className="[&_li]:mt-4 [&_li]:text-sm">
             {PROCESS_STEPS.map((step, index) => (
@@ -294,7 +378,7 @@ function HowTo() {
         </section>
 
         <section className="mt-6">
-          {ACCORDION_CONTENT.map((accordionItem) => (
+          {accordionContent.map((accordionItem) => (
             <AccordionItem key={accordionItem.id} value={accordionItem.id}>
               <AccordionTrigger className="font-bold">
                 {accordionItem.title}
@@ -351,14 +435,15 @@ function HowTo() {
                     <br />
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[1] || '';
-                      const parts = text.split('Plus-Knopf');
+                      const parts = text.split('botón');
                       return (
                         <>
                           {parts[0]}
+                          botón{' '}
                           <span className="inline-block">
                             <PlusIcon className="size-4 rounded-full bg-primary p-1 text-primary-foreground" />
                           </span>
-                          -Knopf{parts[1]}
+                          {parts[1]}
                         </>
                       );
                     })()}
@@ -373,11 +458,11 @@ function HowTo() {
                         <Button
                           variant="outline"
                           className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-                          tooltip="Ordne die Position in Pro oder Contra ein"
+                          tooltip="Clasifica la posición en Pro o Contra"
                           type="button"
                         >
                           <ProConIcon />
-                          <span className="text-xs">Position einordnen</span>
+                          <span className="text-xs">Clasificar posición</span>
                         </Button>
                         <ChatActionButtonHighlight showHighlight />
                       </div>
@@ -401,10 +486,12 @@ function HowTo() {
                         <Button
                           variant="outline"
                           className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-                          tooltip="Analysiere das Abstimmungsverhalten der Partei"
+                          tooltip="Analiza el comportamiento de votación del partido"
                         >
                           <VoteIcon />
-                          <span className="text-xs">Abstimmungsverhalten</span>
+                          <span className="text-xs">
+                            Comportamiento de votación
+                          </span>
                         </Button>
                         <ChatActionButtonHighlight showHighlight />
                       </div>
@@ -418,54 +505,25 @@ function HowTo() {
                   <>
                     {(() => {
                       const intro = accordionItem.content.intro || '';
-                      const introParts = intro.split('wahl.chat');
+                      const introParts = intro.split('votamos.chat');
                       return (
                         <>
                           {introParts[0]}
-                          <span className="font-bold underline">wahl.chat</span>
+                          <span className="font-bold underline">
+                            votamos.chat
+                          </span>
                           {introParts[1]}
                         </>
                       );
                     })()}
-                    <ol className="list-outside list-decimal py-4 pl-4 [&_li]:pt-1">
+                    <ol className="list-outside list-decimal py-4 pl-6 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => {
                         const parts = item.split(':');
-                        const isAbstimmungsverhalten = parts[0].includes(
-                          'Abstimmungsverhalten',
-                        );
                         return (
                           <li key={item}>
                             <div className="pl-2">
-                              {isAbstimmungsverhalten ? (
-                                <>
-                                  <span className="font-bold">{parts[0]}:</span>{' '}
-                                  {(() => {
-                                    const text = parts.slice(1).join(':');
-                                    const linkParts = text.split(
-                                      'abgeordnetenwatch.de',
-                                    );
-                                    return (
-                                      <>
-                                        {linkParts[0]}
-                                        <a
-                                          href="https://www.abgeordnetenwatch.de"
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="underline"
-                                        >
-                                          abgeordnetenwatch.de
-                                        </a>
-                                        {linkParts[1]}
-                                      </>
-                                    );
-                                  })()}
-                                </>
-                              ) : (
-                                <>
-                                  <span className="font-bold">{parts[0]}:</span>{' '}
-                                  {parts.slice(1).join(':')}
-                                </>
-                              )}
+                              <span className="font-bold">{parts[0]}:</span>{' '}
+                              {parts.slice(1).join(':')}
                             </div>
                           </li>
                         );
@@ -474,22 +532,21 @@ function HowTo() {
                     <br />
                     {(() => {
                       const outro = accordionItem.content.outro || '';
-                      const outroParts = outro.split('wahl.chat');
+                      const outroParts = outro.split('votamos.chat');
                       const beforeLink = outroParts[0];
-                      const afterWahlChat = outroParts[1] || '';
-                      const sourceParts = afterWahlChat.split('/sources');
+                      const afterVotamosChat = outroParts[1] || '';
+                      const sourceParts = afterVotamosChat.split('/sources');
                       return (
                         <>
                           {beforeLink}
-                          <span className="font-bold underline">wahl.chat</span>
+                          <span className="font-bold underline">
+                            votamos.chat
+                          </span>
                           {sourceParts[0]}
                           <Link href="/sources" className="underline">
-                            hier
+                            aquí
                           </Link>
-                          {sourceParts[1]?.replace(
-                            ' aufgelistet.',
-                            ' aufgelistet.',
-                          )}
+                          {sourceParts[1]}
                         </>
                       );
                     })()}
@@ -500,7 +557,7 @@ function HowTo() {
                 {accordionItem.id === 'guidelines' && (
                   <>
                     {accordionItem.content.intro}
-                    <ol className="list-outside list-decimal py-4 pl-4 [&_li]:pt-1">
+                    <ol className="list-outside list-decimal py-4 pl-6 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => {
                         const parts = item.split(':');
                         return (
@@ -524,12 +581,15 @@ function HowTo() {
                     <br />
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[1] || '';
-                      const parts = text.split('info@wahl.chat');
+                      const parts = text.split('info@votamos.chat');
                       return (
                         <>
                           {parts[0]}
-                          <a href="mailto:info@wahl.chat" className="underline">
-                            info@wahl.chat
+                          <a
+                            href="mailto:info@votamos.chat"
+                            className="underline"
+                          >
+                            info@votamos.chat
                           </a>
                           {parts[1]}
                         </>
@@ -538,53 +598,14 @@ function HowTo() {
                   </>
                 )}
 
-                {/* About founders accordion */}
-                {accordionItem.id === 'about-founders' && (
+                {/* Traditional comparator difference accordion */}
+                {accordionItem.id === 'affinity-test-difference' && (
                   <>
                     {accordionItem.content.intro}
                     <br />
                     <br />
-                    {accordionItem.content.sections?.map((section) => (
-                      <div key={section.subtitle}>
-                        <span className="font-bold">{section.subtitle}</span>
-                        <ul className="list-outside list-disc py-2 pl-4 [&_li]:pt-1">
-                          {section.list?.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                        <br />
-                      </div>
-                    ))}
-                    <span className="font-bold">Wie kam es zu wahl.chat?</span>
-                    <br />
-                    <br />
-                    {accordionItem.content.origin}
-                    <br />
-                    <br />
-                    {(() => {
-                      const outro = accordionItem.content.outro || '';
-                      const parts = outro.split('/about-us');
-                      return (
-                        <>
-                          {parts[0]}
-                          <Link href="/about-us" className="underline">
-                            /about-us
-                          </Link>
-                          {parts[1]}
-                        </>
-                      );
-                    })()}
-                  </>
-                )}
-
-                {/* Wahl-O-Mat difference accordion */}
-                {accordionItem.id === 'wahl-o-mat-difference' && (
-                  <>
-                    {accordionItem.content.intro}
-                    <br />
-                    <br />
-                    <span className="font-bold">Bei wahl.chat kann man:</span>
-                    <ol className="list-outside list-decimal py-2 pl-4 [&_li]:pt-1">
+                    <span className="font-bold">Con votamos.chat puedes:</span>
+                    <ol className="list-outside list-decimal py-2 pl-6 [&_li]:pt-1">
                       {accordionItem.content.orderedList?.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
@@ -632,17 +653,19 @@ function HowTo() {
                   <>
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[0] || '';
-                      const parts = text.split('https://github.com/wahl-chat');
+                      const parts = text.split(
+                        'https://github.com/SimonKaran13/votamos-chat',
+                      );
                       return (
                         <p>
                           {parts[0]}
                           <a
-                            href="https://github.com/wahl-chat"
+                            href="https://github.com/SimonKaran13/votamos-chat"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="underline"
                           >
-                            https://github.com/wahl-chat
+                            https://github.com/SimonKaran13/votamos-chat
                           </a>
                           {parts[1]}
                         </p>
@@ -651,12 +674,15 @@ function HowTo() {
                     <br />
                     {(() => {
                       const text = accordionItem.content.paragraphs?.[1] || '';
-                      const parts = text.split('info@wahl.chat');
+                      const parts = text.split('info@votamos.chat');
                       return (
                         <p>
                           {parts[0]}
-                          <a href="mailto:info@wahl.chat" className="underline">
-                            info@wahl.chat
+                          <a
+                            href="mailto:info@votamos.chat"
+                            className="underline"
+                          >
+                            info@votamos.chat
                           </a>
                           {parts[1]}
                         </p>
@@ -677,7 +703,7 @@ function HowTo() {
             size="lg"
           >
             <DownloadIcon />
-            {isExporting ? 'Erstelle PDF...' : 'Als PDF exportieren'}
+            {isExporting ? 'Generando PDF...' : 'Exportar como PDF'}
           </Button>
         </div>
       </article>

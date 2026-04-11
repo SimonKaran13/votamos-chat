@@ -45,7 +45,7 @@ function ChatGroupPartySelectContent({
 
     if (selectedPartyIds.length >= MAX_SELECTABLE_PARTIES) {
       toast.error(
-        `Du kannst nur maximal ${MAX_SELECTABLE_PARTIES} Parteien auswählen`,
+        `Solo puedes seleccionar hasta ${MAX_SELECTABLE_PARTIES} candidaturas`,
       );
       return;
     }

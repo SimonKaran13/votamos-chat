@@ -97,8 +97,12 @@ generate_chat_title_and_quick_replies_llms: list[LLM] = PRE_AND_POST_PROCESSING_
 
 reranking_llms = PRE_AND_POST_PROCESSING_LLMS
 
-perplexity_client = AsyncOpenAI(
-    api_key=os.getenv("PERPLEXITY_API_KEY"), base_url="https://api.perplexity.ai"
+perplexity_client = (
+    AsyncOpenAI(
+        api_key=os.getenv("PERPLEXITY_API_KEY"), base_url="https://api.perplexity.ai"
+    )
+    if os.getenv("PERPLEXITY_API_KEY")
+    else None
 )
 
 
@@ -259,7 +263,7 @@ async def generate_improvement_rag_query(
     if party.party_id == WAHL_CHAT_PARTY.party_id:
         # Fetch context to get the context name for the template
         context = await aget_context_by_id(context_id)
-        context_name = context.name if context else "Bundestagswahl 2025"
+        context_name = context.name if context else "Elecciones presidenciales 2026"
         system_prompt = system_prompt_improve_general_chat_rag_query_template.format(
             context_name=context_name
         )
@@ -311,11 +315,11 @@ async def generate_pro_con_perspective(
         party_long_name=party.long_name,
         party_description=party.description,
         party_candidate=party.candidate,
-        context_name=prompt_context.get("context_name", "Bundestagswahl 2025"),
+        context_name=prompt_context.get("context_name", "Elecciones presidenciales 2026"),
         context_date_info=prompt_context.get(
             "context_date_info", "Kein spezifisches Datum"
         ),
-        context_location=prompt_context.get("context_location", "Deutschland"),
+        context_location=prompt_context.get("context_location", "Colombia"),
         date=now.strftime("%Y-%m-%d"),
         time=now.strftime("%H:%M"),
     )
@@ -336,6 +340,9 @@ async def generate_pro_con_perspective(
     ]
 
     # chat completion without streaming
+    if perplexity_client is None:
+        raise ValueError("PERPLEXITY_API_KEY is not configured")
+
     response = await perplexity_client.chat.completions.create(
         model="sonar",
         messages=messages,
@@ -370,7 +377,7 @@ async def generate_chat_summary(chat_history: list[Message]) -> str:
     )
 
     return getattr(
-        response, "chat_summary", "Hier sollte eigentlich eine Zusammenfassung stehen."
+        response, "chat_summary", "Aqui deberia aparecer un resumen."
     )
 
 
@@ -381,7 +388,7 @@ def get_rag_context(relevant_docs: List[Document]) -> str:
         rag_context += context_obj
     if rag_context == "":
         rag_context = (
-            "Keine relevanten Informationen in der Dokumentensammlung gefunden."
+            "No se encontró información relevante en la colección de documentos."
         )
     return rag_context
 
@@ -392,20 +399,20 @@ def get_rag_comparison_context(
     rag_context = ""
     doc_num = 0
     for party in relevant_parties:
-        rag_context += f"\n\nInformationen von {party.name}:\n"
+        rag_context += f"\n\nInformación de {party.name}:\n"
         for doc in relevant_docs[party.party_id]:
             context_obj = f"""- ID: {doc_num}
-- Dokumentname: {doc.metadata.get("document_name", "unbekannt")}
-- Partei: {party.name}
-- Veröffentlichungsdatum: {doc.metadata.get("document_publish_date", "unbekannt")}
-- Inhalt: "{doc.page_content}"
+- Nombre del documento: {doc.metadata.get("document_name", "desconocido")}
+- Partido: {party.name}
+- Fecha de publicación: {doc.metadata.get("document_publish_date", "desconocido")}
+- Contenido: "{doc.page_content}"
 
 """
             doc_num += 1
             rag_context += context_obj
     if rag_context == "":
         rag_context = (
-            "Keine relevanten Informationen in der Dokumentensammlung gefunden."
+            "No se encontró información relevante en la colección de documentos."
         )
     return rag_context
 
@@ -458,14 +465,14 @@ async def generate_streaming_chatbot_response(
             all_parties_list += f"Abkürzung: {p.name}\n"
             all_parties_list += f"Beschreibung: {p}\n"
             all_parties_list += (
-                f"Spitzenkandidat*In für die Bundestagswahl 2025: {p.candidate}\n"
+                f"Candidatura principal en el contexto actual: {p.candidate}\n"
             )
         system_prompt = wahl_chat_response_system_prompt_template.format(
-            context_name=prompt_context.get("context_name", "Bundestagswahl 2025"),
+            context_name=prompt_context.get("context_name", "Elecciones presidenciales 2026"),
             context_date_info=prompt_context.get(
                 "context_date_info", "Kein spezifisches Datum"
             ),
-            context_location=prompt_context.get("context_location", "Deutschland"),
+            context_location=prompt_context.get("context_location", "Colombia"),
             all_parties_list=all_parties_list,
             date=now.strftime("%Y-%m-%d"),
             time=now.strftime("%H:%M"),

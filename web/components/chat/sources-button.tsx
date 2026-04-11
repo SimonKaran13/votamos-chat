@@ -77,23 +77,23 @@ function SourcesButton({ sources, messageContent }: Props) {
               className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
             >
               <BookMarkedIcon />
-              Quellen
+              Fuentes
             </Button>
           </ResponsiveDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Quellen</TooltipContent>
+        <TooltipContent>Fuentes</TooltipContent>
       </Tooltip>
       <ResponsiveDialogContent className="flex max-h-[95dvh] flex-col">
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>Quellen</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Fuentes</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Klicke auf eine Quelle, um sie in einem neuen Fenster zu öffnen.
+            Haz clic en una fuente para abrirla en una ventana nueva.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
         <div className={cn('flex flex-col grow overflow-y-auto p-4 md:p-0')}>
           {sourcesReferenced.length > 0 && (
-            <p className="text-sm font-bold">Im Text referenziert:</p>
+            <p className="text-sm font-bold">Citadas en el texto:</p>
           )}
           {sourcesReferenced.map((source, index) => (
             <SourceItem key={buildSourceKey(source, index)} source={source} />
@@ -105,7 +105,7 @@ function SourcesButton({ sources, messageContent }: Props) {
                 sourcesReferenced.length > 0 && 'mt-4',
               )}
             >
-              Zusätzlich analysiert:
+              Analizadas adicionalmente:
             </p>
           )}
           {sourcesNotReferenced.map((source, index) => (
@@ -138,7 +138,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
         </div>
         {source.document_publish_date && (
           <span className="text-left text-xs text-muted-foreground">
-            Veröffentlicht am:{' '}
+            Publicado el:{' '}
             <span className="font-bold">
               {prettyDate(source.document_publish_date)}
             </span>
@@ -146,7 +146,7 @@ function SourceItem({ source }: { source: SourceWithIndex }) {
         )}
       </div>
       <p className="flex h-8 items-center justify-center whitespace-nowrap rounded-md bg-muted px-2 text-xs text-muted-foreground">
-        S. {source.page}
+        Pág. {source.page}
       </p>
       {source.party_id && <ChatMessageIcon partyId={source.party_id} />}
     </button>

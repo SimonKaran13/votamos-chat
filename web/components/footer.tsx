@@ -1,6 +1,5 @@
 'use client';
 
-import { PRESS_LINK } from '@/lib/contact-config';
 import Link from 'next/link';
 import Logo from './chat/logo';
 import { ThemeModeToggle } from './chat/theme-mode-toggle';
@@ -16,17 +15,17 @@ function Footer() {
       <Logo className="size-5" variant="small" />
 
       <section className="flex grow flex-wrap items-center justify-center gap-2 underline md:justify-end">
-        <Link href="/how-to">Anleitung</Link>
-        <Link href="/about-us">Über uns</Link>
-        <Link href={sourcesHref}>Quellen</Link>
-        <Link href={PRESS_LINK} target="_blank">
-          Presse
-        </Link>
+        <Link href="/how-to">Guía</Link>
+        <Link href="/about-us">Sobre nosotros</Link>
+        <Link href={sourcesHref}>Fuentes</Link>
+        {/*<Link href={PRESS_LINK} target="_blank">*/}
+        {/*  Prensa*/}
+        {/*</Link>*/}
         <FeedbackDialog>
           <button type="button">Feedback</button>
         </FeedbackDialog>
-        <Link href="/impressum">Impressum</Link>
-        <Link href="/datenschutz">Datenschutz</Link>
+        <Link href="/impressum">Aviso legal</Link>
+        {/*<Link href="/datenschutz">Privacidad</Link>*/}
       </section>
 
       <ThemeModeToggle />

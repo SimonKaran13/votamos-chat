@@ -3,12 +3,15 @@ import {
   addUserMessageToChatSession,
   createChatSession,
 } from '@/lib/firebase/firebase';
+import {
+  incrementWahlChatSessionMessageCount,
+  isProlificStudy,
+} from '@/lib/prolific-study/prolific-metadata';
 import { chatViewScrollToBottom } from '@/lib/scroll-utils';
 import type { ChatStoreActionHandlerFor } from '@/lib/stores/chat-store.types';
 import { generateUuid } from '@/lib/utils';
 import { Timestamp } from 'firebase/firestore';
 import { toast } from 'sonner';
-import {incrementWahlChatSessionMessageCount, isProlificStudy} from "@/lib/prolific-study/prolific-metadata";
 
 export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
   (get, set) =>
@@ -29,7 +32,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
     const safeContextId = contextId ?? DEFAULT_CONTEXT_ID;
 
     if (!socket.io?.connected) {
-      if (!fromInitialQuestion) toast.error('wahl.chat ist nicht verbunden.');
+      if (!fromInitialQuestion) toast.error('votamos.chat no está conectado.');
       else
         set((state) => {
           state.initialQuestionError = message;
@@ -84,8 +87,8 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
     });
 
     if (!isMessageResend && isProlificStudy()) {
-        incrementWahlChatSessionMessageCount(); // increment in session storage
-        incrementProlificMessageCount(); // increment store for reactivity
+      incrementWahlChatSessionMessageCount(); // increment in session storage
+      incrementProlificMessageCount(); // increment store for reactivity
     }
 
     messages = get().messages;

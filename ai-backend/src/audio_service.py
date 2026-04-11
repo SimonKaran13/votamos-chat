@@ -32,15 +32,16 @@ def get_openai_client() -> AsyncOpenAI:
 
 async def transcribe_audio(
     audio_bytes: bytes,
-    language: str = "de",
+    language: str = "es",
 ) -> str:
     """
     Transcribe audio using OpenAI Whisper.
 
     Args:
         audio_bytes: Raw binary audio data (webm)
-        language: language code for transcription. For now, we assume german but as soon as we support proper i18n
-                    in the frontend we will handle it based on the users preferences.
+        language: language code for transcription. Defaults to Spanish for the
+                    current Colombia deployment until locale selection is fully
+                    propagated from the frontend.
 
     Returns:
         Transcribed text

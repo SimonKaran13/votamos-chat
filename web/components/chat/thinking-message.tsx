@@ -5,11 +5,11 @@ import { ChatMessageIcon } from './chat-message-icon';
 
 function ThinkingMessage() {
   const messages = [
-    'Relevante Quellen ermitteln...',
-    'Quellen analysieren...',
-    'Daten verarbeiten...',
-    'Ergebnisse generieren...',
-    'Abschließen...',
+    'Buscando fuentes relevantes...',
+    'Analizando fuentes...',
+    'Procesando datos...',
+    'Generando respuesta...',
+    'Terminando...',
   ];
 
   return (

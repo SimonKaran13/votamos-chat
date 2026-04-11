@@ -18,15 +18,32 @@ load_env()
 
 logger = logging.getLogger(__name__)
 
-credentials_path = (
-    "wahl-chat-firebase-adminsdk.json"
-    if os.getenv("ENV") == "prod"
-    else "wahl-chat-dev-firebase-adminsdk.json"
+ENV = os.getenv("ENV")
+credentials_filenames = (
+    [
+        "votamos-chat-prod-firebase-adminsdk.json",
+        "votamos-chat-firebase-adminsdk.json",
+        "wahl-chat-firebase-adminsdk.json",
+    ]
+    if ENV == "prod"
+    else ["votamos-chat-dev-firebase-adminsdk.json", "wahl-chat-dev-firebase-adminsdk.json"]
 )
 
+
+def _find_credentials_path() -> Optional[Path]:
+    for filename in credentials_filenames:
+        path = Path(filename)
+        if path.exists():
+            return path
+    return None
+
+
+credentials_path = _find_credentials_path()
+
 # If the credentials file does not exist, use the application default credentials
-if Path(credentials_path).exists():
-    cred = credentials.Certificate(credentials_path)
+if credentials_path is not None:
+    logger.info("Using Firebase service account file: %s", credentials_path.name)
+    cred = credentials.Certificate(str(credentials_path))
     firebase_admin.initialize_app(cred)
 else:
     firebase_admin.initialize_app()
@@ -42,7 +59,7 @@ def _validate_credentials():
     letting the first Firestore request fail with a cryptic stack trace.
     Only runs when using Application Default Credentials (no JSON file).
     """
-    if Path(credentials_path).exists():
+    if credentials_path is not None:
         return  # Using service account JSON — no expiry issues
 
     try:

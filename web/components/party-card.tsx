@@ -15,6 +15,7 @@ type Props = {
   onPartyClicked?: (partyId: string) => void;
   selectable?: boolean;
   contextId?: string;
+  imageClassName?: string;
 };
 
 function PartyCard({
@@ -24,6 +25,7 @@ function PartyCard({
   onPartyClicked,
   selectable = true,
   contextId,
+  imageClassName,
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -35,7 +37,7 @@ function PartyCard({
       src={buildPartyImageUrl(id)}
       placeholder="blur"
       sizes="20vw"
-      className="object-contain p-[20%]"
+      className={cn('object-contain p-[20%]', imageClassName)}
       fill
     />
   );
@@ -45,8 +47,8 @@ function PartyCard({
     : `/session?party_id=${id}`;
 
   const ariaLabel = selectable
-    ? `${name}${isSelected ? ' (ausgewählt)' : ''}`
-    : `Chat mit ${name} starten`;
+    ? `${name}${isSelected ? ' (seleccionado)' : ''}`
+    : `Iniciar chat con ${name}`;
 
   return (
     <Button

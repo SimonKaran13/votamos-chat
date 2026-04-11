@@ -6,15 +6,16 @@ from src.models.context import ContextParty
 
 WAHL_CHAT_PARTY = ContextParty(
     party_id="wahl-chat",
-    name="wahl.chat",
-    long_name="wahl.chat Assistent",
+    name="votamos.chat",
+    long_name="Asistente de votamos.chat",
     description=(
-        "Der wahl.chat Assistent kann allgemeine Fragen zur Bundestagswahl 2025, zum Wahlsystem und zur Anwendung wahl.chat beantworten. "
-        "Falls Parteien miteinander verglichen werden, ist er neutral und gibt einen quellenbasierten Überblick."
+        "El asistente de votamos.chat puede responder preguntas generales sobre las elecciones presidenciales de Colombia de 2026, "
+        "sobre el sistema electoral y sobre el uso de votamos.chat. "
+        "Si se comparan partidos o candidaturas, responde de forma neutral y con base en fuentes."
     ),
-    website_url="https://wahl.chat",
-    candidate="Wahl Chat",
-    manifesto_url="https://wahl.chat/presse",
+    website_url="https://votamos.chat",
+    candidate="votamos.chat",
+    manifesto_url="https://votamos.chat",
     is_small_party=False,
     is_already_in_parliament=False,
 )

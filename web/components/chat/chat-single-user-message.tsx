@@ -25,9 +25,7 @@ function ChatSingleUserMessage({ message, isLastMessage }: Props) {
 
   const handleResendMessage = () => {
     if (!user) {
-      toast.error(
-        'Bitte lade die Seite neu, um eine Nachricht erneut zu senden.',
-      );
+      toast.error('Recarga la página para volver a enviar el mensaje.');
       return;
     }
 
@@ -46,7 +44,7 @@ function ChatSingleUserMessage({ message, isLastMessage }: Props) {
           variant="ghost"
         >
           <RotateCcwIcon className="!size-3" />
-          Erneut senden
+          Reenviar
         </Button>
       )}
     </article>

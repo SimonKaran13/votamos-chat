@@ -13,70 +13,59 @@ import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
 
 const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000';
-const APP_NAME = 'votamos';
+const APP_NAME = 'votamos.chat';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${APP_NAME} - Politik interaktiv verstehen`,
+    default: `${APP_NAME} - Entiende la política de forma interactiva`,
     template: `%s | ${APP_NAME}`,
   },
   description:
-    'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+    'Entiende las posiciones de los partidos en las elecciones presidenciales de Colombia. Conversa con los programas de gobierno, haz preguntas sobre los temas que te importan y compara respuestas con fuentes.',
   applicationName: APP_NAME,
   keywords: [
-    'Wahl Chat',
-    'Wahl',
-    'Chat',
-    'AI Wahl Chat',
-    'AI Wahlprogramm',
-    'KI Chat',
-    'KI Wahlprogramm',
-    'Wahlprogramm',
-    'Parteien',
-    'Politik',
-    'Politik verstehen',
-    'Bundestagswahl',
-    'Bundestagswahl 2025',
-    'Landtagswahl',
-    'Kommunalwahl',
-    'Landtagswahl 2026',
-    'Kommunalwahl 2026',
-    'AI',
-    'KI',
-    'Künstliche Intelligenz',
+    'votamos.chat',
+    'elecciones Colombia',
+    'elecciones presidenciales Colombia',
+    'política Colombia',
+    'candidatos Colombia',
+    'partidos políticos Colombia',
+    'programas de gobierno',
+    'chat político',
+    'IA política',
+    'asistente político',
+    'comparar partidos',
+    'comparar propuestas',
+    'elecciones 2026',
+    'Colombia 2026',
+    'inteligencia artificial',
     'Chatbot',
-    'Chat',
-    'Deutschland',
-    'Deutschlandpolitik',
-    'KI Wahlhilfe',
-    'KI Wahl',
-    'Wahl KI',
-    'Wahlentscheidung Hilfe',
-    'Wahl informieren',
-    'Wahlcheck',
-    'Wahl-o-Mat',
-    'Wahl-o-Mat Alternative',
+    'chat electoral',
+    'decisión de voto',
+    'informarse para votar',
+    'IA para votar',
+    'IA Colombia 2026',
   ],
   robots: productionRobots,
   openGraph: {
     title: {
-      default: `${APP_NAME} - Politik interaktiv verstehen`,
-      template: `%s | ${APP_NAME} - Politik interaktiv verstehen`,
+      default: `${APP_NAME} - Entiende la política de forma interactiva`,
+      template: `%s | ${APP_NAME} - Entiende la política de forma interactiva`,
     },
     description:
-      'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+      'Entiende las posiciones de los candidatos en las elecciones presidenciales de Colombia. Conversa con los programas de gobierno, haz preguntas sobre los temas que te importan y compara respuestas con fuentes verificables.',
     images: [`${SITE_URL}/images/logo.webp`],
     url: SITE_URL,
     siteName: APP_NAME,
-    locale: 'de-DE',
+    locale: 'es_CO',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${APP_NAME} - Politik interaktiv verstehen`,
+    title: `${APP_NAME} - Entiende la política de forma interactiva`,
     description:
-      'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen. Unterhalte dich bei wahl.chat mit den Programmen der Parteien, stelle Fragen zu deinen Themen und lass Parteipositionen kritisch einordnen.',
+      'Entiende las posiciones de los candidatos en las elecciones presidenciales de Colombia. Conversa con los programas de gobierno, haz preguntas sobre los temas que te importan y compara respuestas con fuentes verificables.',
     images: [`${SITE_URL}/images/logo.webp`],
   },
 };
@@ -111,7 +100,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -129,15 +118,15 @@ export default function RootLayout({
                   name: APP_NAME,
                   url: SITE_URL,
                   description:
-                    'Politische Informationsplattform – Parteipositionen interaktiv vergleichen.',
+                    'Plataforma de información política para comparar propuestas y conversar con programas de gobierno.',
                 },
                 {
                   '@type': 'WebSite',
                   name: APP_NAME,
                   url: SITE_URL,
-                  inLanguage: 'de',
+                  inLanguage: 'es-CO',
                   description:
-                    'Verstehe die Positionen der Parteien zu Bundestags-, Landtags- und Kommunalwahlen.',
+                    'Entiende las posiciones de los partidos en las elecciones presidenciales de Colombia.',
                 },
               ],
             }),

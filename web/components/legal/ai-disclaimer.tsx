@@ -16,61 +16,60 @@ function AiDisclaimerContent() {
   return (
     <div className="px-4 pb-4 text-sm text-foreground md:px-0 md:pb-0">
       <p>
-        Die Antworten auf wahl.chat werden von einer{' '}
-        <span className="font-semibold">künstlichen Intelligenz</span>{' '}
-        generiert. Sie basieren auf Informationen, die aus{' '}
-        <span className="font-semibold">öffentlich zugänglichen Partei-</span>{' '}
-        und <span className="font-semibold">Wahlprogrammen</span> extrahiert
-        wurden. Während wahl.chat bestrebt ist, genaue Informationen über
-        Parteipositionen und -werte zu liefern, gilt:
+        Las respuestas de votamos.chat son generadas por una{' '}
+        <span className="font-semibold">inteligencia artificial</span>. Se basan
+        en información extraída de{' '}
+        <span className="font-semibold">programas de gobierno</span> y otras
+        fuentes <span className="font-semibold">públicamente disponibles</span>.
+        Aunque votamos.chat busca ofrecer información precisa sobre posturas y
+        propuestas políticas, ten en cuenta lo siguiente:
       </p>
 
       <ul className="flex list-inside flex-col gap-4 py-4 *:flex *:items-center *:gap-2">
         <li>
           <CpuIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            Die{' '}
-            <span className="font-semibold">Verarbeitung und Generierung</span>{' '}
-            aller Inhalte erfolgt{' '}
-            <span className="font-semibold">automatisiert.</span>
+            La{' '}
+            <span className="font-semibold">generacion y el procesamiento</span>{' '}
+            de todo el contenido son{' '}
+            <span className="font-semibold">automaticos</span>.
           </span>
         </li>
         <li>
           <AlertCircleIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            Die Antworten sind{' '}
+            Las respuestas{' '}
             <span className="font-semibold">
-              nicht als offizielle Parteiaussagen
+              no son declaraciones oficiales
             </span>{' '}
-            zu verstehen.
+            de las candidaturas o partidos.
           </span>
         </li>
         <li>
           <GitBranch className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            <span className="font-semibold">
-              Komplexe politische Positionen
-            </span>{' '}
-            können eventuell nicht in allen Nuancen erfasst werden.
+            Las{' '}
+            <span className="font-semibold">posturas políticas complejas</span>{' '}
+            pueden no quedar reflejadas en todos sus matices.
           </span>
         </li>
         <li>
           <AlertTriangleIcon className="mr-2 size-6 shrink-0" />
           <span className="inline-block">
-            <span className="font-semibold">Ungenauigkeiten</span> oder{' '}
-            <span className="font-semibold">Fehlinterpretationen</span> können
-            gelegentlich auftreten.
+            A veces puede haber{' '}
+            <span className="font-semibold">imprecisiones</span> o{' '}
+            <span className="font-semibold">interpretaciones incorrectas</span>.
           </span>
         </li>
       </ul>
 
       <p>
-        Dieser KI-Chat dient als{' '}
-        <span className="font-semibold">Bildungswerkzeug</span>, um verschiedene
-        politische Positionen kennenzulernen. Für{' '}
-        <span className="font-semibold">verbindliche Informationen</span> nutzen
-        Sie bitte die{' '}
-        <span className="font-semibold">offiziellen Parteiquellen</span>.
+        Este chat con IA es una{' '}
+        <span className="font-semibold">herramienta informativa</span> para
+        conocer distintas posiciones políticas. Si necesitas información{' '}
+        <span className="font-semibold">oficial o vinculante</span>, consulta
+        las <span className="font-semibold">fuentes oficiales</span> de cada
+        candidatura.
       </p>
     </div>
   );
@@ -80,14 +79,14 @@ function AiDisclaimer() {
   return (
     <ResponsiveDialog>
       <p className="my-2 text-center text-xs text-muted-foreground">
-        wahl.chat kann Fehler machen.{' '}
+        votamos.chat puede cometer errores.{' '}
         <ResponsiveDialogTrigger className="font-semibold underline">
-          Erfahre hier mehr.
+          Más información aquí.
         </ResponsiveDialogTrigger>
       </p>
       <ResponsiveDialogContent>
         <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle>KI Hinweis</ResponsiveDialogTitle>
+          <ResponsiveDialogTitle>Aviso sobre IA</ResponsiveDialogTitle>
         </ResponsiveDialogHeader>
         <AiDisclaimerContent />
       </ResponsiveDialogContent>

@@ -6,7 +6,7 @@
 name = "wahl-chat-backend"
 version = "1.0.0"
 description = "The wahl.chat backend implements a political information chatbot that enables users to engage in a contemporary way with the positions of political parties and to receive answers to individual questions that can be substantiated with sources."
-authors = ["wahl.chat <info@wahl.chat>"]
+authors = ["votamos.chat <info@votamos.chat>"]
 license = "PolyForm-Noncommercial-1.0.0"
 readme = "README.md"
 packages = [

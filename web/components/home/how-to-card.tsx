@@ -8,16 +8,16 @@ function HowToCard() {
     <div className="flex flex-col overflow-hidden rounded-md border border-border md:col-span-2">
       <div className="flex flex-col p-4">
         <h2 className="font-bold">
-          Wie benutzt man <span className="underline">wahl.chat</span>?
+          ¿Cómo usar <span className="underline">votamos.chat</span>?
         </h2>
         <p className="mb-4 text-sm text-muted-foreground">
-          Lerne, was du mit <span className="underline">wahl.chat</span> alles
-          machen kannst und welche Funktionen es gibt.
+          Aprende qué puedes hacer con{' '}
+          <span className="underline">votamos.chat</span> y qué funciones tiene.
         </p>
         <Button asChild variant="secondary">
           <Link href="/how-to">
             <BookMarkedIcon />
-            Anleitung
+            Guía
           </Link>
         </Button>
       </div>

@@ -20,7 +20,7 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
   const { user } = useAnonymousAuth();
   const addUserMessage = useChatStore((state) => state.addUserMessage);
   const currentContext = useCurrentContext({ optional: true });
-  const currentContextName = currentContext?.name ?? 'Bundestagswahl 2025';
+  const currentContextName = currentContext?.name ?? 'esta elección';
 
   function handleSuggestionClick(suggestion: string) {
     if (!user?.uid) return;
@@ -59,15 +59,16 @@ function ChatEmptyView({ parties, proposedQuestions }: Props) {
       </div>
       {party ? (
         <p className="text-center">
-          Stelle dem Wahlprogramm der Partei{' '}
-          <span className="font-semibold">{party.name}</span> deine Fragen und
-          vergleiche ihre Antworten mit denen anderer Parteien.
+          Hazle preguntas al programa de gobierno de{' '}
+          <span className="font-semibold">{party.name}</span> y compara sus
+          respuestas con las de otras candidaturas.
         </p>
       ) : (
         <p className="text-center">
-          Stelle Fragen zu allen Themen rund um die{' '}
-          <span className="font-semibold">{currentContextName}</span> oder frage
-          die Parteien direkt zu ihren Positionen im Wahlprogramm.
+          Haz preguntas sobre cualquier tema relacionado con{' '}
+          <span className="font-semibold">{currentContextName}</span> o consulta
+          directamente a las candidaturas sobre sus posiciones en el programa de
+          gobierno.
         </p>
       )}
       <div className="flex max-w-xl flex-wrap justify-center gap-2">

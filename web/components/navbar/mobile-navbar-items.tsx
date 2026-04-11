@@ -10,11 +10,11 @@ type Props = {
 function MobileNavbarItems({ mobileClose }: Props) {
   const tabs: NavbarItemDetails[] = [
     {
-      label: 'Startseite',
+      label: 'Inicio',
       href: '/',
     },
     {
-      label: 'Anleitung',
+      label: 'Guía',
       href: '/how-to',
     },
     // {
@@ -24,7 +24,7 @@ function MobileNavbarItems({ mobileClose }: Props) {
     //   icon: <SparklesIcon className="size-3" />,
     // },
     {
-      label: 'Über uns',
+      label: 'Sobre nosotros',
       href: '/about-us',
     },
   ];

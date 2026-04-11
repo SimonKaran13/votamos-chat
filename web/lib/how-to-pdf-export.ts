@@ -107,7 +107,7 @@ export async function exportHowToPDF(data: HowToPDFExportData): Promise<void> {
   };
 
   // Title
-  addText('wahl.chat - Anleitung', 18, true, true);
+  addText('votamos.chat - Guía', 18, true, true);
   yPosition += 5;
 
   // Introduction
@@ -116,7 +116,7 @@ export async function exportHowToPDF(data: HowToPDFExportData): Promise<void> {
   yPosition += 3;
 
   // Process steps
-  addText('Der Prozess ist einfach:', 12, true);
+  addText('El proceso es simple:', 12, true);
   data.processSteps.forEach((step, index) => {
     addText(`${index + 1}. ${step}`, 11);
   });
@@ -171,7 +171,7 @@ export async function exportHowToPDF(data: HowToPDFExportData): Promise<void> {
     }
 
     if (content.origin) {
-      addText('Wie kam es zu wahl.chat?', 11, true);
+      addText('¿Cómo surgió votamos.chat?', 11, true);
       addText(content.origin, 11);
       yPosition += 2;
     }
@@ -184,5 +184,5 @@ export async function exportHowToPDF(data: HowToPDFExportData): Promise<void> {
   });
 
   // Save the PDF
-  doc.save('wahl-chat-anleitung.pdf');
+  doc.save('votamos-chat-guia.pdf');
 }

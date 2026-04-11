@@ -6,8 +6,8 @@ export function ChatContextSelector() {
   return (
     <ContextSwitcher
       buildHref={(contextId) => `/${contextId}`}
-      navigationTargetLabel="zur Startseite weitergeleitet"
-      currentAreaLabel="den aktuellen Chat"
+      navigationTargetLabel="irás a la página de inicio"
+      currentAreaLabel="este chat"
     />
   );
 }

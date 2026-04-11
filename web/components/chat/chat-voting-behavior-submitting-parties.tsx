@@ -20,8 +20,9 @@ function ChatVotingBehaviorSubmittingParties({ vote }: Props) {
   return (
     <>
       <p className="pb-2 pt-4 text-sm font-bold">
-        Einreichende{' '}
-        {vote.submitting_parties.length > 1 ? 'Parteien' : 'Partei'}
+        {vote.submitting_parties.length > 1
+          ? 'Candidaturas proponentes'
+          : 'Candidatura proponente'}
       </p>
 
       <div className="flex flex-row flex-wrap gap-2">
