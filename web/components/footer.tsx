@@ -25,7 +25,7 @@ function Footer() {
           <button type="button">Feedback</button>
         </FeedbackDialog>
         <Link href="/impressum">Aviso legal</Link>
-        {/*<Link href="/datenschutz">Privacidad</Link>*/}
+        {/*<Link href="/privacidad">Privacidad</Link>*/}
       </section>
 
       <ThemeModeToggle />
