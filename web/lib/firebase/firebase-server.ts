@@ -34,6 +34,7 @@ import type {
   ExampleQuestionShareableChatSession,
   LlmSystemStatus,
   ProposedQuestion,
+  ShareableChatSessionSnapshot,
   SourceDocument,
 } from './firebase.types';
 
@@ -597,6 +598,45 @@ export const getExampleQuestionsShareableChatSession = cache(
   {
     revalidate: 60 * 60 * 24,
     tags: [CacheTags.EXAMPLE_QUESTIONS_SHAREABLE_CHAT_SESSIONS],
+  },
+);
+
+async function getShareableChatSessionSnapshotImpl(snapshotId: string) {
+  try {
+    const serverDb = await getServerFirestore({ useHeaders: false });
+    const docRef = doc(
+      serverDb,
+      'shareable_chat_session_snapshots',
+      snapshotId,
+    );
+    const snapshot = await getDoc(docRef);
+
+    if (!snapshot.exists()) {
+      return undefined;
+    }
+
+    const data = snapshot.data();
+
+    return {
+      ...data,
+      id: snapshot.id,
+      shared_at: firestoreTimestampToDate(data.shared_at),
+    } as ShareableChatSessionSnapshot;
+  } catch (error) {
+    console.error(
+      `[Firestore] FAILED to fetch shareable snapshot "${snapshotId}":`,
+      error,
+    );
+    return undefined;
+  }
+}
+
+export const getShareableChatSessionSnapshot = cache(
+  getShareableChatSessionSnapshotImpl,
+  undefined,
+  {
+    revalidate: 60 * 60,
+    tags: [CacheTags.SHAREABLE_CHAT_SESSION_SNAPSHOT],
   },
 );
 
