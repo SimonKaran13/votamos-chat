@@ -9,6 +9,7 @@ import {
   ResponsiveDialogTrigger,
 } from './chat/responsive-drawer-dialog';
 import { Button } from './ui/button';
+
 type Props = {
   children: React.ReactNode;
 };
@@ -22,7 +23,7 @@ function FeedbackDialog({ children }: Props) {
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>Comentarios</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Nos encantaría recibir tus comentarios sobre votamos.chat.
+            Si quieres contactarnos, puedes escribirnos por correo.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
@@ -33,15 +34,6 @@ function FeedbackDialog({ children }: Props) {
               Escríbenos un correo
             </Link>
           </Button>
-          {/*<Button asChild variant="outline">*/}
-          {/*  <Link*/}
-          {/*    href="https://forms.fillout.com/t/cGozfJUor9us"*/}
-          {/*    target="_blank"*/}
-          {/*  >*/}
-          {/*    <MessageSquareHeart />*/}
-          {/*    Completa nuestro formulario*/}
-          {/*  </Link>*/}
-          {/*</Button>*/}
         </div>
       </ResponsiveDialogContent>
     </ResponsiveDialog>

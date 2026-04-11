@@ -1,6 +1,5 @@
 import Logo from '@/components/chat/logo';
 import { ThemeModeToggle } from '@/components/chat/theme-mode-toggle';
-import FeedbackDialog from '@/components/feedback-dialog';
 import LoadingSpinner from '@/components/loading-spinner';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { HomeIcon, MessageCircleIcon } from 'lucide-react';
+import { HomeIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import ChatSidebarGroupSelect from './chat-sidebar-group-select';
@@ -63,21 +62,6 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Comentarios</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <FeedbackDialog>
-                  <SidebarMenuButton>
-                    <MessageCircleIcon className="size-4 text-blue-400" />
-                    <span>Comentarios</span>
-                  </SidebarMenuButton>
-                </FeedbackDialog>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
         <Suspense
           fallback={
             <div className="flex h-32 flex-col items-center justify-center gap-2 text-center text-sm text-muted-foreground">
