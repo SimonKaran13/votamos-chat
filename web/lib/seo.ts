@@ -13,12 +13,18 @@ export const productionRobots = IS_PRODUCTION
   ? 'index, follow'
   : 'noindex, nofollow';
 
-function formatContextDate(date: string | null): string | null {
+function formatContextDate(
+  date: string | Date | null | undefined,
+): string | null {
   if (!date) {
     return null;
   }
 
-  const parsedDate = new Date(`${date}T00:00:00Z`);
+  const parsedDate =
+    date instanceof Date ? date : new Date(`${date}T00:00:00Z`);
+  if (Number.isNaN(parsedDate.getTime())) {
+    return null;
+  }
 
   return new Intl.DateTimeFormat('es-CO', {
     day: 'numeric',
@@ -31,7 +37,6 @@ function formatContextDate(date: string | null): string | null {
 export function buildContextMetadata(
   context: Context,
   pageSuffix?: string,
-  noIndex?: boolean,
 ): Metadata {
   const formattedDate = formatContextDate(context.date);
   const title = pageSuffix
@@ -65,9 +70,6 @@ export function buildContextMetadata(
       title,
       description,
     },
-    ...(noIndex && {
-      robots: 'noindex',
-    }),
   };
 }
 
