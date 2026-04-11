@@ -18,7 +18,7 @@ function Footer() {
           className="transition-colors hover:text-foreground"
           href="https://wahl.chat"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           Con tecnología de wahl.chat 🇩🇪
         </Link>
