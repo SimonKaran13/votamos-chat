@@ -5,6 +5,7 @@ import HowToCard from '@/components/home/how-to-card';
 import { getAvailableOpenCallUrl } from '@/components/home/open-call-card';
 import {
   getHomeInputProposedQuestions,
+  getProposedQuestionsForContext,
   getSystemStatus,
 } from '@/lib/firebase/firebase-server';
 import { IS_EMBEDDED } from '@/lib/utils';
@@ -18,11 +19,15 @@ type Props = {
 export default async function ContextHome({ params }: Props) {
   const { contextId } = await params;
 
-  const [wahlChatQuestions, systemStatus, openCallUrl] = await Promise.all([
+  const [homeQuestions, systemStatus, openCallUrl] = await Promise.all([
     getHomeInputProposedQuestions(),
     getSystemStatus(),
     getAvailableOpenCallUrl(),
   ]);
+  const homePageQuestions =
+    homeQuestions.length > 0
+      ? homeQuestions
+      : await getProposedQuestionsForContext(contextId);
 
   return (
     <>
@@ -32,7 +37,7 @@ export default async function ContextHome({ params }: Props) {
 
       <HomeInput
         className="hidden md:block"
-        questions={wahlChatQuestions}
+        questions={homePageQuestions}
         initialSystemStatus={systemStatus}
         contextId={contextId}
       />
@@ -54,7 +59,7 @@ export default async function ContextHome({ params }: Props) {
 
       <HomeInput
         className="md:hidden"
-        questions={wahlChatQuestions}
+        questions={homePageQuestions}
         initialSystemStatus={systemStatus}
         contextId={contextId}
       />

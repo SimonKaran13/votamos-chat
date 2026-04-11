@@ -127,16 +127,16 @@
   "proposed_questions/wahl-chat/questions/question_1": {
     "topic": "votamos.chat",
     "location": "chat",
-    "content": "¿Qué le puedo preguntar a las candidaturas en la elección presidencial de Colombia de 2026?"
-  },
-  "proposed_questions/wahl-chat/questions/question_2": {
-    "topic": "votamos.chat",
-    "location": "chat",
-    "content": "¿Puedo comparar varias candidaturas para la primera vuelta presidencial de Colombia de 2026?"
+    "content": "¿Qué le puedo preguntar a las candidaturas?"
   },
   "proposed_questions/wahl-chat/questions/question_3": {
     "topic": "votamos.chat",
     "location": "chat",
-    "content": "¿Cómo se generan las respuestas cuando comparo candidaturas en votamos.chat?"
+    "content": "¿Cómo se generan las respuestas en votamos.chat?"
+  },
+  "proposed_questions/wahl-chat/questions/question_2": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Puedo comparar múltiples candidaturas?"
   }
 }
