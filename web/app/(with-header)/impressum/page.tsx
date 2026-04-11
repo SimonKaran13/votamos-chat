@@ -17,7 +17,7 @@ Carrera 14 #127A-85
 Bogotá 
 Colombia
 
-## Kontakt
+## Contacto
 **E-Mail:** info@votamos.chat
   `;
 

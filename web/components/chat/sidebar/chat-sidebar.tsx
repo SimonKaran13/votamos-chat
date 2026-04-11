@@ -98,7 +98,7 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/datenschutz">Privacidad</Link>
+                  <Link href="/privacidad">Privacidad</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

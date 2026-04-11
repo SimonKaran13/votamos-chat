@@ -62,3 +62,8 @@ If you are unsure where to start, please contact info@votamos.chat.
 ## License
 
 This project is **source-available** under the [PolyForm Noncommercial 1.0.0](LICENSE) license. Please contact info@votamos.chat for commercial use inquiries.
+
+## Credits
+
+This project started as a fork from [wahl.chat](https://github.com/wahl-chat/wahl.chat).
+We thank the original authors for their work and support for the development of this project.
