@@ -1,5 +1,6 @@
 import Logo from '@/components/chat/logo';
 import { ThemeModeToggle } from '@/components/chat/theme-mode-toggle';
+import FeedbackDialog from '@/components/feedback-dialog';
 import LoadingSpinner from '@/components/loading-spinner';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,7 +15,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { HomeIcon } from 'lucide-react';
+import { HomeIcon, MessageCircleIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import ChatSidebarGroupSelect from './chat-sidebar-group-select';
@@ -30,8 +31,8 @@ type Props = {
 async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
   return (
     <Sidebar
-      mobileVisuallyHiddenTitle="votamos.chat"
-      mobileVisuallyHiddenDescription="Inicia un nuevo chat o elige una conversación anterior."
+      mobileVisuallyHiddenTitle="wahl.chat"
+      mobileVisuallyHiddenDescription="Starte einen neuen Chat oder wähle eine vorherige Konversation aus."
     >
       <SidebarHeader className="flex h-chat-header flex-row items-center justify-between border-b border-b-muted pl-4 pr-2">
         <Link href={`/${contextId}`} className="flex items-center gap-4">
@@ -44,7 +45,7 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
             size="icon"
             asChild
             className="size-8"
-            tooltip="Inicio"
+            tooltip="Startseite"
           >
             <Link href={`/${contextId}`}>
               <HomeIcon className="size-4" />
@@ -55,50 +56,65 @@ async function ChatSidebar({ contextId = DEFAULT_CONTEXT_ID }: Props) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarGroupLabel>Nuevo chat</SidebarGroupLabel>
+            <SidebarGroupLabel>Neuer Chat</SidebarGroupLabel>
             <SidebarNewChatButtons contextId={contextId} />
 
             <ChatSidebarGroupSelect contextId={contextId} />
           </SidebarGroupContent>
         </SidebarGroup>
 
+        <SidebarGroup>
+          <SidebarGroupLabel>Feedback</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <FeedbackDialog>
+                  <SidebarMenuButton>
+                    <MessageCircleIcon className="size-4 text-blue-400" />
+                    <span>Feedback</span>
+                  </SidebarMenuButton>
+                </FeedbackDialog>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         <Suspense
           fallback={
             <div className="flex h-32 flex-col items-center justify-center gap-2 text-center text-sm text-muted-foreground">
               <LoadingSpinner />
-              <p>Cargando historial...</p>
+              <p>Lade Historie...</p>
             </div>
           }
         >
           <SidebarHistorySr />
         </Suspense>
         <SidebarGroup>
-          <SidebarGroupLabel>Información</SidebarGroupLabel>
+          <SidebarGroupLabel>Informationen</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/about-us">Sobre votamos.chat</Link>
+                  <Link href="/about-us">Über wahl.chat</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/how-to">¿Cómo funciona votamos.chat?</Link>
+                  <Link href="/how-to">Wie funktioniert wahl.chat?</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href={`/${contextId}/sources`}>Fuentes</Link>
+                  <Link href={`/${contextId}/sources`}>Quellen</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/impressum">Aviso legal</Link>
+                  <Link href="/impressum">Impressum</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/datenschutz">Privacidad</Link>
+                  <Link href="/datenschutz">Datenschutz</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

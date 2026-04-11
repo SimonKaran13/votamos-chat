@@ -58,11 +58,11 @@ function ChatVotingBehaviorSummaryButton({
       <Button
         variant="outline"
         className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-        tooltip="Analiza el comportamiento de voto de la candidatura"
+        tooltip="Analysiere das Abstimmungsverhalten der Partei"
         onClick={handleGenerateVotingBehaviorSummary}
       >
         <VoteIcon />
-        <span className="text-xs">Comportamiento de voto</span>
+        <span className="text-xs">Abstimmungsverhalten</span>
       </Button>
 
       <ChatActionButtonHighlight showHighlight={showHighlight} />

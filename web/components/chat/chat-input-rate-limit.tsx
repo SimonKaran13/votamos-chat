@@ -79,11 +79,11 @@ function ChatInputRateLimit() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-yellow-400 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-yellow-500" />
           </span>
-          <h2 className="font-bold">Servidor temporalmente saturado</h2>
+          <h2 className="font-bold">Server derzeit ausgelastet!</h2>
         </div>
         <p className="text-sm text-muted-foreground">
-          Sigue con las preguntas sugeridas o vuelve a intentarlo en unos
-          minutos.
+          Chatte mit den vorgeschlagenen Fragen weiter oder versuche es in
+          wenigen Minuten erneut.
         </p>
       </section>
 

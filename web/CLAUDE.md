@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-votamos.chat is a political information chatbot for the Colombian presidential elections in 2026. Users can chat with party programs, ask questions about political topics, and get party positions with sources.
+wahl.chat is a political information chatbot for the German federal elections 2025. Users can chat with party programs, ask questions about political topics, and get party positions with sources.
 
 ## Commands
 
@@ -23,8 +23,9 @@ bun run format   # Format code with Biome
 Two Zustand stores power the application:
 
 - **ChatStore** (`lib/stores/chat-store.ts`): Main chat functionality with streaming messages, party responses, sources, voting behavior. Uses immer middleware. Actions are split into individual files in `lib/stores/actions/`.
+- **AgentStore** (`lib/stores/agent-store.ts`): Multi-step agent flow (consent → data-collection → topic-selection → chat → completed). Simpler vanilla Zustand store.
 
-The store is provided via React context (`components/providers/*-store-provider.tsx`).
+Both stores are provided via React context (`components/providers/*-store-provider.tsx`).
 
 ### Real-time Communication
 
@@ -51,6 +52,7 @@ Backend URL configured via `NEXT_PUBLIC_API_URL` environment variable.
 
 - `app/(with-header)/`: Pages with standard header (chat, about, legal pages)
 - `app/(custom-header)/`: Pages with custom header handling
+- `app/agent/`: Agent flow pages
 - `app/api/`: API routes (agent, embed, parties, revalidation)
 
 ## Code Style
@@ -58,7 +60,9 @@ Backend URL configured via `NEXT_PUBLIC_API_URL` environment variable.
 - Single trailing blank line at the end of files
 - Biome for formatting (2-space indent, single quotes, trailing commas)
 - ESLint with Next.js + Tailwind plugins
-- Spanish UI text throughout the application
+- German UI text throughout the application
 
 ## Git Use
 - Never commit or push anything unless stated or approved by the user.
+- Never add claude code as co-author of the commits (unless stated otherwise).
+- Don't say that the commit was generated using claude code.

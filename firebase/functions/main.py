@@ -2,21 +2,30 @@
 #
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-from __future__ import annotations
-
 from datetime import datetime
 import os
 import tempfile
 import time
 import uuid
-from urllib.parse import quote
-from typing import Any
 
 from firebase_functions.params import StringParam
 from firebase_functions.options import SupportedRegion, MemoryOption
 from firebase_functions import storage_fn, logger
 from firebase_admin import initialize_app, storage, firestore
 import google.cloud.firestore
+
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from qdrant_client import QdrantClient
+from qdrant_client.models import (
+    Distance,
+    VectorParams,
+    PointIdsList,
+    PayloadSchemaType,
+    PointStruct,
+)
 
 from models import PartySource  # type: ignore
 
@@ -28,6 +37,11 @@ QDRANT_API_KEY = StringParam("QDRANT_API_KEY")
 
 EMBEDDING_MODEL = "text-embedding-3-large"
 EMBEDDING_SIZE = 3072  # Embedding sizes for the OpenAI models: https://platform.openai.com/docs/guides/embeddings#how-to-get-embeddings
+
+# Get environment from OS environment variable or Firebase project ID for region selection
+# This is evaluated at module load time, before StringParam values are available
+_env_from_os = os.getenv("ENV", "dev")
+_project_id = os.getenv("GCLOUD_PROJECT", os.getenv("GCP_PROJECT", ""))
 
 # Get environment suffix for collection naming
 env_suffix = f"_{ENV.value}" if ENV.value in ["prod", "dev"] else "_dev"
@@ -57,10 +71,13 @@ def get_context_collection_name(context_id: str) -> str:
     return f"context_{context_id}_party_docs{env_suffix}"
 
 
-# Set region based on environment at module load time.
-# Both dev and prod currently deploy storage-triggered functions in US_EAST1
-# to align with the current Firebase project setup.
-STORAGE_TRIGGER_FN_REGION = SupportedRegion.US_EAST1
+# Set region based on environment at module load time
+# For prod (project: wahl-chat), use US_EAST1; for dev (project: wahl-chat-dev), use EUROPE_WEST1
+# Check both ENV variable and project ID to determine region
+_is_prod = _env_from_os == "prod" or _project_id == "wahl-chat"
+STORAGE_TRIGGER_FN_REGION = (
+    SupportedRegion.US_EAST1 if _is_prod else SupportedRegion.EUROPE_WEST1
+)
 
 initialize_app()
 
@@ -118,30 +135,7 @@ def download_pdf(bucket_name: str, name: str):
     return tmp_file_name, pdf_blob
 
 
-def build_firebase_download_url(pdf_blob, bucket_name: str, name: str) -> str:
-    """Return a browser-accessible Firebase download URL for an object."""
-    metadata = pdf_blob.metadata or {}
-    token = metadata.get("firebaseStorageDownloadTokens")
-
-    if token:
-        token = token.split(",")[0]
-    else:
-        token = str(uuid.uuid4())
-        metadata["firebaseStorageDownloadTokens"] = token
-        pdf_blob.metadata = metadata
-        pdf_blob.patch()
-
-    encoded_name = quote(name, safe="")
-    return (
-        f"https://firebasestorage.googleapis.com/v0/b/{bucket_name}/o/"
-        f"{encoded_name}?alt=media&token={token}"
-    )
-
-
 def split_pdf(file_path: str):
-    from langchain_community.document_loaders import PyPDFLoader
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
-
     # Load the document as a PDF and split it into chunks
     # TODO: consider switching to PDFMiner (https://www.reddit.com/r/LangChain/comments/13jd9wo/comment/jkh2f9j/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
     loader = PyPDFLoader(file_path)
@@ -170,10 +164,8 @@ def split_pdf(file_path: str):
 
 
 def create_collection_if_not_exists(
-    qdrant_client: Any, collection_name: str, embedding_size: int
+    qdrant_client: QdrantClient, collection_name: str, embedding_size: int
 ):
-    from qdrant_client.models import Distance, PayloadSchemaType, VectorParams
-
     existing_collections = [
         col.name for col in qdrant_client.get_collections().collections
     ]
@@ -220,10 +212,6 @@ def create_collection_if_not_exists(
 
 
 def add_to_collection(splits: list[Document], collection_name: str, namespace: str):
-    from langchain_openai import OpenAIEmbeddings
-    from qdrant_client import QdrantClient
-    from qdrant_client.models import PointStruct
-
     logger.info(
         f"Adding {len(splits)} splits to collection {collection_name} with namespace {namespace}"
     )
@@ -501,8 +489,9 @@ def on_party_document_upload(
             f"Document date {document_date_str} does not match the expected format: YYYY-MM-DD"
         )
 
-    # Store a browser-accessible Firebase download URL without using object ACLs.
-    download_url = build_firebase_download_url(pdf_blob, bucket_name, name)
+    # Enable and create a public URL for the PDF
+    pdf_blob.make_public()
+    download_url = pdf_blob.public_url
 
     # Get the context-scoped collection name
     collection_name = get_context_collection_name(context_id)
@@ -615,9 +604,6 @@ def on_party_document_deleted(
     logger.info(f"Deleted source document {file_name} from Firestore")
 
     # Initialize Qdrant client
-    from qdrant_client import QdrantClient
-    from qdrant_client.models import PayloadSchemaType
-
     qdrant_client = QdrantClient(
         url=QDRANT_URL.value,
         api_key=QDRANT_API_KEY.value if QDRANT_API_KEY.value else None,
@@ -668,7 +654,7 @@ def on_party_document_deleted(
 
     # In Qdrant, we need to use filters to find and delete documents
     # Filter based on namespace and source_document (following migration pattern)
-    from qdrant_client.models import Filter, FieldCondition, MatchValue, PointIdsList
+    from qdrant_client.models import Filter, FieldCondition, MatchValue
 
     filter_condition = Filter(
         must=[

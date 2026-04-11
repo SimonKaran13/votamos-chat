@@ -48,14 +48,14 @@ export async function generateMetadata({
     : undefined;
 
   const title = party
-    ? `Chatea con ${party.name} – ${contextName}`
+    ? `Chat mit ${party.name} – ${contextName}`
     : `Chat – ${contextName}`;
 
   const description = party
-    ? `Hazle preguntas a ${party.name} sobre posturas y temas de ${contextName}. Respuestas con fuentes en votamos.chat.`
-    : `Compara posiciones politicas sobre ${contextName} en el chat. Respuestas con fuentes en votamos.chat.`;
+    ? `Frage ${party.name} zu Positionen und Themen der ${contextName}. Quellengestützte Antworten bei wahl.chat.`
+    : `Vergleiche Parteipositionen über die ${contextName} im Chat. Quellengestützte Antworten bei wahl.chat.`;
 
-  const ogImage = party ? generateOgImageUrl(party) : undefined;
+  const ogImage = partyId ? await generateOgImageUrl(partyId) : undefined;
 
   return {
     title,

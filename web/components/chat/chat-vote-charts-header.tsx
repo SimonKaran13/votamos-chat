@@ -27,19 +27,19 @@ function ChatVoteChartsHeader({ votes }: Props) {
       <div className="mt-4 flex flex-row flex-wrap items-center justify-center gap-4 p-4 text-sm text-muted-foreground">
         <p>
           <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-yes))]" />
-          Sí
+          Ja
         </p>
         <p>
           <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-no))]" />
-          No
+          Nein
         </p>
         <p>
           <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-abstain))]" />
-          Abstención
+          Enthaltung
         </p>
         <p>
           <span className="mr-2 inline-block size-2 rounded-full bg-[hsl(var(--chart-not-voted))]" />
-          No votó
+          Nicht abgestimmt
         </p>
       </div>
 

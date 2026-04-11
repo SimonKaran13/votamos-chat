@@ -29,7 +29,7 @@ export function ChatMessageIcon({ partyId, party }: Props) {
       {normalizedParty ? (
         <Image
           src={buildPartyImageUrl(normalizedParty?.party_id ?? '')}
-          alt={normalizedParty?.name ?? 'Ninguna candidatura seleccionada'}
+          alt={normalizedParty?.name ?? 'Keine Partei ausgewählt'}
           fill
           sizes="32px"
           className="object-contain"

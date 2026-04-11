@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 # Constants
 # =============================================================================
 
-DEFAULT_CONTEXT_ID = "elecciones-presidenciales-2026-primera-vuelta"
+DEFAULT_CONTEXT_ID = "bundestagswahl-2025"
 
 
 # =============================================================================

@@ -435,7 +435,7 @@ async def fetch_and_emit_party_response(
         party_response_complete_dto = PartyResponseCompleteDto(
             session_id=group_chat_session.session_id,
             party_id=party.party_id,
-            complete_message="No puedo responder esa pregunta en este momento.",
+            complete_message="Diese Frage kann ich leider nicht beantworten.",
             status=Status(
                 indicator=StatusIndicator.ERROR,
                 message=str(e),
@@ -449,7 +449,7 @@ async def fetch_and_emit_party_response(
         party_response_complete_dto = PartyResponseCompleteDto(
             session_id=group_chat_session.session_id,
             party_id=party.party_id,
-            complete_message="Lo siento, ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+            complete_message="Es tut mir Leid, leider ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
             status=Status(indicator=StatusIndicator.ERROR, message=str(e)),
         )
         await sio.emit(
@@ -604,7 +604,7 @@ async def generate_chat_answer(
         party_response_complete_dto = PartyResponseCompleteDto(
             session_id=chat_session.session_id,
             party_id=WAHL_CHAT_PARTY.party_id,
-            complete_message="No puedo responder esa pregunta en este momento.",
+            complete_message="Diese Frage kann ich leider nicht beantworten.",
             status=Status(indicator=StatusIndicator.SUCCESS, message="Success"),
         )
         await sio.emit(

@@ -103,11 +103,11 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
           <AnimatedMessageSequence
             className="text-muted-foreground"
             messages={[
-              'Buscando iniciativas legislativas...',
-              'Revisando votaciones...',
-              'Analizando autores de las iniciativas...',
-              'Comparando información...',
-              'Resumiendo resultados...',
+              'Durchsuche Bundestags-Anträge...',
+              'Durchsuche Abstimmungsprotokolle...',
+              'Analysiere Antragsteller-Informationen...',
+              'Vergleiche Informationen...',
+              'Ergebnisse zusammenfassen...',
             ]}
           />
         </div>
@@ -129,7 +129,7 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
   };
 
   const getReferenceName = (voteId: number) => {
-    return `Vot. ${voteId}`;
+    return `Abst. ${voteId}`;
   };
 
   return (
@@ -153,9 +153,9 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
         >
           {!isExpanded ? (
             <p className="text-xs text-muted-foreground">
-              Este mensaje contiene más información sobre el{' '}
-              <span className="font-bold">comportamiento de voto</span> de la
-              candidatura.
+              Diese Nachricht enthält weitere Informationen zum{' '}
+              <span className="font-bold">Abstimmungsverhalten</span> der
+              Partei.
             </p>
           ) : message.voting_behavior ? (
             <ChatVotingBehaviorDetailButton
@@ -175,7 +175,7 @@ function ChatVotingBehaviorExpandable({ message, isGroupChat }: Props) {
               </TooltipTrigger>
             </CollapsibleTrigger>
             <TooltipContent>
-              {isExpanded ? 'Ocultar' : 'Mostrar'}
+              {isExpanded ? 'Verbergen' : 'Anzeigen'}
             </TooltipContent>
           </Tooltip>
         </div>

@@ -40,7 +40,7 @@ function ChatGroupPartySelectSubmitButton({
   return (
     <ResponsiveDialogClose asChild>
       <Button className="w-full" onClick={handleSubmit}>
-        {addPartiesToChat ? 'Cambiar candidaturas' : 'Iniciar chat comparativo'}
+        {addPartiesToChat ? 'Parteien ändern' : 'Vergleichschat starten'}
       </Button>
     </ResponsiveDialogClose>
   );

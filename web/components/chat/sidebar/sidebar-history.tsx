@@ -78,7 +78,7 @@ function SidebarHistory({ history: initialHistory }: Props) {
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Historial</SidebarGroupLabel>
+      <SidebarGroupLabel>Historie</SidebarGroupLabel>
 
       <SidebarGroupContent>
         <SidebarMenu>

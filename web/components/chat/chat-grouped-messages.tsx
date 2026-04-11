@@ -7,6 +7,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import type { PartyDetails } from '@/lib/party-details';
+import { isProlificStudy } from '@/lib/prolific-study/prolific-metadata';
 import { buildCarouselContainerId } from '@/lib/scroll-constants';
 import type {
   GroupedMessage,
@@ -16,6 +17,7 @@ import AutoHeight from 'embla-carousel-auto-height';
 import ChatGroupSlideCounter from './chat-group-slide-counter';
 import ChatSingleMessage from './chat-single-message';
 import MessageLoadingBorderTrail from './message-loading-border-trail';
+import SurveyBanner from './survey-banner';
 
 type Props = {
   message: GroupedMessage;
@@ -90,6 +92,7 @@ function ChatGroupedMessages({ message, isLastMessage, parties }: Props) {
         />
         <CarouselNext />
       </div>
+      {isLastMessage && !isProlificStudy() && <SurveyBanner />}
       {isLoadingAnyAction && <MessageLoadingBorderTrail />}
     </Carousel>
   );

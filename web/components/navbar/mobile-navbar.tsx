@@ -18,7 +18,7 @@ function MobileNavbar() {
         <button
           className="group absolute inset-y-0 right-0 my-auto flex size-8 flex-col items-end justify-center gap-1 rounded-md p-2 transition-colors hover:bg-muted md:hidden"
           type="button"
-          aria-label="Abrir menú"
+          aria-label="Open menu"
         >
           <div className="h-[2px] w-4 rounded-full bg-foreground transition-all duration-300 group-data-[state=open]:translate-y-[3px] group-data-[state=open]:rotate-45" />
           <div className="h-[2px] w-5 rounded-full bg-foreground transition-all duration-300 group-data-[state=open]:w-4 group-data-[state=open]:-translate-y-[3px] group-data-[state=open]:-rotate-45" />
@@ -30,8 +30,8 @@ function MobileNavbar() {
 
         <Dialog.Content className="fixed inset-x-0 bottom-0 top-[calc(var(--header-height)-1px)] z-50 flex flex-col items-center justify-center bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 md:hidden">
           <VisuallyHidden>
-            <Dialog.Title>Menú</Dialog.Title>
-            <Dialog.Description>Opciones de navegación</Dialog.Description>
+            <Dialog.Title>Dialog Title</Dialog.Title>
+            <Dialog.Description>Dialog Description</Dialog.Description>
           </VisuallyHidden>
 
           <MobileNavbarItems mobileClose={handleClose} />

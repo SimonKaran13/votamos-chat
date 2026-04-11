@@ -86,7 +86,7 @@ function ChatInput() {
 
       <input
         className="w-full bg-chat-input py-3 pl-4 pr-11 text-[16px] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed"
-        placeholder="Escribe un mensaje..."
+        placeholder="Schreibe eine Nachricht..."
         onChange={handleChange}
         value={input}
         disabled={loading}

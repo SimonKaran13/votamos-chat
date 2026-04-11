@@ -51,7 +51,7 @@ const DialogContent = React.forwardRef<
       >
         <Button variant="ghost" size="icon" className="size-6">
           <X className="size-4" />
-          <span className="sr-only">Cerrar</span>
+          <span className="sr-only">Close</span>
         </Button>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>

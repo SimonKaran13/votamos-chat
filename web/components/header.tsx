@@ -9,7 +9,7 @@ async function Header() {
     <header className="sticky top-0 z-30 border-b border-border bg-background px-4 py-2 md:px-0">
       <div className="relative mx-auto flex max-w-xl items-center justify-between gap-2 md:flex-row">
         <Link href="/">
-          <Logo className="h-12 w-auto md:h-16" />
+          <Logo className="size-12 md:size-16" />
         </Link>
 
         {!IS_EMBEDDED && <MobileNavbar />}

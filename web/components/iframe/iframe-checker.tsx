@@ -40,8 +40,8 @@ function IframeChecker() {
           <AlertDialogDescription>
             Um wahl.chat in einem iFrame zu verwenden, nimm bitte Kontakt zu uns
             über die E-Mail-Adresse{' '}
-            <Link className="underline" href="mailto:info@votamos.chat">
-              info@votamos.chat
+            <Link className="underline" href="mailto:info@wahl.chat">
+              info@wahl.chat
             </Link>{' '}
             auf.
           </AlertDialogDescription>
@@ -50,7 +50,7 @@ function IframeChecker() {
         <AlertDialogFooter>
           <AlertDialogCancel>Schließen</AlertDialogCancel>
           <Button>
-            <Link href="mailto:info@votamos.chat">Kontaktiere uns</Link>
+            <Link href="mailto:info@wahl.chat">Kontaktiere uns</Link>
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

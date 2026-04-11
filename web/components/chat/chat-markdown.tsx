@@ -46,7 +46,7 @@ function ChatMarkdown({ message }: Props) {
       return null;
     }
 
-    return `${source.source} - Página: ${source.page}`;
+    return `${source.source} - Seite: ${source.page}`;
   };
 
   const getReferenceName = (number: number) => {

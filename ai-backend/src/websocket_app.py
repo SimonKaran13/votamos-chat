@@ -16,8 +16,7 @@ from src.chatbot_async import (
     generate_chat_summary,
     generate_party_vote_behavior_summary,
 )
-from src.firebase_service import aget_default_context, aget_party_for_context
-from src.models.context import DEFAULT_CONTEXT_ID
+from src.firebase_service import aget_default_context, aget_party_by_id
 from src.models.chat import GroupChatSession, Message, Role
 from src.models.dtos import (
     ChatResponseCompleteDto,
@@ -85,9 +84,7 @@ async def disconnect(sid: str, reason: str):
 
 @sio.on("home")
 async def home(sid: str, body: dict):
-    await sio.emit(
-        "home_response", {"message": "Welcome to the votamos.chat API"}, to=sid
-    )
+    await sio.emit("home_response", {"message": "Welcome to the wahl.chat API"}, to=sid)
 
 
 @sio.on("chat_session_init")
@@ -225,8 +222,7 @@ async def get_pro_con_perspective(sid: str, body: dict):
     )
 
     try:
-        party_lookup_context = context_id or DEFAULT_CONTEXT_ID
-        party = await aget_party_for_context(party_lookup_context, party_id)
+        party = await aget_party_by_id(party_id)
 
         if party is None:
             raise ValueError(f"Party {party_id} not found")
@@ -478,7 +474,7 @@ async def get_voting_behavior(sid: str, body: dict):
         improved_rag_query = None
         request_data = VotingBehaviorRequestDto(**body)
 
-        party = await aget_party_for_context(DEFAULT_CONTEXT_ID, request_data.party_id)
+        party = await aget_party_by_id(request_data.party_id)
 
         if party is None:
             raise ValueError(f"Party {request_data.party_id} not found")
@@ -579,7 +575,7 @@ async def get_voting_behavior(sid: str, body: dict):
         logger.error(f"Error processing voting behavior request: {e}", exc_info=True)
         error_response = VotingBehaviorDto(
             request_id=body.get("request_id"),
-            message="No puedo proporcionar información sobre esto en este momento.",
+            message="Hierzu kann ich leider keine Informationen bereitstellen.",
             status=Status(indicator=StatusIndicator.ERROR, message=str(e)),
             votes=[],
             rag_query=improved_rag_query,
@@ -588,7 +584,7 @@ async def get_voting_behavior(sid: str, body: dict):
         logger.error(f"Error processing voting behavior request: {e}", exc_info=True)
         error_response = VotingBehaviorDto(
             request_id=body.get("request_id"),
-            message="Lo siento, ocurrió un error. Por favor, inténtalo de nuevo más tarde.",
+            message="Es tut mir Leid, es ist ein Fehler aufgetreten. Bitte versuche es später erneut.",
             status=Status(indicator=StatusIndicator.ERROR, message=str(e)),
             votes=[],
             rag_query=improved_rag_query,

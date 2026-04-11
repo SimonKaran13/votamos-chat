@@ -10,7 +10,7 @@ type Props = {
 export default async function NavBar({ className }: Props) {
   const tabs: NavbarItemDetails[] = [
     {
-      label: 'Inicio',
+      label: 'Startseite',
       href: '/',
     },
     // {
@@ -20,7 +20,7 @@ export default async function NavBar({ className }: Props) {
     //   icon: <SparklesIcon className="size-3" />,
     // },
     {
-      label: 'Guía',
+      label: 'Anleitung',
       href: '/how-to',
     },
   ];

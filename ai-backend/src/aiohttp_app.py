@@ -12,8 +12,7 @@ from aiohttp_pydantic.decorator import inject_params
 from src.chatbot_async import (
     get_improved_rag_query_voting_behavior,
 )
-from src.firebase_service import aget_party_for_context
-from src.models.context import DEFAULT_CONTEXT_ID
+from src.firebase_service import aget_party_by_id
 from src.models.dtos import (
     ParliamentaryQuestionDto,
     ParliamentaryQuestionRequestDto,
@@ -58,7 +57,7 @@ async def health_check(request):
 @routes.post(f"{route_prefix}/get-parliamentary-question")
 @inject_params
 async def get_parliamentary_question(body: ParliamentaryQuestionRequestDto):
-    party = await aget_party_for_context(DEFAULT_CONTEXT_ID, body.party_id)
+    party = await aget_party_by_id(body.party_id)
 
     if not party:
         return web.json_response(

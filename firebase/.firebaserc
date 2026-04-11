@@ -1,8 +1,7 @@
 {
   "projects": {
     "default": "votamos-chat-dev",
-    "dev": "votamos-chat-dev",
-    "prod": "votamos-chat-prod"
+    "dev": "votamos-chat-dev"
   },
   "targets": {},
   "etags": {}

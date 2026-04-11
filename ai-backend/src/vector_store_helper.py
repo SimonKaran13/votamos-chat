@@ -29,9 +29,9 @@ env = os.getenv("ENV", "dev")
 env_suffix = f"_{env}" if env in ["prod", "dev"] else "_dev"
 
 # Default context for backwards compatibility
-DEFAULT_CONTEXT_ID = "elecciones-presidenciales-2026-primera-vuelta"
+DEFAULT_CONTEXT_ID = "bundestagswahl-2025"
 
-# Legacy collection names (kept for backwards compatibility where needed)
+# Legacy collection names (kept for backwards compatibility)
 PARTY_INDEX_NAME = f"all_parties{env_suffix}"
 VOTING_BEHAVIOR_INDEX_NAME = f"justified_voting_behavior{env_suffix}"
 PARLIAMENTARY_QUESTIONS_INDEX_NAME = f"parliamentary_questions{env_suffix}"
@@ -41,7 +41,7 @@ def get_context_collection_name(context_id: str) -> str:
     """Get the Qdrant collection name for party documents in a given context.
 
     Args:
-        context_id: The context identifier
+        context_id: The context identifier (e.g., 'bundestagswahl-2025')
 
     Returns:
         The collection name in format: context_{context_id}_party_docs_{env}
@@ -59,6 +59,23 @@ qdrant_client = QdrantClient(
     api_key=os.getenv("QDRANT_API_KEY"),
 )
 
+# Initialize Qdrant vector stores
+voting_behavior_vector_store = QdrantVectorStore(
+    client=qdrant_client,
+    collection_name=VOTING_BEHAVIOR_INDEX_NAME,
+    embedding=embed,
+    vector_name="dense",
+    content_payload_key="text",
+)
+parliamentary_questions_vector_store = QdrantVectorStore(
+    client=qdrant_client,
+    collection_name=PARLIAMENTARY_QUESTIONS_INDEX_NAME,
+    embedding=embed,
+    vector_name="dense",
+    content_payload_key="text",
+)
+
+
 def _search_results_to_documents(search_result: list) -> list[Document]:
     """Convert Qdrant search results to LangChain Documents."""
     documents = []
@@ -75,13 +92,21 @@ def _search_results_to_documents(search_result: list) -> list[Document]:
 def _get_vector_store_for_context(context_id: str) -> QdrantVectorStore:
     """Get or create a QdrantVectorStore for a given context.
 
+    For the default context (bundestagswahl-2025), uses the legacy collection
+    name for backwards compatibility. For other contexts, uses the new
+    context-scoped naming convention.
+
     Args:
         context_id: The context identifier
 
     Returns:
         QdrantVectorStore instance for the context
     """
-    collection_name = get_context_collection_name(context_id)
+    # Use legacy collection for default context (backwards compatibility)
+    if context_id == DEFAULT_CONTEXT_ID:
+        collection_name = PARTY_INDEX_NAME
+    else:
+        collection_name = get_context_collection_name(context_id)
 
     return QdrantVectorStore(
         client=qdrant_client,
@@ -108,12 +133,16 @@ async def _identify_relevant_documents(
         rag_query: The query to search for relevant documents
         n_docs: The number of documents to return
         score_threshold: The score threshold for the similarity search
-        context_id: The context identifier
+        context_id: The context identifier (defaults to 'bundestagswahl-2025')
 
     Returns:
         A list of relevant documents
     """
-    collection_name = get_context_collection_name(context_id)
+    # Determine collection name
+    if context_id == DEFAULT_CONTEXT_ID:
+        collection_name = PARTY_INDEX_NAME
+    else:
+        collection_name = get_context_collection_name(context_id)
 
     # Check if collection exists before trying to search
     existing_collections = [
@@ -139,17 +168,16 @@ async def _identify_relevant_documents(
 
     # Search directly using Qdrant client to preserve all metadata
     # Note: Using sync client in async context - this might need optimization later
-    search_result = qdrant_client.query_points(
+    search_result = qdrant_client.search(
         collection_name=vector_store.collection_name,
-        query=query_vector,
-        using="dense",
+        query_vector=("dense", query_vector),
         limit=n_docs,
         with_payload=True,
         query_filter=filter_condition,
         score_threshold=score_threshold,
     )
 
-    return _search_results_to_documents(search_result.points)
+    return _search_results_to_documents(search_result)
 
 
 async def identify_relevant_docs(
@@ -272,16 +300,6 @@ async def identify_relevant_votes(
     :param score_threshold: The score threshold for the similarity search.
     :return: A list of relevant documents.
     """
-    existing_collections = [
-        col.name for col in qdrant_client.get_collections().collections
-    ]
-    if VOTING_BEHAVIOR_INDEX_NAME not in existing_collections:
-        logger.warning(
-            f"Collection '{VOTING_BEHAVIOR_INDEX_NAME}' does not exist. "
-            "Voting behavior retrieval is unavailable in this deployment."
-        )
-        return []
-
     # Votes use a separate collection, not context-scoped
     # Get query vector
     query_vector = await embed.aembed_query(rag_query)
@@ -290,17 +308,16 @@ async def identify_relevant_votes(
         must=[FieldCondition(key="namespace", match=MatchValue(value="vote_summary"))]
     )
 
-    search_result = qdrant_client.query_points(
-        collection_name=VOTING_BEHAVIOR_INDEX_NAME,
-        query=query_vector,
-        using="dense",
+    search_result = qdrant_client.search(
+        collection_name=voting_behavior_vector_store.collection_name,
+        query_vector=("dense", query_vector),
         limit=n_docs,
         with_payload=True,
         query_filter=filter_condition,
         score_threshold=score_threshold,
     )
 
-    return _search_results_to_documents(search_result.points)
+    return _search_results_to_documents(search_result)
 
 
 async def identify_relevant_parliamentary_questions(
@@ -316,16 +333,6 @@ async def identify_relevant_parliamentary_questions(
     """
     namespace = f"{party.party_id if isinstance(party, ContextParty) else party}-parliamentary-questions"
 
-    existing_collections = [
-        col.name for col in qdrant_client.get_collections().collections
-    ]
-    if PARLIAMENTARY_QUESTIONS_INDEX_NAME not in existing_collections:
-        logger.warning(
-            f"Collection '{PARLIAMENTARY_QUESTIONS_INDEX_NAME}' does not exist. "
-            "Parliamentary question retrieval is unavailable in this deployment."
-        )
-        return []
-
     # Parliamentary questions use a separate collection, not context-scoped
     query_vector = await embed.aembed_query(rag_query)
 
@@ -333,14 +340,13 @@ async def identify_relevant_parliamentary_questions(
         must=[FieldCondition(key="namespace", match=MatchValue(value=namespace))]
     )
 
-    search_result = qdrant_client.query_points(
-        collection_name=PARLIAMENTARY_QUESTIONS_INDEX_NAME,
-        query=query_vector,
-        using="dense",
+    search_result = qdrant_client.search(
+        collection_name=parliamentary_questions_vector_store.collection_name,
+        query_vector=("dense", query_vector),
         limit=n_docs,
         with_payload=True,
         query_filter=filter_condition,
         score_threshold=score_threshold,
     )
 
-    return _search_results_to_documents(search_result.points)
+    return _search_results_to_documents(search_result)

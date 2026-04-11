@@ -87,7 +87,7 @@ function StickyInput({ isLoading, onSubmit, quickReplies, className }: Props) {
         <input
           className="w-full bg-chat-input px-12 py-3 text-[16px] placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed"
           name="question"
-          placeholder="Pregúntale a los partidos..."
+          placeholder="Frage die Parteien..."
           value={input}
           type="text"
           onChange={(e) => setInput(e.target.value)}

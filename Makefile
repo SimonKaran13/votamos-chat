@@ -1,6 +1,6 @@
-# Development convenience targets for the votamos.chat monorepo
+# Development convenience targets for the wahl.chat monorepo
 
-.PHONY: dev dev-web dev-backend install install-web install-backend lint lint-web lint-backend test-backend auth auth-prod seed seed-prod
+.PHONY: dev dev-web dev-backend install install-web install-backend lint lint-web lint-backend test-backend auth seed seed-prod
 
 # --- Install dependencies ---
 
@@ -50,8 +50,4 @@ seed-prod:
 
 auth:
 	gcloud auth application-default login
-	gcloud config set project votamos-chat-dev
-
-auth-prod:
-	gcloud auth application-default login
-	gcloud config set project votamos-chat-prod
+	gcloud config set project wahl-chat-dev

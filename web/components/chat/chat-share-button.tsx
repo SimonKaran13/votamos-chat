@@ -37,19 +37,17 @@ function ChatShareButton({ contextId }: Props) {
             </Button>
           </ResponsiveDialogTrigger>
         </TooltipTrigger>
-        <TooltipContent>Compartir chat</TooltipContent>
+        <TooltipContent>Chat Session teilen</TooltipContent>
       </Tooltip>
       <ResponsiveDialogContent className="sm:max-w-md">
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>
-            {sharePrivateSession
-              ? 'Compartir este chat'
-              : 'Compartir votamos.chat'}
+            {sharePrivateSession ? 'Chat Session teilen' : 'wahl.chat teilen'}
           </ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
             {sharePrivateSession
-              ? 'Cualquier persona con este enlace podra ver este chat.'
-              : 'Comparte votamos.chat con tus amistades y familia.'}
+              ? 'Jeder, der diesen Link hat, kann diese Chat Session sehen.'
+              : 'Teile wahl.chat mit Freunden und Familie.'}
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 

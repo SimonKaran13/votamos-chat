@@ -39,7 +39,7 @@ const ChatVotingBehaviorDetailButton = forwardRef<
       className="h-8 px-2 text-xs group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
     >
       <ScrollTextIcon />
-      Ver votaciones
+      Abstimmungen anzeigen
     </Button>
   );
 
@@ -88,10 +88,10 @@ const ChatVotingBehaviorDetailButton = forwardRef<
         <SheetTrigger asChild>{triggerButton}</SheetTrigger>
         <SheetContent className="w-[90vw] !max-w-[700px] p-0">
           <VisuallyHidden>
-            <DialogTitle>Comportamiento de voto</DialogTitle>
+            <DialogTitle>Wahlverhalten</DialogTitle>
             <DialogDescription>
-              Este mensaje contiene más información sobre el comportamiento de
-              voto de la candidatura.
+              Diese Nachricht enthält weitere Informationen zum Wahlverhalten
+              der Partei.
             </DialogDescription>
           </VisuallyHidden>
 
@@ -110,10 +110,10 @@ const ChatVotingBehaviorDetailButton = forwardRef<
       <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
       <DrawerContent className="h-[95dvh]">
         <VisuallyHidden>
-          <DrawerTitle>Comportamiento de voto</DrawerTitle>
+          <DrawerTitle>Wahlverhalten</DrawerTitle>
           <DrawerDescription>
-            Este mensaje contiene más información sobre el comportamiento de
-            voto de la candidatura.
+            Diese Nachricht enthält weitere Informationen zum Wahlverhalten der
+            Partei.
           </DrawerDescription>
         </VisuallyHidden>
 

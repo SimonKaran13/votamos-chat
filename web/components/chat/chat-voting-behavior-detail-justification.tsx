@@ -16,7 +16,7 @@ function ChatVotingBehaviorDetailJustification({ vote }: Props) {
 
   return (
     <>
-      <h2 className="pb-2 pt-4 text-base font-bold">Justificación</h2>
+      <h2 className="pb-2 pt-4 text-base font-bold">Begründung</h2>
       <p className="text-sm text-muted-foreground">{party.justification}</p>
     </>
   );

@@ -84,11 +84,11 @@ function StickyInputRateLimit({
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-yellow-400 opacity-75" />
               <span className="relative inline-flex size-2 rounded-full bg-yellow-500" />
             </span>
-            <h2 className="font-bold">¡Servidor actualmente saturado!</h2>
+            <h2 className="font-bold">Server derzeit ausgelastet!</h2>
           </div>
           <p className="text-sm text-muted-foreground">
-            Continúa con las preguntas sugeridas o inténtalo de nuevo en unos
-            minutos.
+            Chatte mit den vorgeschlagenen Fragen weiter oder versuche es in
+            wenigen Minuten erneut.
           </p>
         </section>
 

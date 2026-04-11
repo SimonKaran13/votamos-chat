@@ -1,5 +1,6 @@
 import { useChatStore } from '@/components/providers/chat-store-provider';
 import type { PartyDetails } from '@/lib/party-details';
+import { isProlificStudy } from '@/lib/prolific-study/prolific-metadata';
 import type { MessageItem } from '@/lib/stores/chat-store.types';
 import { cn } from '@/lib/utils';
 import ChatMarkdown from './chat-markdown';
@@ -9,6 +10,7 @@ import ChatSingleMessageActions from './chat-single-message-actions';
 import ChatSingleUserMessage from './chat-single-user-message';
 import ChatVotingBehaviorExpandable from './chat-voting-behavior-expandable';
 import MessageLoadingBorderTrail from './message-loading-border-trail';
+import SurveyBanner from './survey-banner';
 
 type Props = {
   message: MessageItem;
@@ -74,6 +76,7 @@ function ChatSingleMessage({
           )}
           <div className="flex flex-col gap-2">
             {content}
+            {isLastMessage && !isProlificStudy() && <SurveyBanner />}
             <ChatSingleMessageActions
               isLastMessage={isLastMessage}
               message={message}

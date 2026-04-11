@@ -21,9 +21,10 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
     const email = formData.get('email') as string;
 
     toast.promise(handleAddEmail(email), {
-      loading: 'Un momento, estamos agregando tu correo...',
-      success: 'Gracias. Te avisaremos cuando la información esté disponible.',
-      error: 'Ocurrió un error. Por favor, inténtalo de nuevo más tarde.',
+      loading: 'Einen Moment, wir fügen deine E-Mail hinzu...',
+      success:
+        'Vielen Dank! Wir werden dich benachrichtigen, wenn der Koalitionsvertrag verfügbar ist.',
+      error: 'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.',
       duration: 5000,
     });
   };
@@ -52,22 +53,22 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
       <div className="flex items-center gap-4">
         <Logo variant="small" className="size-6" />
         <div className="flex flex-col">
-          <h1 className="text-base font-bold">¡El acuerdo de coalición!</h1>
+          <h1 className="text-base font-bold">Der Koalitionsvertrag!</h1>
           <p className="text-sm text-muted-foreground">
-            Pronto en <span className="font-bold">wahl.chat</span>
+            Bald auf <span className="font-bold">wahl.chat</span>
           </p>
         </div>
       </div>
 
       <p className="text-sm text-muted-foreground">
-        Déjanos tu correo electrónico para avisarte cuando el acuerdo de
-        coalición esté disponible en wahl.chat.
+        Teile uns deine E-Mail mit, um benachrichtigt zu werden, wenn der
+        Koalitionsvertrag auf wahl.chat verfügbar ist.
       </p>
 
       <form className="flex flex-col gap-2 md:flex-row" onSubmit={handleSubmit}>
         <Input
           name="email"
-          placeholder="Correo electrónico"
+          placeholder="Email"
           type="email"
           autoComplete="email"
           autoCapitalize="off"
@@ -77,7 +78,7 @@ function KeepUpToDateTeaserCard({ initialUser }: Props) {
 
         <Button type="submit">
           <MailCheckIcon />
-          Avísame
+          Benachrichtige mich
         </Button>
       </form>
     </div>

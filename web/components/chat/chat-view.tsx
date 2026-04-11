@@ -30,7 +30,7 @@ async function ChatView({
           <div className="flex grow flex-col items-center justify-center gap-2">
             <LoadingSpinner />
             <p className="text-center text-sm text-muted-foreground">
-              Cargando chat...
+              Loading Chat Session...
             </p>
           </div>
         }

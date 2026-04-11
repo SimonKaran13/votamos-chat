@@ -30,7 +30,7 @@ function CopyButton({
   const handleCopyMessage = () => {
     navigator.clipboard.writeText(text);
     setIsCopied(true);
-    toast.success('Texto copiado al portapapeles');
+    toast.success('Text in die Zwischenablage kopiert');
 
     track('message_copied', {
       message: text,
@@ -54,7 +54,7 @@ function CopyButton({
       disabled={loading}
     >
       {isCopied ? <Check /> : <Copy />}
-      <span className="sr-only">Copiar</span>
+      <span className="sr-only">Copy</span>
     </Button>
   );
 }

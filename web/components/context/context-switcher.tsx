@@ -155,28 +155,28 @@ function ContextSwitcher({
       <AlertDialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Cambiar de elección?</AlertDialogTitle>
+            <AlertDialogTitle>Wahl wechseln?</AlertDialogTitle>
             <AlertDialogDescription>
               {pendingContext ? (
                 <>
-                  Vas a cambiar a{' '}
+                  Du wechselst zur{' '}
                   <span className="font-medium text-foreground">
                     {pendingContext.name}
                   </span>
-                  . Al hacerlo, saldrás de {currentAreaLabel} y{' '}
+                  . Dadurch verlässt du {currentAreaLabel} und wirst{' '}
                   {navigationTargetLabel}.
                 </>
               ) : (
-                `Al hacerlo, saldrás de ${currentAreaLabel} y ${navigationTargetLabel}.`
+                `Dadurch verlässt du ${currentAreaLabel} und wirst ${navigationTargetLabel}.`
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleCancelChange}>
-              Cancelar
+              Abbrechen
             </AlertDialogCancel>
             <AlertDialogAction onClick={handleConfirmChange}>
-              Cambiar de elección
+              Wahl wechseln
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -33,23 +33,23 @@ function PartyDetailPopover({ parties }: Props) {
             <p className="text-muted-foreground">{party.description}</p>
             <Separator className="my-2" />
             <p>
-              Candidatura presidencial:{' '}
+              Spitzenkandidat*in:{' '}
               <span className="font-bold">{party.candidate}</span>
             </p>
             <p>
-              Más información sobre esta candidatura en{' '}
+              Lerne mehr über die Partei auf{' '}
               <a href={party.website_url} target="_blank" className="underline">
                 {party.website_url}
               </a>
             </p>
             <p>
-              O consulta el{' '}
+              Oder lese das{' '}
               <a
                 href={party.election_manifesto_url}
                 target="_blank"
                 className="underline"
               >
-                programa de gobierno
+                Wahlprogramm
               </a>
             </p>
             {index < parties.length - 1 && <Separator className="my-2" />}

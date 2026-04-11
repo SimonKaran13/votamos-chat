@@ -19,10 +19,11 @@ function HowToDialog({ children }: Props) {
       <ResponsiveDialogContent className="flex max-h-[95dvh] flex-col overflow-hidden">
         <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>
-            Que puedo hacer con <span className="underline">votamos.chat</span>?
+            Was kann ich mit <span className="underline">wahl.chat</span> alles
+            machen?
           </ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
-            Consejos para aprovechar mejor votamos.chat.
+            Tipps und Tricks, wie du wahl.chat am besten nutzen kannst.
           </ResponsiveDialogDescription>
         </ResponsiveDialogHeader>
 
