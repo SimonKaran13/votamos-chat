@@ -279,7 +279,7 @@ function buildAccordionContent({
       content: {
         paragraphs: [
           'Para poder mejorar votamos.chat, se utilizan las acciones realizadas en la página web y los historiales de chat anonimizados para determinar estadísticas agregadas, como el número de preguntas respondidas o las candidaturas con las que más se chatea.',
-          'El desarrollo de votamos.chat se hace de forma científica, de vez en cuando daremos a nuestros usuarios la posibilidad de participar en estudios. Estos serán 100% voluntarios y no participar no tendrá ningún efecto sobre el uso posterior de votamos.chat. En estos estudios utilizaremos las estadísticas de uso anonimizadas para analizar el impacto de votamos.chat y mejorar su efecto positivo en la sociedad.',
+          'El desarrollo de votamos.chat se hace de forma científica, por lo que de vez en cuando daremos a nuestros usuarios la posibilidad de participar en estudios. Estos serán 100 % voluntarios y no participar no tendrá ningún efecto sobre el uso posterior de votamos.chat. En estos estudios utilizaremos las estadísticas de uso anonimizadas para analizar el impacto de votamos.chat y mejorar su efecto positivo en la sociedad.',
         ],
       },
     },
