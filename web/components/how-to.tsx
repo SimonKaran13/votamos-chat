@@ -147,7 +147,7 @@ function buildAccordionContent({
       title: '¿Qué preguntas puedo hacer?',
       content: {
         intro:
-          'Puedes hacer preguntas sobre las posiciones de las candidaturas y movimientos de esta elección. Si quieres comparar varias opciones entre sí, puedes agregarlas al chat o simplemente mencionarlas en la pregunta. También puedes hacer preguntas generales sobre el proceso electoral en Colombia.',
+          'Puedes hacer preguntas sobre las posiciones de las candidaturas y de sus movimientos en estas elecciones. Si quieres comparar varias opciones entre sí, puedes agregarlas al chat o simplemente mencionarlas en la pregunta. También puedes hacer preguntas generales sobre el proceso electoral en Colombia.',
         sections: [
           {
             subtitle: 'Ejemplos de preguntas específicas por candidatura:',
