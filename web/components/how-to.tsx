@@ -59,6 +59,16 @@ const PREFERRED_PARTY_NAMES = [
   'Defensores de la Patria',
 ];
 
+const PARTY_ARTICLES: Record<string, string> = {
+  'Pacto Histórico': 'el',
+  'Centro Democrático': 'el',
+};
+
+function withArticle(partyName: string): string {
+  const article = PARTY_ARTICLES[partyName];
+  return article ? `${article} ${partyName}` : partyName;
+}
+
 function formatContextDate(date: string | null | undefined) {
   if (!date) return null;
 
@@ -99,11 +109,11 @@ function buildPartySpecificQuestions(partyNames: string[]) {
   ] = partyNames;
 
   return [
-    `¿Cuál es la posición de ${partyA} sobre el salario mínimo?`,
-    `¿Qué propone ${partyB} en materia de seguridad?`,
-    `¿Cómo plantea ${partyC} combatir la corrupción?`,
-    `¿Qué medidas propone ${partyD} para mejorar la educación pública?`,
-    `¿Cómo quiere ${partyE} impulsar el crecimiento económico?`,
+    `¿Cuál es la posición de ${withArticle(partyA)} sobre el salario mínimo?`,
+    `¿Qué propone ${withArticle(partyB)} en materia de seguridad?`,
+    `¿Cómo plantea ${withArticle(partyC)} combatir la corrupción?`,
+    `¿Qué medidas propone ${withArticle(partyD)} para mejorar la educación pública?`,
+    `¿Cómo quiere ${withArticle(partyE)} impulsar el crecimiento económico?`,
   ];
 }
 
@@ -116,9 +126,9 @@ function buildCompareQuestions(partyNames: string[]) {
   ] = partyNames;
 
   return [
-    `¿En qué se diferencian ${partyA} y ${partyB} en seguridad?`,
-    `Compara las propuestas de ${partyA} y ${partyC} sobre salud.`,
-    `¿Qué diferencias hay entre ${partyD} y ${partyB} frente al empleo y la economía?`,
+    `¿En qué se diferencian ${withArticle(partyA)} y ${withArticle(partyB)} en seguridad?`,
+    `Compara las propuestas de ${withArticle(partyA)} y ${withArticle(partyC)} sobre salud.`,
+    `¿Qué diferencias hay entre ${withArticle(partyD)} y ${withArticle(partyB)} frente al empleo y la economía?`,
   ];
 }
 
