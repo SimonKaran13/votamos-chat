@@ -36,7 +36,7 @@ const GENERAL_QUESTIONS = [
 ];
 
 const INTRO_TEXT = {
-  main: 'votamos.chat es una herramienta interactiva de IA que te ayuda a informarte sobre las posiciones y planes de los partidos y candidatos políticos. Puedes hacerle preguntas al asistente de IA sobre diversos temas políticos, y te dará respuestas neutrales basadas en los programas de gobierno y otras publicaciones de los partidos.',
+  main: 'votamos.chat es una herramienta interactiva de IA que te ayuda a informarte sobre las posiciones y planes de los partidos políticos y sus candidatos. Puedes hacerle preguntas al asistente de IA sobre diversos temas políticos, y te dará respuestas neutrales basadas en los programas de gobierno y otras publicaciones de los partidos.',
   sources:
     'Todas las respuestas incluyen las fuentes correspondientes y utilizan documentos relevantes para la elección correspondiente.',
 };
