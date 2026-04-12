@@ -87,9 +87,9 @@ function ContextSwitcher({
 
   if (selectableContexts.length <= 1) {
     return (
-      <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-        <ContextIcon context={currentContext} className="size-5" />
-        <span className="max-w-[100px] truncate text-xs sm:max-w-none">
+      <div className="flex min-w-0 items-center gap-1.5 text-sm text-muted-foreground">
+        <ContextIcon context={currentContext} className="size-5 shrink-0" />
+        <span className="truncate text-xs">
           {currentContext.name}
         </span>
       </div>
@@ -106,7 +106,7 @@ function ContextSwitcher({
             className="flex h-12 grow items-center gap-4 px-2 md:!min-w-64"
           >
             <ContextIcon context={currentContext} className="size-5" />
-            <div className="flex grow flex-col items-start gap-1">
+            <div className="flex min-w-0 grow flex-col items-start gap-1">
               <span className="truncate text-xs font-medium leading-none">
                 {currentContext.name}
               </span>
