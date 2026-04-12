@@ -13,25 +13,24 @@ export const productionRobots = IS_PRODUCTION
   ? 'index, follow'
   : 'noindex, nofollow';
 
+function parseContextDate(date: string | Date | null | undefined): Date | null {
+  if (!date) return null;
+  const d = date instanceof Date ? date : new Date(`${date}T00:00:00Z`);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
 function formatContextDate(
   date: string | Date | null | undefined,
 ): string | null {
-  if (!date) {
-    return null;
-  }
-
-  const parsedDate =
-    date instanceof Date ? date : new Date(`${date}T00:00:00Z`);
-  if (Number.isNaN(parsedDate.getTime())) {
-    return null;
-  }
+  const parsed = parseContextDate(date);
+  if (!parsed) return null;
 
   return new Intl.DateTimeFormat('es-CO', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC',
-  }).format(parsedDate);
+  }).format(parsed);
 }
 
 export function buildContextMetadata(
@@ -81,14 +80,7 @@ export function buildContextMetadata(
 
 export function buildContextJsonLd(context: Context) {
   const formattedDate = formatContextDate(context.date);
-  const parsedDate =
-    context.date instanceof Date
-      ? context.date
-      : context.date
-        ? new Date(`${context.date}T00:00:00Z`)
-        : null;
-  const validDate =
-    parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : null;
+  const validDate = parseContextDate(context.date);
 
   return {
     '@context': 'https://schema.org',
