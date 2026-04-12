@@ -603,6 +603,10 @@ export const getExampleQuestionsShareableChatSession = cache(
 
 async function getShareableChatSessionSnapshotImpl(snapshotId: string) {
   try {
+    if (snapshotId.trim().length === 0 || snapshotId.includes('/')) {
+      return undefined;
+    }
+
     const serverDb = await getServerFirestore({ useHeaders: false });
     const docRef = doc(
       serverDb,

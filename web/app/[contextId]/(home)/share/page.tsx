@@ -51,7 +51,7 @@ export async function generateMetadata({
   const contextName = context?.name ?? 'Elecciones Presidenciales 2026';
   const snapshotQuestion = snapshot?.question?.trim();
   const snapshotTitle = snapshot?.title?.trim();
-  const title = snapshotQuestion
+  const absoluteTitle = snapshotQuestion
     ? `${snapshotQuestion} | ${APP_NAME}`
     : snapshotTitle
       ? `${snapshotTitle} | ${APP_NAME}`
@@ -75,14 +75,16 @@ export async function generateMetadata({
   }
 
   return {
-    title,
+    title: {
+      absolute: absoluteTitle,
+    },
     description,
     robots: 'noindex, nofollow',
     alternates: {
       canonical: url.toString(),
     },
     openGraph: {
-      title,
+      title: absoluteTitle,
       description,
       url: url.toString(),
       siteName: APP_NAME,
@@ -99,7 +101,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: absoluteTitle,
       description,
       images: [ogImage.toString()],
     },

@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     60,
   );
   const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
-  const logoUrl = `${siteUrl}/logos/logo-default.svg`;
+  const logoUrl = `${siteUrl}/web-app-manifest-512x512.png`;
 
   return new ImageResponse(
     <div
@@ -52,19 +52,20 @@ export async function GET(request: Request) {
             width: '164px',
             height: '164px',
             borderRadius: '32px',
-            background: 'rgba(0,0,0,0.22)',
+            background: 'rgba(255,255,255,0.96)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '1px solid rgba(255,255,255,0.12)',
+            border: '1px solid rgba(255,255,255,0.2)',
             flexShrink: 0,
+            boxShadow: '0 18px 40px rgba(0,0,0,0.18)',
           }}
         >
           <img
             src={logoUrl}
             alt="votamos.chat"
-            width="116"
-            height="116"
+            width="120"
+            height="120"
             style={{ objectFit: 'contain' }}
           />
         </div>
