@@ -168,19 +168,6 @@ def sanitize_references(text: str) -> str:
     return sanitized_text
 
 
-if __name__ == "__main__":
-    text = """Die Grünen setzen sich für **gute Arbeit** und **faire Löhne** für Fabrikarbeiter ein. Sie wollen:
-
-- **Faire Mindestlöhne**: Ein Mindestlohn von zunächst **15 Euro** im Jahr 2025, der auch für unter 18-Jährige gilt, um die Inflation auszugleichen. [id1]
-- **Stärkung der Mitbestimmung**: Die betriebliche Mitbestimmung soll gestärkt werden, um Beschäftigten mehr Einfluss auf ihre Arbeitsbedingungen zu geben. [<2>]
-- **Schutz vor Missbrauch**: Gegen Schein-Selbstständigkeit und den Missbrauch von Werkverträgen soll entschieden vorgegangen werden. [id2, id3]
-
-Diese Maßnahmen zielen darauf ab, die Arbeitsbedingungen und die soziale Absicherung für Fabrikarbeiter zu verbessern.
-"""
-    sanitized_text = sanitize_references(text)
-    print(sanitized_text)
-
-
 def get_chat_history_hash_key(conversation_history_str: str) -> str:
     return xxhash.xxh64(conversation_history_str).hexdigest()
 
