@@ -32,6 +32,13 @@ function ChatShareLinkInputForm({ sharePrivateSession, contextId }: Props) {
     (state) => state.generateSharingSnapshotLink,
   );
   const params = useSearchParams();
+  const shareText = useMemo(() => {
+    if (sessionTitle?.trim()) {
+      return `${sessionTitle.trim()} | votamos.chat`;
+    }
+
+    return 'Mira esta conversación en votamos.chat';
+  }, [sessionTitle]);
 
   const link = useMemo(() => {
     if (!sharePrivateSession || !sharingSnapshot?.id) {
@@ -70,7 +77,8 @@ function ChatShareLinkInputForm({ sharePrivateSession, contextId }: Props) {
 
     try {
       await navigator.share({
-        title: sessionTitle,
+        title: shareText,
+        text: shareText,
         url: link,
       });
     } catch (error) {
@@ -93,23 +101,23 @@ function ChatShareLinkInputForm({ sharePrivateSession, contextId }: Props) {
         <WhatsappShareButton
           className="aspect-square w-fit"
           url={link}
-          title={sessionTitle}
-          separator=" - "
+          title={shareText}
+          separator="\n"
         >
           <WhatsappIcon size={30} borderRadius={10} />
         </WhatsappShareButton>
         <TwitterShareButton
           url={link}
-          title={sessionTitle}
-          hashtags={['WahlChat', 'Wahl2025', 'Bundestagswahl']}
-          via="WahlChat"
+          title={shareText}
+          hashtags={['votamoschat', 'Colombia2026', 'EleccionesColombia']}
+          via="votamoschat"
         >
           <XIcon size={30} borderRadius={10} />
         </TwitterShareButton>
-        <LinkedinShareButton url={link} title={sessionTitle}>
+        <LinkedinShareButton url={link} title={shareText}>
           <LinkedinIcon size={30} borderRadius={10} />
         </LinkedinShareButton>
-        <FacebookShareButton url={link} hashtag="#WahlChat">
+        <FacebookShareButton url={link} hashtag="#votamoschat">
           <FacebookIcon size={30} borderRadius={10} />
         </FacebookShareButton>
         <Button
