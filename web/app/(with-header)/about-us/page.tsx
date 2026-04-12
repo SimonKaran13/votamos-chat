@@ -35,25 +35,25 @@ function AboutUs() {
 
         <p className="[&_a]:underline">
           La idea de <Link href="http://votamos.chat/">votamos.chat</Link> surge
-          en 2025 apartir de una conversación en reflexión al atentado en contra
-          de Miguel Uribe. Asumiendo el impacto que una noticia así llegaría a
-          tener en la política colombiana y con las elecciones presidenciales a
-          la vuelta de la esquina, era el momento de tomar acción y desarrollar
-          una herramienta para ayudar a los colombianos a poder informarse, de
-          manera neutral, clara y accesible acerca las diferentes propuestas de
-          los candidatos a la presidencia.
+          en 2025 a partir de una conversación y reflexión posteriores al
+          atentado en contra de Miguel Uribe. Pensando en el impacto que una
+          noticia así tendría en la política colombiana, y con las elecciones
+          presidenciales a la vuelta de la esquina, era el momento de tomar
+          acción y desarrollar una herramienta para ayudar a los colombianos a
+          poder informarse, de manera neutral, clara y accesible, acerca de las
+          diferentes propuestas de los candidatos a la Presidencia.
         </p>
         <p className="[&_a]:underline">
-          Amigos de mi universidad en Alemania, ya habían explorado esta idea
-          para las elecciones parlamentarias alemanas de 2025. Es así como
+          Amigos de mi universidad en Alemania ya habían explorado esta idea
+          para las elecciones parlamentarias alemanas de 2025, por lo que
           decidí unirme al equipo de{' '}
           <a target="_blank" href="https://wahl.chat/">
             wahl.chat
           </a>
           . Durante mi tiempo con ellos, contribuí al desarrollo de la
-          plataforma en Alemania, donde ampliamos soporte a elecciones
-          regionales y de la alcaldía en la ciudad donde estoy localizado,
-          Múnich.
+          plataforma en Alemania, donde ampliamos nuestro soporte a las
+          elecciones regionales y para alcalde de la ciudad donde estoy
+          localizado, Múnich.
         </p>
         <p className="[&_a]:underline">
           Gracias a esta experiencia, decidí crear{' '}
@@ -81,7 +81,7 @@ function AboutUs() {
           </a>
         </p>
         <p className="[&_a]:underline">
-          Te gustaría ayudar a{' '}
+          ¿Te gustaría ayudar a{' '}
           <Link href="http://votamos.chat/">votamos.chat</Link>? Puedes
           contribuir en{' '}
           <a
