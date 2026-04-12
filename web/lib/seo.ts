@@ -64,7 +64,7 @@ export function buildContextMetadata(
       canonical: url,
     },
     openGraph: {
-      title: titleString,
+      title: pageSuffix ? titleString : { absolute: titleString },
       description,
       url,
       siteName: APP_NAME,
@@ -81,6 +81,14 @@ export function buildContextMetadata(
 
 export function buildContextJsonLd(context: Context) {
   const formattedDate = formatContextDate(context.date);
+  const parsedDate =
+    context.date instanceof Date
+      ? context.date
+      : context.date
+        ? new Date(`${context.date}T00:00:00Z`)
+        : null;
+  const validDate =
+    parsedDate && !Number.isNaN(parsedDate.getTime()) ? parsedDate : null;
 
   return {
     '@context': 'https://schema.org',
@@ -97,12 +105,12 @@ export function buildContextJsonLd(context: Context) {
       name: APP_NAME,
       url: BASE_URL,
     },
-    ...(context.type === 'election' && context.date
+    ...(context.type === 'election' && validDate
       ? {
           about: {
             '@type': 'Election',
             name: context.name,
-            startDate: context.date,
+            startDate: validDate.toISOString().split('T')[0],
             location: {
               '@type': 'Country',
               name: context.location_name,
