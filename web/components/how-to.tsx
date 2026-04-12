@@ -43,7 +43,7 @@ const INTRO_TEXT = {
 
 const PROCESS_STEPS = [
   'Haces una pregunta',
-  'votamos.chat busca en documentos relevantes como programas electorales y de partido para encontrar la información adecuada.',
+  'votamos.chat busca en documentos relevantes (como programas electorales y de partido) para encontrar la información adecuada.',
   'La información relevante se utiliza para generar una respuesta comprensible y basada en fuentes.',
   'Ahora puedes clasificar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
 ];
