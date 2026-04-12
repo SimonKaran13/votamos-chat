@@ -616,11 +616,19 @@ async function getShareableChatSessionSnapshotImpl(snapshotId: string) {
     }
 
     const data = snapshot.data();
+    const sharedAt = firestoreTimestampToDate(data.shared_at);
+
+    if (!sharedAt) {
+      console.warn(
+        `[Firestore] Shareable snapshot "${snapshotId}" is missing a valid shared_at timestamp.`,
+      );
+      return undefined;
+    }
 
     return {
       ...data,
       id: snapshot.id,
-      shared_at: firestoreTimestampToDate(data.shared_at),
+      shared_at: sharedAt,
     } as ShareableChatSessionSnapshot;
   } catch (error) {
     console.error(
