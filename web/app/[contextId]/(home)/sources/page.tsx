@@ -38,7 +38,7 @@ export async function generateMetadata({
   }
 
   return {
-    ...buildContextMetadata(context, 'Fuentes'),
+    ...buildContextMetadata(context, 'Fuentes', 'sources'),
     robots: 'noindex',
   };
 }
