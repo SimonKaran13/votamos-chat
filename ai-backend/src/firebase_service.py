@@ -2,6 +2,7 @@
 import logging
 import os
 import sys
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 import firebase_admin
 from firebase_admin import firestore, credentials, firestore_async
@@ -108,9 +109,15 @@ async def aget_cached_answers_for_party(
     cached_answers = async_db.collection(
         f"cached_answers/{party_id}/{cache_key}"
     ).stream()
-    return [
+    cached_responses = [
         CachedResponse(**cached_answer.to_dict())
         async for cached_answer in cached_answers
+    ]
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
+    return [
+        cached_response
+        for cached_response in cached_responses
+        if cached_response.created_at.astimezone(timezone.utc) >= cutoff
     ]
 
 

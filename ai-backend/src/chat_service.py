@@ -501,6 +501,7 @@ async def generate_chat_answer(
     party_ids: list[str],
     user_is_logged_in: bool = False,
     message_id: Optional[str] = None,
+    is_proposed_question: bool = False,
 ) -> None:
     """
     Core chat answer generation logic.
@@ -666,18 +667,26 @@ async def generate_chat_answer(
     if len(parties_to_respond) == 1 or not is_comparing_question:
         party_coros = []
         for party in parties_to_respond:
-            # get the proposed questions for the party
-            proposed_questions_for_party = await aget_proposed_questions_for_party(
-                party.party_id
-            )
-            proposed_questions_group = await aget_proposed_questions_for_party("group")
+            detected_proposed_question = is_proposed_question
+            if not detected_proposed_question:
+                proposed_questions_for_party = await aget_proposed_questions_for_party(
+                    party.party_id
+                )
+                proposed_questions_group = await aget_proposed_questions_for_party(
+                    "group"
+                )
 
-            is_proposed_question = (
-                user_message.content in proposed_questions_for_party
-                or user_message.content in proposed_questions_group
+                detected_proposed_question = (
+                    user_message.content in proposed_questions_for_party
+                    or user_message.content in proposed_questions_group
+                )
+
+            logger.debug(
+                "Is proposed question: %s (frontend_flag=%s)",
+                detected_proposed_question,
+                is_proposed_question,
             )
-            logger.debug(f"Is proposed question: {is_proposed_question}")
-            if is_beginning_of_chat and not is_proposed_question:
+            if is_beginning_of_chat and not detected_proposed_question:
                 # chat sessions with custom initial questions are not cacheable
                 chat_session.is_cacheable = False
             party_coros.append(
@@ -690,7 +699,7 @@ async def generate_chat_answer(
                     chat_session,
                     all_available_parties=all_parties,
                     use_premium_llms=user_is_logged_in,
-                    is_proposed_question=is_proposed_question,
+                    is_proposed_question=detected_proposed_question,
                     is_cacheable_chat=chat_session.is_cacheable,
                 )
             )
