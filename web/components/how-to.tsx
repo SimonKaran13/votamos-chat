@@ -100,7 +100,7 @@ function buildPartySpecificQuestions(partyNames: string[]) {
 
   return [
     `¿Cuál es la posición de ${partyA} sobre el salario mínimo?`,
-    `¿Qué propone ${partyB} en materia de seguridad?`,
+    `¿Qué propone el ${partyB} en materia de seguridad?`,
     `¿Cómo plantea ${partyC} combatir la corrupción?`,
     `¿Qué medidas propone ${partyD} para mejorar la educación pública?`,
     `¿Cómo quiere ${partyE} impulsar el crecimiento económico?`,
