@@ -1,7 +1,6 @@
 export const socialMediaConfig = {
-  instagram: 'https://www.instagram.com/wahl.chat/',
-  linkedin: 'https://www.linkedin.com/company/wahl-chat',
-  x: 'https://x.com/wahl_chat',
+  instagram: 'https://www.instagram.com/votamoschat/',
+  linkedin: 'https://www.linkedin.com/company/votamos-chat',
   email: 'mailto:info@votamos.chat',
 };
 
