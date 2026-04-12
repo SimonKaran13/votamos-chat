@@ -116,7 +116,7 @@ function buildCompareQuestions(partyNames: string[]) {
   ] = partyNames;
 
   return [
-    `¿En qué se diferencian ${partyA} y ${partyB} en seguridad?`,
+    `¿En qué se diferencian el ${partyA} y el ${partyB} en seguridad?`,
     `Compara las propuestas de ${partyA} y ${partyC} sobre salud.`,
     `¿Qué diferencias hay entre ${partyD} y ${partyB} frente al empleo y la economía?`,
   ];
