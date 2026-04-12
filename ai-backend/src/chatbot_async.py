@@ -156,7 +156,7 @@ async def get_question_targets_and_type(
 
     user_message_for_target_selection = user_message
     if previous_chat_history == "":
-        previous_chat_history = f"Chat mit {', '.join([party.name for party in currently_selected_parties])} gestartet.\n"
+        previous_chat_history = f"Chat con {', '.join([party.name for party in currently_selected_parties])} iniciado.\n"
         if currently_selected_parties != [WAHL_CHAT_PARTY]:
             user_message_for_target_selection = f"@{', '.join([party.name for party in currently_selected_parties])}: {user_message}"
 
@@ -177,10 +177,10 @@ async def get_question_targets_and_type(
         party for party in additionally_available_parties if party.is_small_party
     ]
 
-    additional_party_list_str += "Große Parteien:\n"
+    additional_party_list_str += "Partidos grandes:\n"
     for party in big_additional_parties:
         additional_party_list_str += build_party_str(party)
-    additional_party_list_str += "Kleinparteien:\n"
+    additional_party_list_str += "Partidos pequeños:\n"
     for party in small_additional_parties:
         additional_party_list_str += build_party_str(party)
 
@@ -227,7 +227,7 @@ async def get_question_targets_and_type(
         system_prompt = determine_question_type_system_prompt.format()
         user_prompt = determine_question_type_user_prompt.format(
             previous_chat_history=previous_chat_history,
-            user_message=f'Nutzer: "{user_message_for_target_selection}"',
+            user_message=f'Usuario: "{user_message_for_target_selection}"',
         )
 
         messages = [
@@ -317,7 +317,7 @@ async def generate_pro_con_perspective(
         party_candidate=party.candidate,
         context_name=prompt_context.get("context_name", "Elecciones presidenciales 2026"),
         context_date_info=prompt_context.get(
-            "context_date_info", "Kein spezifisches Datum"
+            "context_date_info", "Sin fecha específica"
         ),
         context_location=prompt_context.get("context_location", "Colombia"),
         date=now.strftime("%Y-%m-%d"),
@@ -352,11 +352,11 @@ async def generate_pro_con_perspective(
 
 
 async def generate_chat_summary(chat_history: list[Message]) -> str:
-    # create a list of messages from the chat history, user messages as "Nutzer: " and assistant messages use the party_id as role
+    # create a list of messages from the chat history, user messages as "Usuario: " and assistant messages use the party_id as role
     conversation_history = []
     for message in chat_history:
         if message.role == "user":
-            conversation_history.append({"role": "Nutzer", "content": message.content})
+            conversation_history.append({"role": "Usuario", "content": message.content})
         else:
             conversation_history.append(
                 {"role": message.party_id or "", "content": message.content}
@@ -462,15 +462,15 @@ async def generate_streaming_chatbot_response(
         all_parties_list = ""
         for p in all_parties:
             all_parties_list += f"### {p.long_name}\n"
-            all_parties_list += f"Abkürzung: {p.name}\n"
-            all_parties_list += f"Beschreibung: {p}\n"
+            all_parties_list += f"Abreviatura: {p.name}\n"
+            all_parties_list += f"Descripción: {p}\n"
             all_parties_list += (
                 f"Candidatura principal en el contexto actual: {p.candidate}\n"
             )
         system_prompt = wahl_chat_response_system_prompt_template.format(
             context_name=prompt_context.get("context_name", "Elecciones presidenciales 2026"),
             context_date_info=prompt_context.get(
-                "context_date_info", "Kein spezifisches Datum"
+                "context_date_info", "Sin fecha específica"
             ),
             context_location=prompt_context.get("context_location", "Colombia"),
             all_parties_list=all_parties_list,
@@ -574,7 +574,7 @@ async def generate_chat_title_and_chick_replies(
     for party in parties_in_chat:
         party_list += f"- {party.name} ({party.long_name}): {party.description}\n"
     if party_list == "":
-        party_list = "Noch keine Parteien in diesem Chat."
+        party_list = "Aún no hay partidos en este chat."
     if wahl_chat_assistant_last_responded:
         system_prompt = (
             generate_wahl_chat_title_and_quick_replies_system_prompt_str.format(
@@ -621,7 +621,7 @@ async def generate_party_vote_behavior_summary(
     # sort votes by date (oldest first)
     votes.sort(key=lambda x: x.date)
     for vote in votes:
-        submitting_parties: str = "keine angegeben"
+        submitting_parties: str = "ninguno indicado"
         if vote.submitting_parties is not None:
             submitting_parties = ", ".join(vote.submitting_parties)
 
@@ -637,7 +637,7 @@ async def generate_party_vote_behavior_summary(
 
         votes_list += _format_vote_summary(
             vote,
-            (vote.short_description or "Keine Zusammenfassung angegeben.")
+            (vote.short_description or "Sin resumen disponible.")
             .replace("\n", " ")
             .strip(),
             party_result,
@@ -646,7 +646,7 @@ async def generate_party_vote_behavior_summary(
         )
 
     if votes_list == "":
-        votes_list = "Keine passenden Abstimmungen gefunden."
+        votes_list = "No se encontraron votaciones relevantes."
 
     answer_guidelines = get_party_vote_behavior_summary_guidelines()
     system_prompt = generate_party_vote_behavior_summary_system_prompt.format(
@@ -682,22 +682,22 @@ def _format_vote_summary(
     party_name: str,
 ) -> str:
     return f"""
-# Abstimmung {vote.id}
-- Datum: {vote.date}
-- Thema: {vote.title}
-- Zusammenfassung: {description}
-- Einbringende Parteien: {submitting_parties}
-- Ergebnisse:
-    - Insgesamt:
-        - Ja: {vote.voting_results.overall.yes}
-        - Nein: {vote.voting_results.overall.no}
-        - Enthaltungen: {vote.voting_results.overall.abstain}
-        - Nicht abgestimmt: {vote.voting_results.overall.not_voted}
-        - Gesamtzahl der Mitglieder: {vote.voting_results.overall.members}
-    - Abstimmungsverhalten der Partei {party_name}:
-        - Ja: {party_result.yes}
-        - Nein: {party_result.no}
-        - Enthaltungen: {party_result.abstain}
-        - Nicht abgestimmt: {party_result.not_voted}
-        - Begründung: {party_result.justification if party_result.justification else "Keine Begründung angegeben."}\n\n
+# Votación {vote.id}
+- Fecha: {vote.date}
+- Tema: {vote.title}
+- Resumen: {description}
+- Partidos proponentes: {submitting_parties}
+- Resultados:
+    - General:
+        - Sí: {vote.voting_results.overall.yes}
+        - No: {vote.voting_results.overall.no}
+        - Abstenciones: {vote.voting_results.overall.abstain}
+        - No votaron: {vote.voting_results.overall.not_voted}
+        - Total de miembros: {vote.voting_results.overall.members}
+    - Comportamiento de voto del partido {party_name}:
+        - Sí: {party_result.yes}
+        - No: {party_result.no}
+        - Abstenciones: {party_result.abstain}
+        - No votaron: {party_result.not_voted}
+        - Justificación: {party_result.justification if party_result.justification else "Sin justificación disponible."}\n\n
 """

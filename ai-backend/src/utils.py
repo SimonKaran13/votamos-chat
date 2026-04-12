@@ -89,7 +89,7 @@ def build_chat_history_string(
     for i, message in enumerate(chat_history):
         sender = ""
         if message.role == Role.USER:
-            sender = "Nutzer"
+            sender = "Usuario"
         else:
             sending_party = next(
                 (party for party in parties if party.party_id == message.party_id),
@@ -107,17 +107,17 @@ def build_document_string_for_context(
     doc_num: int, doc: Document, doc_num_label="ID"
 ) -> str:
     return f"""{doc_num_label}: {doc_num}
-- Dokumentname: {doc.metadata.get("document_name", "unbekannt")}
-- Veröffentlichungsdatum: {doc.metadata.get("document_publish_date", "unbekannt")}
-- Inhalt: "{doc.page_content}"
+- Nombre del documento: {doc.metadata.get("document_name", "desconocido")}
+- Fecha de publicación: {doc.metadata.get("document_publish_date", "desconocido")}
+- Contenido: "{doc.page_content}"
 """
 
 
 def build_party_str(party: ContextParty):
     return f"""ID: {party.party_id}
-- Abkürzung: {party.name}
-- Langform: {party.long_name}
-- Beschreibung: {party.description}
+- Abreviatura: {party.name}
+- Nombre completo: {party.long_name}
+- Descripción: {party.description}
 - Candidatura principal en el contexto actual: {party.candidate}
 - Tiene representacion parlamentaria actual: {party.is_already_in_parliament}
 """
