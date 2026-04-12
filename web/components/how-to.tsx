@@ -59,6 +59,16 @@ const PREFERRED_PARTY_NAMES = [
   'Defensores de la Patria',
 ];
 
+const PARTY_ARTICLES: Record<string, string> = {
+  'Pacto Histórico': 'el',
+  'Centro Democrático': 'el',
+};
+
+function withArticle(partyName: string): string {
+  const article = PARTY_ARTICLES[partyName];
+  return article ? `${article} ${partyName}` : partyName;
+}
+
 function formatContextDate(date: string | null | undefined) {
   if (!date) return null;
 
@@ -100,7 +110,7 @@ function buildPartySpecificQuestions(partyNames: string[]) {
 
   return [
     `¿Cuál es la posición de ${partyA} sobre el salario mínimo?`,
-    `¿Qué propone el ${partyB} en materia de seguridad?`,
+    `¿Qué propone ${withArticle(partyB)} en materia de seguridad?`,
     `¿Cómo plantea ${partyC} combatir la corrupción?`,
     `¿Qué medidas propone ${partyD} para mejorar la educación pública?`,
     `¿Cómo quiere ${partyE} impulsar el crecimiento económico?`,
