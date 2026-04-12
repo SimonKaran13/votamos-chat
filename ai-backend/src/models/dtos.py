@@ -64,7 +64,7 @@ class InitChatSessionDto(BaseModel):
     )
     context_id: Optional[str] = Field(
         default=None,
-        description="The ID of the context (e.g., 'bundestagswahl-2025'). Defaults to the default context if not provided.",
+        description="The ID of the context (e.g., 'elecciones-presidenciales-2026'). Defaults to the default context if not provided.",
     )
 
 
@@ -188,7 +188,7 @@ class ChatUserMessageDto(BaseModel):
         description="The ID of the grouped message (document id) for voice messages",
     )
     language: str = Field(
-        default="de", description="Language code for transcription (ISO-639-1)"
+        default="es", description="Language code for transcription (ISO-639-1)"
     )
 
     @field_validator("session_id")

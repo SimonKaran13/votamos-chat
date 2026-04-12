@@ -43,7 +43,7 @@ const INTRO_TEXT = {
 
 const PROCESS_STEPS = [
   'Haces una pregunta',
-  'votamos.chat busca en documentos relevantes como programas electorales y de partido para encontrar la información adecuada.',
+  'votamos.chat busca en documentos relevantes (como programas electorales y de partido) para encontrar la información adecuada.',
   'La información relevante se utiliza para generar una respuesta comprensible y basada en fuentes.',
   'Ahora puedes clasificar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
 ];
@@ -58,6 +58,16 @@ const PREFERRED_PARTY_NAMES = [
   'Dignidad & Compromiso',
   'Defensores de la Patria',
 ];
+
+const PARTY_ARTICLES: Record<string, string> = {
+  'Pacto Histórico': 'el',
+  'Centro Democrático': 'el',
+};
+
+function withArticle(partyName: string): string {
+  const article = PARTY_ARTICLES[partyName];
+  return article ? `${article} ${partyName}` : partyName;
+}
 
 function formatContextDate(date: string | null | undefined) {
   if (!date) return null;
@@ -99,11 +109,11 @@ function buildPartySpecificQuestions(partyNames: string[]) {
   ] = partyNames;
 
   return [
-    `¿Cuál es la posición de ${partyA} sobre el salario mínimo?`,
-    `¿Qué propone ${partyB} en materia de seguridad?`,
-    `¿Cómo plantea ${partyC} combatir la corrupción?`,
-    `¿Qué medidas propone ${partyD} para mejorar la educación pública?`,
-    `¿Cómo quiere ${partyE} impulsar el crecimiento económico?`,
+    `¿Cuál es la posición de ${withArticle(partyA)} sobre el salario mínimo?`,
+    `¿Qué propone ${withArticle(partyB)} en materia de seguridad?`,
+    `¿Cómo plantea ${withArticle(partyC)} combatir la corrupción?`,
+    `¿Qué medidas propone ${withArticle(partyD)} para mejorar la educación pública?`,
+    `¿Cómo quiere ${withArticle(partyE)} impulsar el crecimiento económico?`,
   ];
 }
 
@@ -116,9 +126,9 @@ function buildCompareQuestions(partyNames: string[]) {
   ] = partyNames;
 
   return [
-    `¿En qué se diferencian ${partyA} y ${partyB} en seguridad?`,
-    `Compara las propuestas de ${partyA} y ${partyC} sobre salud.`,
-    `¿Qué diferencias hay entre ${partyD} y ${partyB} frente al empleo y la economía?`,
+    `¿En qué se diferencian ${withArticle(partyA)} y ${withArticle(partyB)} en seguridad?`,
+    `Compara las propuestas de ${withArticle(partyA)} y ${withArticle(partyC)} sobre salud.`,
+    `¿Qué diferencias hay entre ${withArticle(partyD)} y ${withArticle(partyB)} frente al empleo y la economía?`,
   ];
 }
 
@@ -147,7 +157,7 @@ function buildAccordionContent({
       title: '¿Qué preguntas puedo hacer?',
       content: {
         intro:
-          'Puedes hacer preguntas sobre las posiciones de las candidaturas y movimientos de esta elección. Si quieres comparar varias opciones entre sí, puedes agregarlas al chat o simplemente mencionarlas en la pregunta. También puedes hacer preguntas generales sobre el proceso electoral en Colombia.',
+          'Puedes hacer preguntas sobre las posiciones de las candidaturas y de sus movimientos en estas elecciones. Si quieres comparar varias opciones entre sí, puedes agregarlas al chat o simplemente mencionarlas en la pregunta. También puedes hacer preguntas generales sobre el proceso electoral en Colombia.',
         sections: [
           {
             subtitle: 'Ejemplos de preguntas específicas por candidatura:',
@@ -279,7 +289,7 @@ function buildAccordionContent({
       content: {
         paragraphs: [
           'Para poder mejorar votamos.chat, se utilizan las acciones realizadas en la página web y los historiales de chat anonimizados para determinar estadísticas agregadas, como el número de preguntas respondidas o las candidaturas con las que más se chatea.',
-          'El desarrollo de votamos.chat se hace de forma científica, de vez en cuando daremos a nuestros usuarios la posibilidad de participar en estudios. Estos serán 100% voluntarios y no participar no tendrá ningún efecto sobre el uso posterior de votamos.chat. En estos estudios utilizaremos las estadísticas de uso anonimizadas para analizar el impacto de votamos.chat y mejorar su efecto positivo en la sociedad.',
+          'El desarrollo de votamos.chat se hace de forma científica, por lo que de vez en cuando daremos a nuestros usuarios la posibilidad de participar en estudios. Estos serán 100 % voluntarios y no participar no tendrá ningún efecto sobre el uso posterior de votamos.chat. En estos estudios utilizaremos las estadísticas de uso anonimizadas para analizar el impacto de votamos.chat y mejorar su efecto positivo en la sociedad.',
         ],
       },
     },

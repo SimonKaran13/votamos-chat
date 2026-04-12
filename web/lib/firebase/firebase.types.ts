@@ -39,6 +39,8 @@ export type ShareableChatSessionSnapshot = {
   messages: GroupedMessage[];
   shared_at: Date;
   context_id?: string;
+  question?: string;
+  type?: string;
 };
 
 export type ProposedQuestion = {

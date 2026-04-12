@@ -89,7 +89,7 @@ def build_chat_history_string(
     for i, message in enumerate(chat_history):
         sender = ""
         if message.role == Role.USER:
-            sender = "Nutzer"
+            sender = "Usuario"
         else:
             sending_party = next(
                 (party for party in parties if party.party_id == message.party_id),
@@ -107,17 +107,17 @@ def build_document_string_for_context(
     doc_num: int, doc: Document, doc_num_label="ID"
 ) -> str:
     return f"""{doc_num_label}: {doc_num}
-- Dokumentname: {doc.metadata.get("document_name", "unbekannt")}
-- Veröffentlichungsdatum: {doc.metadata.get("document_publish_date", "unbekannt")}
-- Inhalt: "{doc.page_content}"
+- Nombre del documento: {doc.metadata.get("document_name", "desconocido")}
+- Fecha de publicación: {doc.metadata.get("document_publish_date", "desconocido")}
+- Contenido: "{doc.page_content}"
 """
 
 
 def build_party_str(party: ContextParty):
     return f"""ID: {party.party_id}
-- Abkürzung: {party.name}
-- Langform: {party.long_name}
-- Beschreibung: {party.description}
+- Abreviatura: {party.name}
+- Nombre completo: {party.long_name}
+- Descripción: {party.description}
 - Candidatura principal en el contexto actual: {party.candidate}
 - Tiene representacion parlamentaria actual: {party.is_already_in_parliament}
 """
@@ -166,19 +166,6 @@ def sanitize_references(text: str) -> str:
 
     sanitized_text = re.sub(citations_pattern, sanitize_citation, text)
     return sanitized_text
-
-
-if __name__ == "__main__":
-    text = """Die Grünen setzen sich für **gute Arbeit** und **faire Löhne** für Fabrikarbeiter ein. Sie wollen:
-
-- **Faire Mindestlöhne**: Ein Mindestlohn von zunächst **15 Euro** im Jahr 2025, der auch für unter 18-Jährige gilt, um die Inflation auszugleichen. [id1]
-- **Stärkung der Mitbestimmung**: Die betriebliche Mitbestimmung soll gestärkt werden, um Beschäftigten mehr Einfluss auf ihre Arbeitsbedingungen zu geben. [<2>]
-- **Schutz vor Missbrauch**: Gegen Schein-Selbstständigkeit und den Missbrauch von Werkverträgen soll entschieden vorgegangen werden. [id2, id3]
-
-Diese Maßnahmen zielen darauf ab, die Arbeitsbedingungen und die soziale Absicherung für Fabrikarbeiter zu verbessern.
-"""
-    sanitized_text = sanitize_references(text)
-    print(sanitized_text)
 
 
 def get_chat_history_hash_key(conversation_history_str: str) -> str:
