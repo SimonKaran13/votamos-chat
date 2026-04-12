@@ -127,16 +127,16 @@
   "proposed_questions/wahl-chat/questions/question_1": {
     "topic": "votamos.chat",
     "location": "chat",
-    "content": "¿Qué le puedo preguntar a las candidaturas?"
+    "content": "¿Qué puedo preguntar?"
   },
   "proposed_questions/wahl-chat/questions/question_3": {
     "topic": "votamos.chat",
     "location": "chat",
-    "content": "¿Cómo se generan las respuestas en votamos.chat?"
+    "content": "¿Cómo se generan las respuestas?"
   },
   "proposed_questions/wahl-chat/questions/question_2": {
     "topic": "votamos.chat",
     "location": "chat",
-    "content": "¿Puedo comparar múltiples candidaturas?"
+    "content": "¿Puedo comparar candidaturas?"
   }
 }
