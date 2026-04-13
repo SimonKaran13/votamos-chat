@@ -62,7 +62,8 @@ async def is_valid_proposed_question(
     proposed_questions_cache: Optional[Dict[str, list[str]]] = None,
 ) -> bool:
     """Validate a proposed question against context-scoped and legacy question sets."""
-    proposed_questions_cache = proposed_questions_cache or {}
+    if proposed_questions_cache is None:
+        proposed_questions_cache = {}
 
     async def get_questions(question_party_id: str) -> list[str]:
         if question_party_id in proposed_questions_cache:
@@ -171,12 +172,13 @@ async def fetch_and_emit_party_response(
     all_available_parties: List[ContextParty],
     use_premium_llms: bool,
     is_proposed_question: bool = False,
-    allow_proposed_cache_write: bool = False,
+    allow_proposed_cache_write: Optional[bool] = None,
     is_cacheable_chat: bool = True,
     relevant_docs: Optional[Union[List[Document], Dict[str, List[Document]]]] = None,
     parties_being_compared: Optional[List[ContextParty]] = None,
     is_comparing_question: bool = False,
     improved_rag_query_list: List[str] = [],
+    proposed_questions_cache: Optional[Dict[str, list[str]]] = None,
 ):
     """Fetch and emit a party response, with caching and streaming support."""
     # We'll store single-party docs and multi-party docs separately:
@@ -207,7 +209,12 @@ async def fetch_and_emit_party_response(
             )
             existing_cached_answers: List[
                 CachedResponse
-            ] = await aget_cached_answers_for_party(party.party_id, cache_key)
+            ] = await aget_cached_answers_for_party(
+                party.party_id,
+                cache_key,
+                context_id=group_chat_session.context_id if is_proposed_question else None,
+                ttl_hours=48 if is_proposed_question else None,
+            )
             logger.info(
                 f"Fetched {len(existing_cached_answers)} cached answers for party {party.party_id} and cache_key {cache_key}"
             )
@@ -443,12 +450,26 @@ async def fetch_and_emit_party_response(
 
         # If it was a proposed question and we generated something new, cache it
         if cache_key is not None and cached_answer_to_emit is None:
-            if is_proposed_question and not allow_proposed_cache_write:
-                logger.info(
-                    "Skipping proposed cache write for party %s because the question was not server-validated",
-                    party.party_id,
-                )
-                return
+            if is_proposed_question:
+                if allow_proposed_cache_write is None:
+                    allow_proposed_cache_write = await is_valid_proposed_question(
+                        question_for_party,
+                        party.party_id,
+                        group_chat_session.context_id,
+                        proposed_questions_cache=proposed_questions_cache,
+                    )
+                    if (
+                        len(group_chat_session.chat_history) == 1
+                        and not allow_proposed_cache_write
+                    ):
+                        group_chat_session.is_cacheable = False
+
+                if not allow_proposed_cache_write:
+                    logger.info(
+                        "Skipping proposed cache write for party %s because the question was not server-validated",
+                        party.party_id,
+                    )
+                    return
             logger.info(
                 f"Writing generated response to cache for party {party.party_id} and cache key {cache_key}"
             )
@@ -464,7 +485,10 @@ async def fetch_and_emit_party_response(
                 ),
             )
             await awrite_cached_answer_for_party(
-                party.party_id, cache_key, cached_answer
+                party.party_id,
+                cache_key,
+                cached_answer,
+                context_id=group_chat_session.context_id if is_proposed_question else None,
             )
             logger.debug(f"Written cached answer: {cached_answer}")
     except openai.BadRequestError as e:
@@ -708,15 +732,21 @@ async def generate_chat_answer(
         party_coros = []
         proposed_questions_cache: Dict[str, list[str]] = {}
         for party in parties_to_respond:
-            validated_proposed_question = await is_valid_proposed_question(
-                user_message.content,
-                party.party_id,
-                chat_session.context_id,
-                proposed_questions_cache=proposed_questions_cache,
-            )
-            should_use_proposed_cache = (
-                is_proposed_question or validated_proposed_question
-            )
+            validated_proposed_question: Optional[bool] = None
+            should_use_proposed_cache = is_proposed_question
+
+            if not should_use_proposed_cache:
+                validated_proposed_question = await is_valid_proposed_question(
+                    user_message.content,
+                    party.party_id,
+                    chat_session.context_id,
+                    proposed_questions_cache=proposed_questions_cache,
+                )
+                should_use_proposed_cache = validated_proposed_question
+
+            if is_beginning_of_chat and validated_proposed_question is False:
+                # chat sessions with custom initial questions are not cacheable
+                chat_session.is_cacheable = False
 
             logger.debug(
                 "Proposed question decision: frontend_flag=%s, validated=%s, use_proposed_cache=%s",
@@ -724,9 +754,6 @@ async def generate_chat_answer(
                 validated_proposed_question,
                 should_use_proposed_cache,
             )
-            if is_beginning_of_chat and not validated_proposed_question:
-                # chat sessions with custom initial questions are not cacheable
-                chat_session.is_cacheable = False
             party_coros.append(
                 fetch_and_emit_party_response(
                     sio,
@@ -740,6 +767,7 @@ async def generate_chat_answer(
                     is_proposed_question=should_use_proposed_cache,
                     allow_proposed_cache_write=validated_proposed_question,
                     is_cacheable_chat=chat_session.is_cacheable,
+                    proposed_questions_cache=proposed_questions_cache,
                 )
             )
     else:

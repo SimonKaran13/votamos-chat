@@ -129,8 +129,8 @@ async def test_generate_chat_answer_uses_frontend_flag_for_cache_read_only(
     )
 
     assert fetch_mock.await_args.kwargs["is_proposed_question"] is True
-    assert fetch_mock.await_args.kwargs["allow_proposed_cache_write"] is False
-    assert chat_session.is_cacheable is False
+    assert fetch_mock.await_args.kwargs["allow_proposed_cache_write"] is None
+    assert chat_session.is_cacheable is True
 
 
 @pytest.mark.asyncio
@@ -174,7 +174,7 @@ async def test_generate_chat_answer_keeps_validated_proposed_flag(monkeypatch):
     )
 
     assert fetch_mock.await_args.kwargs["is_proposed_question"] is True
-    assert fetch_mock.await_args.kwargs["allow_proposed_cache_write"] is True
+    assert fetch_mock.await_args.kwargs["allow_proposed_cache_write"] is None
     assert chat_session.is_cacheable is True
 
 
@@ -192,3 +192,107 @@ def test_cached_response_ttl_handles_naive_datetimes(monkeypatch):
 
     assert firebase_service._is_cached_response_fresh(fresh_response, now_utc) is True
     assert firebase_service._is_cached_response_fresh(stale_response, now_utc) is False
+
+
+@pytest.mark.asyncio
+async def test_fetch_and_emit_party_response_uses_context_scoped_proposed_cache(
+    monkeypatch,
+):
+    _, chat_service = load_backend_modules(monkeypatch)
+    party = make_party()
+    chat_session = make_chat_session()
+    cached_response = CachedResponse(
+        content="cached",
+        created_at=datetime.now(timezone.utc),
+    )
+
+    cache_read_mock = AsyncMock(return_value=[cached_response])
+    emit_cached_mock = AsyncMock()
+    monkeypatch.setattr(chat_service, "aget_cached_answers_for_party", cache_read_mock)
+    monkeypatch.setattr(chat_service, "emit_cached_party_response", emit_cached_mock)
+
+    await chat_service.fetch_and_emit_party_response(
+        sio=FakeSio({}),
+        sid="sid-1",
+        party=party,
+        conversation_history_str="",
+        question_for_party="Pregunta propuesta",
+        group_chat_session=chat_session,
+        all_available_parties=[party],
+        use_premium_llms=False,
+        is_proposed_question=True,
+        allow_proposed_cache_write=True,
+    )
+
+    assert cache_read_mock.await_args.kwargs["context_id"] == DEFAULT_CONTEXT_ID
+    assert cache_read_mock.await_args.kwargs["ttl_hours"] == 48
+    emit_cached_mock.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_fetch_and_emit_party_response_regular_cache_has_no_ttl(monkeypatch):
+    _, chat_service = load_backend_modules(monkeypatch)
+    party = make_party()
+    chat_session = make_chat_session()
+    cached_response = CachedResponse(
+        content="cached",
+        created_at=datetime.now(timezone.utc),
+    )
+
+    cache_read_mock = AsyncMock(return_value=[cached_response])
+    emit_cached_mock = AsyncMock()
+    monkeypatch.setattr(chat_service, "aget_cached_answers_for_party", cache_read_mock)
+    monkeypatch.setattr(chat_service, "emit_cached_party_response", emit_cached_mock)
+
+    await chat_service.fetch_and_emit_party_response(
+        sio=FakeSio({}),
+        sid="sid-1",
+        party=party,
+        conversation_history_str="",
+        question_for_party="Pregunta libre",
+        group_chat_session=chat_session,
+        all_available_parties=[party],
+        use_premium_llms=False,
+        is_proposed_question=False,
+        is_cacheable_chat=True,
+    )
+
+    assert cache_read_mock.await_args.kwargs["context_id"] is None
+    assert cache_read_mock.await_args.kwargs["ttl_hours"] is None
+    emit_cached_mock.assert_awaited_once()
+
+
+@pytest.mark.asyncio
+async def test_is_valid_proposed_question_reuses_provided_cache(monkeypatch):
+    _, chat_service = load_backend_modules(monkeypatch)
+    context_fetch_mock = AsyncMock(side_effect=[["q1"], ["q-group"]])
+    legacy_fetch_mock = AsyncMock()
+    monkeypatch.setattr(
+        chat_service,
+        "aget_proposed_questions_for_party_in_context",
+        context_fetch_mock,
+    )
+    monkeypatch.setattr(
+        chat_service,
+        "aget_proposed_questions_for_party",
+        legacy_fetch_mock,
+    )
+
+    proposed_questions_cache: dict[str, list[str]] = {}
+    first_result = await chat_service.is_valid_proposed_question(
+        "q1",
+        "pacto",
+        DEFAULT_CONTEXT_ID,
+        proposed_questions_cache=proposed_questions_cache,
+    )
+    second_result = await chat_service.is_valid_proposed_question(
+        "q-group",
+        "pacto",
+        DEFAULT_CONTEXT_ID,
+        proposed_questions_cache=proposed_questions_cache,
+    )
+
+    assert first_result is True
+    assert second_result is True
+    assert context_fetch_mock.await_count == 2
+    legacy_fetch_mock.assert_not_awaited()
