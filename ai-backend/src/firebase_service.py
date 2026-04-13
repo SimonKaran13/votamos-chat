@@ -103,6 +103,34 @@ async def aget_proposed_questions_for_party(party_id: str) -> list[str]:
     return [question.get("content") async for question in questions]
 
 
+async def aget_proposed_questions_for_party_in_context(
+    context_id: str, party_id: str
+) -> list[str]:
+    questions = (
+        async_db.collection("contexts")
+        .document(context_id)
+        .collection("proposed_questions")
+        .document(party_id)
+        .collection("questions")
+        .stream()
+    )
+    return [question.get("content") async for question in questions]
+
+
+def _normalize_datetime_to_utc(timestamp: datetime) -> datetime:
+    if timestamp.tzinfo is None or timestamp.tzinfo.utcoffset(timestamp) is None:
+        return timestamp.replace(tzinfo=timezone.utc)
+    return timestamp.astimezone(timezone.utc)
+
+
+def _is_cached_response_fresh(
+    cached_response: CachedResponse, now_utc: Optional[datetime] = None
+) -> bool:
+    now_utc = now_utc or datetime.now(timezone.utc)
+    cutoff = now_utc - timedelta(hours=48)
+    return _normalize_datetime_to_utc(cached_response.created_at) >= cutoff
+
+
 async def aget_cached_answers_for_party(
     party_id: str, cache_key: str
 ) -> list[CachedResponse]:
@@ -113,11 +141,11 @@ async def aget_cached_answers_for_party(
         CachedResponse(**cached_answer.to_dict())
         async for cached_answer in cached_answers
     ]
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=48)
+    now_utc = datetime.now(timezone.utc)
     return [
         cached_response
         for cached_response in cached_responses
-        if cached_response.created_at.astimezone(timezone.utc) >= cutoff
+        if _is_cached_response_fresh(cached_response, now_utc)
     ]
 
 

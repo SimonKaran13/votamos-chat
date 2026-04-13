@@ -5,7 +5,7 @@ Chat service module containing core chat answer generation logic.
 """
 
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import random
 import uuid
@@ -27,6 +27,7 @@ from src.firebase_service import (
     aget_cached_answers_for_party,
     aget_parties_for_context,
     aget_proposed_questions_for_party,
+    aget_proposed_questions_for_party_in_context,
     awrite_cached_answer_for_party,
 )
 from src.models.chat import CachedResponse, GroupChatSession, Message, Role
@@ -52,6 +53,30 @@ from src.utils import (
 MAX_RESPONSE_CHUNK_LENGTH = 10
 
 logger = logging.getLogger(__name__)
+
+
+async def is_valid_proposed_question(
+    question: str,
+    party_id: str,
+    context_id: str,
+) -> bool:
+    """Validate a proposed question against context-scoped and legacy question sets."""
+    proposed_questions_for_party = await aget_proposed_questions_for_party_in_context(
+        context_id, party_id
+    )
+    proposed_questions_group = await aget_proposed_questions_for_party_in_context(
+        context_id, "group"
+    )
+
+    if not proposed_questions_for_party:
+        proposed_questions_for_party = await aget_proposed_questions_for_party(party_id)
+    if not proposed_questions_group:
+        proposed_questions_group = await aget_proposed_questions_for_party("group")
+
+    return (
+        question in proposed_questions_for_party
+        or question in proposed_questions_group
+    )
 
 
 async def emit_cached_party_response(
@@ -416,7 +441,7 @@ async def fetch_and_emit_party_response(
                 content=full_response_text,
                 sources=sources,
                 rag_query=improved_rag_query_list,
-                created_at=datetime.now(),
+                created_at=datetime.now(timezone.utc),
                 cached_conversation_history=cache_conversation_history_str,
                 depth=len(group_chat_session.chat_history),
                 user_message_depth=len(
@@ -667,24 +692,17 @@ async def generate_chat_answer(
     if len(parties_to_respond) == 1 or not is_comparing_question:
         party_coros = []
         for party in parties_to_respond:
-            detected_proposed_question = is_proposed_question
-            if not detected_proposed_question:
-                proposed_questions_for_party = await aget_proposed_questions_for_party(
-                    party.party_id
-                )
-                proposed_questions_group = await aget_proposed_questions_for_party(
-                    "group"
-                )
-
-                detected_proposed_question = (
-                    user_message.content in proposed_questions_for_party
-                    or user_message.content in proposed_questions_group
-                )
+            detected_proposed_question = await is_valid_proposed_question(
+                user_message.content,
+                party.party_id,
+                chat_session.context_id,
+            )
 
             logger.debug(
-                "Is proposed question: %s (frontend_flag=%s)",
+                "Is proposed question: %s (frontend_flag=%s, validated=%s)",
                 detected_proposed_question,
                 is_proposed_question,
+                detected_proposed_question,
             )
             if is_beginning_of_chat and not detected_proposed_question:
                 # chat sessions with custom initial questions are not cacheable
