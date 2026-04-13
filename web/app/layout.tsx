@@ -9,10 +9,11 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import TenantProvider from '@/components/providers/tenant-provider';
 import { productionRobots } from '@/lib/seo';
+import { getSiteUrl } from '@/lib/site-url';
 import { IS_EMBEDDED } from '@/lib/utils';
 import { LazyMotion, domAnimation } from 'motion/react';
 
-const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000';
+const SITE_URL = getSiteUrl();
 const APP_NAME = 'votamos.chat';
 
 export const metadata: Metadata = {

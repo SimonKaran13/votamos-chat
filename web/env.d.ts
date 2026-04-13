@@ -3,7 +3,9 @@ type TruthyKinda = 'true' | 'false';
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      SITE_URL: string;
+      SITE_URL?: string;
+      VERCEL_PROJECT_PRODUCTION_URL?: string;
+      VERCEL_URL?: string;
       NEXT_PUBLIC_API_URL: string;
       NEXT_PUBLIC_FIREBASE_API_KEY: string;
       NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: string;
