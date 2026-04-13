@@ -87,7 +87,7 @@ def make_chat_session(session_id: str = "session-1") -> GroupChatSession:
 
 
 @pytest.mark.asyncio
-async def test_generate_chat_answer_does_not_trust_frontend_proposed_flag(
+async def test_generate_chat_answer_uses_frontend_flag_for_cache_read_only(
     monkeypatch,
 ):
     _, chat_service = load_backend_modules(monkeypatch)
@@ -128,7 +128,8 @@ async def test_generate_chat_answer_does_not_trust_frontend_proposed_flag(
         is_proposed_question=True,
     )
 
-    assert fetch_mock.await_args.kwargs["is_proposed_question"] is False
+    assert fetch_mock.await_args.kwargs["is_proposed_question"] is True
+    assert fetch_mock.await_args.kwargs["allow_proposed_cache_write"] is False
     assert chat_session.is_cacheable is False
 
 
@@ -173,6 +174,7 @@ async def test_generate_chat_answer_keeps_validated_proposed_flag(monkeypatch):
     )
 
     assert fetch_mock.await_args.kwargs["is_proposed_question"] is True
+    assert fetch_mock.await_args.kwargs["allow_proposed_cache_write"] is True
     assert chat_session.is_cacheable is True
 
 
