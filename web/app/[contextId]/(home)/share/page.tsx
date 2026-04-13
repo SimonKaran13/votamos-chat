@@ -2,6 +2,7 @@ import {
   getContext,
   getShareableChatSessionSnapshot,
 } from '@/lib/firebase/firebase-server';
+import { getSiteUrl } from '@/lib/site-url';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import ShareRedirect from './share-redirect';
@@ -15,7 +16,7 @@ type Props = {
   }>;
 };
 
-const SITE_URL = process.env.SITE_URL ?? 'http://localhost:3000';
+const SITE_URL = getSiteUrl();
 const APP_NAME = 'votamos.chat';
 
 function buildShareDescription(

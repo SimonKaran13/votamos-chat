@@ -1,8 +1,8 @@
 import type { Context } from '@/lib/firebase/firebase.types';
+import { getSiteUrl } from '@/lib/site-url';
 import type { Metadata } from 'next';
 
-const DEFAULT_BASE_URL = 'http://localhost:3000';
-const BASE_URL = process.env.SITE_URL ?? DEFAULT_BASE_URL;
+const BASE_URL = getSiteUrl();
 const APP_NAME = 'votamos.chat';
 
 const IS_PRODUCTION =

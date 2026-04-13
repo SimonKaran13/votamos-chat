@@ -1,5 +1,6 @@
 import type { SerializableFirebaseUser } from '@/components/anonymous-auth';
 import type { PartyDetails } from '@/lib/party-details';
+import { getSiteUrl } from '@/lib/site-url';
 import type { Source } from '@/lib/stores/chat-store.types';
 import { type ClassValue, clsx } from 'clsx';
 import type { User } from 'firebase/auth';
@@ -163,7 +164,7 @@ export function generateOgImageUrl(
     return;
   }
 
-  const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
+  const siteUrl = getSiteUrl();
   const url = new URL(siteUrl);
   const imageUrl = new URL('/api/og', url);
   imageUrl.searchParams.set(

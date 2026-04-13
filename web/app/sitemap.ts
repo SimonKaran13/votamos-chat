@@ -1,8 +1,9 @@
 import { getContexts } from '@/lib/firebase/firebase-server';
+import { getSiteUrl } from '@/lib/site-url';
 import type { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.SITE_URL ?? 'http://localhost:3000';
+  const baseUrl = getSiteUrl();
   const now = new Date().toISOString();
 
   const contexts = (await getContexts()) ?? [];

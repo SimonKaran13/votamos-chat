@@ -1,3 +1,4 @@
+import { getSiteUrl } from '@/lib/site-url';
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
@@ -16,7 +17,7 @@ export async function GET(request: Request) {
     searchParams.get('context')?.trim() || 'Elecciones Presidenciales 2026',
     60,
   );
-  const siteUrl = process.env.SITE_URL ?? 'http://localhost:3000';
+  const siteUrl = getSiteUrl();
   const logoUrl = `${siteUrl}/web-app-manifest-512x512.png`;
 
   return new ImageResponse(

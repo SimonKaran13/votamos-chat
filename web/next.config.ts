@@ -1,7 +1,8 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
 import type { NextConfig } from 'next';
+import { getSiteUrl } from './lib/site-url';
 
-const siteUrl = process.env.SITE_URL;
+const siteUrl = getSiteUrl();
 const siteHostname = siteUrl ? new URL(siteUrl).hostname : null;
 
 const nextConfig: NextConfig = {
