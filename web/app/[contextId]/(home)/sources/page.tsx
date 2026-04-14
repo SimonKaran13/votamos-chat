@@ -83,7 +83,10 @@ async function SourcesPage({ params }: Props) {
                 ? undefined
                 : parties.find((party) => party.party_id === partyId);
 
-            const name = party?.name ?? 'wahl.chat';
+            const name =
+              partyId === WAHL_CHAT_PARTY_ID
+                ? 'votamos.chat'
+                : (party?.name ?? 'votamos.chat');
 
             return (
               <AccordionItem value={partyId} key={partyId}>
