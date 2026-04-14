@@ -61,6 +61,7 @@
   },
   "romper": {
     "is_already_in_parliament": false,
+    "is_small_party": true,
     "candidate": "Santiago Botero y Carlos Fernando Cuevas",
     "background_color": "#000000",
     "website_url": "https://santiagobotero.com/",
@@ -69,6 +70,19 @@
     "description": "Romper el Sistema es un movimiento ciudadano liderado por Santiago Botero para combatir la impunidad y la corrupción política en Colombia.",
     "election_manifesto_url": "https://santiagobotero.com/programa",
     "long_name": "Romper el Sistema",
+    "logo_src": ""
+  },
+  "sondra": {
+    "is_already_in_parliament": false,
+    "is_small_party": true,
+    "candidate": "Sondra Macollins y Leonardo Karam",
+    "background_color": "#FFFFFF",
+    "website_url": "https://www.sondramacollins.com/",
+    "party_id": "sondra",
+    "name": "Sondra Macollins",
+    "description": "Sondra Macollins propone una transformación del estado Colombiano basada en tecnología, descentralización y seguridad para modernizar el país.",
+    "election_manifesto_url": "https://www.sondramacollins.com/mi-vision-de-pais/sondra-macollins-plan-gobierno-colombia-5-0-3166",
+    "long_name": "Sondra Macollins ",
     "logo_src": ""
   }
 }

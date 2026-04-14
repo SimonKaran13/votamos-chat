@@ -124,6 +124,26 @@
     "topic": "Corrupción e instituciones",
     "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
   },
+  "proposed_questions/sondra/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo van a enfrentar la violencia de grupos armados y proteger a las comunidades en las regiones?"
+  },
+  "proposed_questions/sondra/questions/question_2": {
+    "location": "chat",
+    "topic": "Salud",
+    "content": "¿Qué proponen para mejorar el acceso a la salud y reducir las barreras en citas, medicamentos y atención especializada?"
+  },
+  "proposed_questions/sondra/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Cómo van a generar empleo formal, apoyar a las pymes y aliviar el costo de vida?"
+  },
+  "proposed_questions/sondra/questions/question_4": {
+    "location": "chat",
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué medidas concretas tomarán para combatir la corrupción y recuperar la confianza en las instituciones?"
+  },
   "proposed_questions/group/questions/question_1": {
     "location": "chat",
     "topic": "Seguridad y paz",
