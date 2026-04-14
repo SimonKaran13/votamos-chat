@@ -72,7 +72,7 @@ export function ElectionPartySelector({ contextId }: Props) {
             aria-label="Escoger múltiples candidaturas para compararlas"
           >
             <GitCompareIcon aria-hidden="true" />
-            Comparar múltiples candidaturas
+            Preguntar a múltiples candidaturas
           </Button>
         </ChatGroupPartySelect>
       </section>
