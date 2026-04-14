@@ -58,5 +58,17 @@
     "election_manifesto_url": "https://claudia-lopez.com/wp-content/uploads/2026/04/Programa-de-Gobierno-UNANUEVAHISTORIA.pdf",
     "long_name": "Con Claudia Imparables",
     "logo_src": ""
+  },
+  "romper": {
+    "is_already_in_parliament": false,
+    "candidate": "Santiago Botero y Carlos Fernando Cuevas",
+    "background_color": "#000000",
+    "website_url": "https://santiagobotero.com/",
+    "party_id": "romper",
+    "name": "Romper el Sistema",
+    "description": "Romper el Sistema es un movimiento ciudadano liderado por Santiago Botero para combatir la impunidad y la corrupción política en Colombia.",
+    "election_manifesto_url": "https://santiagobotero.com/programa",
+    "long_name": "Romper el Sistema",
+    "logo_src": ""
   }
 }
