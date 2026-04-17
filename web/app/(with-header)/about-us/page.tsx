@@ -74,7 +74,14 @@ function AboutUs() {
           >
             José Pablo
           </a>
-          , Julia, y a todo el equipo detrás de {''}
+          , Julia,{' '}
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/camila-escobar-h29/"
+          >
+            Camila
+          </a>{' '}
+          y a todo el equipo detrás de{' '}
           <a target="_blank" href="https://wahl.chat/about-us">
             wahl.chat
           </a>
