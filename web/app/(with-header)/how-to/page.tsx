@@ -2,7 +2,7 @@ import HowTo from '@/components/how-to';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Cómo funciona votamos.chat',
+  title: 'Cómo funciona',
   description:
     'Descubre cómo usar votamos.chat – compara partidos, haz preguntas y obtén respuestas basadas en fuentes.',
 };
