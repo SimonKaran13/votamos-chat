@@ -35,12 +35,13 @@ function AboutUs() {
         <p className="[&_a]:underline">
           La idea de <Link href="http://votamos.chat/">votamos.chat</Link> surge
           en 2025 a partir de una conversación y reflexión posteriores al
-          atentado en contra de Miguel Uribe. Pensando en el impacto que una
-          noticia así tendría en la política colombiana, y con las elecciones
-          presidenciales a la vuelta de la esquina, era el momento de tomar
-          acción y desarrollar una herramienta para ayudar a los colombianos a
-          poder informarse, de manera neutral, clara y accesible, acerca de las
-          diferentes propuestas de los candidatos a la Presidencia.
+          atentado en contra de Miguel Uribe Turbay. Pensando en el impacto que
+          una noticia así tendría en la política colombiana, y con las
+          elecciones presidenciales a la vuelta de la esquina, era el momento de
+          tomar acción y desarrollar una herramienta para ayudar a los
+          colombianos a poder informarse, de manera neutral, clara y accesible,
+          acerca de las diferentes propuestas de los candidatos a la
+          Presidencia.
         </p>
         <p className="[&_a]:underline">
           Amigos de mi universidad en Alemania ya habían explorado esta idea
