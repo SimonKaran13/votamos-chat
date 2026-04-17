@@ -23,8 +23,7 @@ function AboutUs() {
       <section className="space-y-4">
         <p>
           <span className="font-bold [&_a]:underline">
-            Detrás de <Link href="http://votamos.chat/">votamos.chat</Link>{' '}
-            está:{' '}
+            Detrás de <Link href="/">votamos.chat</Link> está:{' '}
             <a href="https://www.linkedin.com/in/simonkaran/" target="_blank">
               Simon
             </a>
@@ -33,15 +32,14 @@ function AboutUs() {
         </p>
 
         <p className="[&_a]:underline">
-          La idea de <Link href="http://votamos.chat/">votamos.chat</Link> surge
-          en 2025 a partir de una conversación y reflexión posteriores al
-          atentado en contra de Miguel Uribe Turbay. Pensando en el impacto que
-          una noticia así tendría en la política colombiana, y con las
-          elecciones presidenciales a la vuelta de la esquina, era el momento de
-          tomar acción y desarrollar una herramienta para ayudar a los
-          colombianos a poder informarse, de manera neutral, clara y accesible,
-          acerca de las diferentes propuestas de los candidatos a la
-          Presidencia.
+          La idea de <Link href="/">votamos.chat</Link> surge en 2025 a partir
+          de una conversación y reflexión posteriores al atentado en contra de
+          Miguel Uribe Turbay. Pensando en el impacto que una noticia así
+          tendría en la política colombiana, y con las elecciones presidenciales
+          a la vuelta de la esquina, era el momento de tomar acción y
+          desarrollar una herramienta para ayudar a los colombianos a poder
+          informarse, de manera neutral, clara y accesible, acerca de las
+          diferentes propuestas de los candidatos a la Presidencia.
         </p>
         <p className="[&_a]:underline">
           Amigos de mi universidad en Alemania ya habían explorado esta idea
@@ -57,10 +55,10 @@ function AboutUs() {
         </p>
         <p className="[&_a]:underline">
           Gracias a esta experiencia, decidí crear{' '}
-          <Link href="http://votamos.chat/">votamos.chat</Link>, con el objetivo
-          de ofrecer una forma más intuitiva, interactiva y moderna de entender
-          la política y tomar decisiones informadas. A futuro, la visión es
-          expandir este modelo a más países y contextos electorales.
+          <Link href="/">votamos.chat</Link>, con el objetivo de ofrecer una
+          forma más intuitiva, interactiva y moderna de entender la política y
+          tomar decisiones informadas. A futuro, la visión es expandir este
+          modelo a más países y contextos electorales.
         </p>
 
         <p className="[&_a]:underline">
@@ -88,8 +86,7 @@ function AboutUs() {
           </a>
         </p>
         <p className="[&_a]:underline">
-          ¿Te gustaría ayudar a{' '}
-          <Link href="http://votamos.chat/">votamos.chat</Link>? Puedes
+          ¿Te gustaría ayudar a <Link href="/">votamos.chat</Link>? Puedes
           contribuir en{' '}
           <a
             target="_blank"
