@@ -19,14 +19,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/about-us`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.6,
+      changeFrequency: 'daily',
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/how-to`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.7,
+      changeFrequency: 'daily',
+      priority: 0.8,
     },
   ];
 
