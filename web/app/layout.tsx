@@ -25,6 +25,15 @@ export const metadata: Metadata = {
   description:
     'Compara propuestas y posturas de las candidaturas en las elecciones presidenciales de Colombia 2026. Conversa con programas de gobierno, haz preguntas sobre los temas que te importan y revisa respuestas con fuentes.',
   applicationName: APP_NAME,
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-48x48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/favicon-192x192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
   keywords: [
     'votamos.chat',
     'elecciones Colombia',
@@ -106,7 +115,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es-CO" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
