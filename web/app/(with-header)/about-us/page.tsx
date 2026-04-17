@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   title: 'Sobre nosotros',
   description:
     'Las personas detrás de votamos.chat – quienes somos y por qué queremos hacer la política accesible de manera interactiva.',
-  robots: 'noindex',
 };
 
 function AboutUs() {
@@ -45,8 +44,8 @@ function AboutUs() {
         </p>
         <p className="[&_a]:underline">
           Amigos de mi universidad en Alemania ya habían explorado esta idea
-          para las elecciones parlamentarias alemanas de 2025, por lo que
-          decidí unirme al equipo de{' '}
+          para las elecciones parlamentarias alemanas de 2025, por lo que decidí
+          unirme al equipo de{' '}
           <a target="_blank" href="https://wahl.chat/">
             wahl.chat
           </a>

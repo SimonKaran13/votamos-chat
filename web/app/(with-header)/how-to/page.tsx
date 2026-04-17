@@ -5,7 +5,6 @@ export const metadata: Metadata = {
   title: 'Cómo funciona votamos.chat',
   description:
     'Descubre cómo usar votamos.chat – compara partidos, haz preguntas y obtén respuestas basadas en fuentes.',
-  robots: 'noindex',
 };
 
 function HowToPage() {
