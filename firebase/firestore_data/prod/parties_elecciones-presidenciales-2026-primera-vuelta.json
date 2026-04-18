@@ -66,10 +66,10 @@
     "background_color": "#000000",
     "website_url": "https://santiagobotero.com/",
     "party_id": "romper",
-    "name": "Romper el Sistema",
+    "name": "Romper el Sistema (Santiago Botero)",
     "description": "Romper el Sistema es un movimiento ciudadano liderado por Santiago Botero para combatir la impunidad y la corrupción política en Colombia.",
     "election_manifesto_url": "https://santiagobotero.com/programa",
-    "long_name": "Romper el Sistema",
+    "long_name": "Romper el Sistema (Santiago Botero)",
     "logo_src": ""
   },
   "sondra": {
@@ -83,6 +83,19 @@
     "description": "Sondra Macollins propone una transformación del estado Colombiano basada en tecnología, descentralización y seguridad para modernizar el país.",
     "election_manifesto_url": "https://www.sondramacollins.com/mi-vision-de-pais/sondra-macollins-plan-gobierno-colombia-5-0-3166",
     "long_name": "Sondra Macollins ",
+    "logo_src": ""
+  },
+  "roy": {
+    "is_already_in_parliament": false,
+    "is_small_party": true,
+    "candidate": "Roy Barreras y Martha Lucía Zamora",
+    "background_color": "#76C4FF",
+    "website_url": "https://roybarreras.com/",
+    "party_id": "roy",
+    "name": "La Fuerza (Roy Barreras)",
+    "description": "Roy Barreras se presenta como una candidatura de centroizquierda que busca unidad nacional con seguridad total y reformas viables.",
+    "election_manifesto_url": "https://roybarreras.com/#propuestas",
+    "long_name": "La Fuerza (Roy Barreras)",
     "logo_src": ""
   }
 }
