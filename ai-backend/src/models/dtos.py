@@ -179,6 +179,10 @@ class ChatUserMessageDto(BaseModel):
     user_is_logged_in: bool = Field(
         description="Whether the user is logged in or not", default=False
     )
+    is_proposed_question: bool = Field(
+        description="Whether the message came from a proposed question in the UI",
+        default=False,
+    )
     # Optional audio fields for voice messages
     audio_bytes: Optional[bytes] = Field(
         default=None, description="Raw binary audio data (webm) for voice messages"

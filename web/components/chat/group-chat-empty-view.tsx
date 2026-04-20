@@ -20,7 +20,7 @@ function GroupChatEmptyView({ parties, proposedQuestions }: Props) {
   function handleSuggestionClick(suggestion: string) {
     if (!user?.uid) return;
 
-    addUserMessage(user.uid, suggestion);
+    addUserMessage(user.uid, suggestion, { isProposedQuestion: true });
   }
 
   const imageSize = 75;

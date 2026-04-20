@@ -79,6 +79,7 @@ export type AddUserMessagePayload = {
   user_message: string;
   party_ids: string[];
   user_is_logged_in: boolean;
+  is_proposed_question?: boolean;
 };
 
 export type ProConPerspectiveRequestPayload = {

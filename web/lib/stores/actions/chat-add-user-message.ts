@@ -15,7 +15,16 @@ import { toast } from 'sonner';
 
 export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
   (get, set) =>
-  async (userId: string, message: string, fromInitialQuestion?: boolean) => {
+  async (
+    userId: string,
+    message: string,
+    options?: {
+      fromInitialQuestion?: boolean;
+      isProposedQuestion?: boolean;
+    },
+  ) => {
+    const fromInitialQuestion = options?.fromInitialQuestion;
+    const isProposedQuestion = options?.isProposedQuestion ?? false;
     const {
       isAnonymous,
       chatSessionId,
@@ -129,6 +138,7 @@ export const chatAddUserMessage: ChatStoreActionHandlerFor<'addUserMessage'> =
         user_message: message,
         party_ids: Array.from(partyIds),
         user_is_logged_in: !isAnonymous,
+        is_proposed_question: isProposedQuestion,
       });
 
       const currentStreamingMessageId = generateUuid();

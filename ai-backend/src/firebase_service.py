@@ -2,6 +2,7 @@
 import logging
 import os
 import sys
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 import firebase_admin
 from firebase_admin import firestore, credentials, firestore_async
@@ -102,24 +103,75 @@ async def aget_proposed_questions_for_party(party_id: str) -> list[str]:
     return [question.get("content") async for question in questions]
 
 
+async def aget_proposed_questions_for_party_in_context(
+    context_id: str, party_id: str
+) -> list[str]:
+    questions = (
+        async_db.collection("contexts")
+        .document(context_id)
+        .collection("proposed_questions")
+        .document(party_id)
+        .collection("questions")
+        .stream()
+    )
+    return [question.get("content") async for question in questions]
+
+
+def _normalize_datetime_to_utc(timestamp: datetime) -> datetime:
+    if timestamp.tzinfo is None or timestamp.tzinfo.utcoffset(timestamp) is None:
+        return timestamp.replace(tzinfo=timezone.utc)
+    return timestamp.astimezone(timezone.utc)
+
+
+def _is_cached_response_fresh(
+    cached_response: CachedResponse, now_utc: Optional[datetime] = None
+) -> bool:
+    now_utc = now_utc or datetime.now(timezone.utc)
+    cutoff = now_utc - timedelta(hours=48)
+    return _normalize_datetime_to_utc(cached_response.created_at) >= cutoff
+
+
 async def aget_cached_answers_for_party(
-    party_id: str, cache_key: str
+    party_id: str,
+    cache_key: str,
+    *,
+    context_id: Optional[str] = None,
+    ttl_hours: Optional[int] = None,
 ) -> list[CachedResponse]:
-    cached_answers = async_db.collection(
-        f"cached_answers/{party_id}/{cache_key}"
-    ).stream()
-    return [
-        CachedResponse(**cached_answer.to_dict())
-        async for cached_answer in cached_answers
-    ]
+    cache_path = (
+        f"cached_answers/{context_id}/{party_id}/{cache_key}"
+        if context_id
+        else f"cached_answers/{party_id}/{cache_key}"
+    )
+    cached_answers = async_db.collection(cache_path).stream()
+    now_utc = datetime.now(timezone.utc)
+    cached_responses: list[CachedResponse] = []
+    async for cached_answer in cached_answers:
+        cached_response = CachedResponse(**cached_answer.to_dict())
+        if ttl_hours is None:
+            cached_responses.append(cached_response)
+            continue
+
+        cutoff = now_utc - timedelta(hours=ttl_hours)
+        if _normalize_datetime_to_utc(cached_response.created_at) >= cutoff:
+            cached_responses.append(cached_response)
+
+    return cached_responses
 
 
 async def awrite_cached_answer_for_party(
-    party_id: str, cache_key: str, cached_answer: CachedResponse
+    party_id: str,
+    cache_key: str,
+    cached_answer: CachedResponse,
+    *,
+    context_id: Optional[str] = None,
 ) -> None:
-    cached_answer_ref = async_db.collection(
-        f"cached_answers/{party_id}/{cache_key}"
-    ).document()
+    cache_path = (
+        f"cached_answers/{context_id}/{party_id}/{cache_key}"
+        if context_id
+        else f"cached_answers/{party_id}/{cache_key}"
+    )
+    cached_answer_ref = async_db.collection(cache_path).document()
     await cached_answer_ref.set(cached_answer.model_dump())
 
 
