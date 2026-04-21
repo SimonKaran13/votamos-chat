@@ -50,8 +50,8 @@ export default async function ContextHome({ params }: Props) {
         </section>
       ) : (
         <section className="grid w-full grid-cols-1 flex-wrap gap-2 md:grid-cols-2 md:gap-2">
-          <SupportUsCard />
           <HowToCard />
+          <SupportUsCard fullWidth />
           <ContactCard />
           <GitHubCard fullWidth={false} />
         </section>

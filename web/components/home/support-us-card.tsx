@@ -1,10 +1,16 @@
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { HeartHandshakeIcon, UsersRoundIcon } from 'lucide-react';
 import Link from 'next/link';
 
-function SupportUsCard() {
+function SupportUsCard({ fullWidth = false }: { fullWidth?: boolean }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-md border border-border">
+    <div
+      className={cn(
+        'flex flex-col overflow-hidden rounded-md border border-border',
+        fullWidth && 'md:col-span-2',
+      )}
+    >
       <div className="flex flex-col p-4">
         <h2 className="font-bold">Ayúdanos a sostener votamos.chat</h2>
         <p className="mb-4 text-sm text-muted-foreground">
