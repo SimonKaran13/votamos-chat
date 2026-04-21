@@ -30,12 +30,10 @@ function DonationStatusCard({ transactionId, initialTransaction }: Props) {
   const [transaction, setTransaction] = useState(initialTransaction);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  useEffect(() => {
-    if (!transactionId) {
-      return;
-    }
+  const isFinal = transaction != null && isFinalWompiStatus(transaction.status);
 
-    if (transaction && isFinalWompiStatus(transaction.status)) {
+  useEffect(() => {
+    if (!transactionId || isFinal) {
       return;
     }
 
@@ -55,6 +53,8 @@ function DonationStatusCard({ transactionId, initialTransaction }: Props) {
         if (!cancelled && payload.data) {
           setTransaction(payload.data);
         }
+      } catch {
+        // network error — next interval tick will retry
       } finally {
         if (!cancelled) {
           setIsRefreshing(false);
@@ -62,14 +62,14 @@ function DonationStatusCard({ transactionId, initialTransaction }: Props) {
       }
     };
 
-    refresh();
-    const interval = window.setInterval(refresh, 4000);
+    void refresh();
+    const interval = window.setInterval(() => void refresh(), 4000);
 
     return () => {
       cancelled = true;
       window.clearInterval(interval);
     };
-  }, [transactionId, transaction]);
+  }, [transactionId, isFinal]);
 
   if (!transaction) {
     return (

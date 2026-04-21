@@ -77,7 +77,7 @@ function DonationForm() {
           vivo
         </CardTitle>
         <CardDescription className="text-center">
-          Actualmente finanziamos{' '}
+          Actualmente financiamos{' '}
           <Link className="underline" href="/">
             votamos.chat
           </Link>{' '}

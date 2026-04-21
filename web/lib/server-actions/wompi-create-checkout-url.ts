@@ -12,8 +12,6 @@ import {
   createDonationReference,
   createIntegritySignature,
 } from '@/lib/wompi/wompi-signature';
-import { headers } from 'next/headers';
-
 function parseDonationAmount(rawAmount: FormDataEntryValue | null) {
   const amount = Number(rawAmount);
 
@@ -30,35 +28,13 @@ function parseDonationAmount(rawAmount: FormDataEntryValue | null) {
   return amount;
 }
 
-async function getRedirectBaseUrl() {
-  const headersList = await headers();
-  const origin = headersList.get('origin');
-
-  if (origin) {
-    return origin;
-  }
-
-  const forwardedHost = headersList.get('x-forwarded-host');
-  const host = forwardedHost ?? headersList.get('host');
-  const protocol = headersList.get('x-forwarded-proto') ?? 'https';
-
-  if (host) {
-    return `${protocol}://${host}`;
-  }
-
-  return getSiteUrl();
-}
-
 export async function createWompiCheckoutUrl(data: FormData): Promise<{
   url: string;
 }> {
   const amountInCop = parseDonationAmount(data.get('amount'));
   const amountInCents = amountToCents(amountInCop);
   const reference = createDonationReference();
-  const redirectUrl = new URL(
-    '/donar/resultado',
-    await getRedirectBaseUrl(),
-  ).toString();
+  const redirectUrl = new URL('/donar/resultado', getSiteUrl()).toString();
   const signature = createIntegritySignature({
     reference,
     amountInCents,
