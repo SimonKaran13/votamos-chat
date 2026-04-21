@@ -94,7 +94,8 @@ function AboutUs() {
           >
             Github
           </a>{' '}
-          o escribe a <a href="mailto:info@votamos.chat">info@votamos.chat</a>
+          , escribir a <a href="mailto:info@votamos.chat">info@votamos.chat</a>{' '}
+          o hacer una <Link href="/donar">donación vía Wompi</Link>.
         </p>
       </section>
     </div>
