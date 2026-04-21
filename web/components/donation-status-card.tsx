@@ -29,11 +29,12 @@ type Props = {
 function DonationStatusCard({ transactionId, initialTransaction }: Props) {
   const [transaction, setTransaction] = useState(initialTransaction);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
   const isFinal = transaction != null && isFinalWompiStatus(transaction.status);
 
   useEffect(() => {
-    if (!transactionId || isFinal) {
+    if (!transactionId || isFinal || fetchFailed) {
       return;
     }
 
@@ -48,13 +49,21 @@ function DonationStatusCard({ transactionId, initialTransaction }: Props) {
             cache: 'no-store',
           },
         );
+
+        if (!response.ok) {
+          if (response.status >= 400 && response.status < 500 && !cancelled) {
+            setFetchFailed(true);
+          }
+          throw new Error(`HTTP ${response.status}`);
+        }
+
         const payload = (await response.json()) as { data?: WompiTransaction };
 
         if (!cancelled && payload.data) {
           setTransaction(payload.data);
         }
       } catch {
-        // network error — next interval tick will retry
+        // network / 5xx errors — next interval tick will retry
       } finally {
         if (!cancelled) {
           setIsRefreshing(false);
@@ -69,7 +78,7 @@ function DonationStatusCard({ transactionId, initialTransaction }: Props) {
       cancelled = true;
       window.clearInterval(interval);
     };
-  }, [transactionId, isFinal]);
+  }, [transactionId, isFinal, fetchFailed]);
 
   if (!transaction) {
     return (

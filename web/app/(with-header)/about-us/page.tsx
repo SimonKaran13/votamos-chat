@@ -92,7 +92,7 @@ function AboutUs() {
             target="_blank"
             href="https://github.com/SimonKaran13/votamos-chat"
           >
-            Github
+            GitHub
           </a>{' '}
           o escribir a <a href="mailto:info@votamos.chat">info@votamos.chat</a>{' '}
           o hacer una <Link href="/donar">donación vía Wompi</Link>.

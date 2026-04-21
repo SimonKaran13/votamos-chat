@@ -15,7 +15,7 @@ import {
 function parseDonationAmount(rawAmount: FormDataEntryValue | null) {
   const amount = Number(rawAmount);
 
-  if (!Number.isFinite(amount) || !Number.isInteger(amount)) {
+  if (!Number.isFinite(amount) || !Number.isSafeInteger(amount)) {
     throw new Error('Donation amount must be a whole number.');
   }
 

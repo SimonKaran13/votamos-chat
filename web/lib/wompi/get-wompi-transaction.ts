@@ -13,6 +13,16 @@ type WompiTransactionResponse = {
   };
 };
 
+export class WompiApiError extends Error {
+  constructor(
+    message: string,
+    public readonly status: number,
+  ) {
+    super(message);
+    this.name = 'WompiApiError';
+  }
+}
+
 export async function getWompiTransaction(transactionId: string) {
   const response = await fetch(
     `${getWompiApiBaseUrl()}/transactions/${transactionId}`,
@@ -31,7 +41,10 @@ export async function getWompiTransaction(transactionId: string) {
       payload.error?.reason ??
       payload.error?.messages?.[0]?.message ??
       'Unknown error';
-    throw new Error(`Failed to fetch Wompi transaction: ${reason}`);
+    throw new WompiApiError(
+      `Failed to fetch Wompi transaction: ${reason}`,
+      response.status,
+    );
   }
 
   return payload.data;
