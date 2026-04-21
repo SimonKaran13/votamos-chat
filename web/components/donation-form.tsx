@@ -27,10 +27,21 @@ const DEFAULT_AMOUNTS = [10_000, 20_000, 50_000, 100_000, 500_000];
 function DonationForm() {
   const [amount, setAmount] = useState(50000);
   const [customAmount, setCustomAmount] = useState(false);
+  const [customAmountInput, setCustomAmountInput] = useState('50000');
+
+  const parsedCustomAmount = Number(customAmountInput);
+  const effectiveAmount =
+    customAmount &&
+    Number.isFinite(parsedCustomAmount) &&
+    customAmountInput !== ''
+      ? Math.floor(parsedCustomAmount)
+      : customAmount
+        ? 0
+        : amount;
 
   const handleDonate = async (data: FormData) => {
     try {
-      track('donation_started', { amount });
+      track('donation_started', { amount: effectiveAmount });
       const result = await createWompiCheckoutUrl(data);
       window.location.assign(result.url);
     } catch (error) {
@@ -45,6 +56,7 @@ function DonationForm() {
   const handleSetAmount = (nextAmount: number) => {
     setAmount(nextAmount);
     setCustomAmount(false);
+    setCustomAmountInput(String(nextAmount));
   };
 
   const handleSliderChange = (value: number[]) => {
@@ -83,18 +95,28 @@ function DonationForm() {
                 min={MIN_DONATION_AMOUNT_COP}
                 step="1000"
                 className="mb-2 h-16 w-44 text-center !text-3xl font-bold [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                value={amount}
+                value={customAmountInput}
                 onChange={(event) => {
+                  setCustomAmountInput(
+                    event.target.value.replace(/[^\d]/g, ''),
+                  );
+                }}
+                onBlur={() => {
+                  if (customAmountInput === '') {
+                    return;
+                  }
+
                   const value = Math.max(
                     MIN_DONATION_AMOUNT_COP,
-                    Math.floor(Number(event.target.value) || 0),
+                    Math.floor(Number(customAmountInput) || 0),
                   );
+                  setCustomAmountInput(String(value));
                   setAmount(value);
                 }}
               />
             ) : (
               <h1 className="text-center text-4xl font-bold">
-                <NumberFlow value={amount} />{' '}
+                <NumberFlow value={effectiveAmount} />{' '}
                 <span className="text-lg text-muted-foreground">COP</span>
               </h1>
             )}
@@ -105,7 +127,7 @@ function DonationForm() {
           <EqualIcon className="text-3xl" />
           <div className="mb-8 mt-4 flex flex-col items-center justify-center">
             <h1 className="text-center text-4xl font-bold">
-              <NumberFlow value={Math.round(amount / 80)} />
+              <NumberFlow value={Math.round(effectiveAmount / 80)} />
             </h1>
             <p className="text-center text-sm text-muted-foreground">
               Personas que podemos ayudar informadas.
@@ -135,7 +157,10 @@ function DonationForm() {
               customAmount &&
                 'bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground/90',
             )}
-            onClick={() => setCustomAmount(true)}
+            onClick={() => {
+              setCustomAmount(true);
+              setCustomAmountInput(String(amount));
+            }}
           >
             Otro valor
           </Button>
@@ -146,7 +171,7 @@ function DonationForm() {
           min={MIN_DONATION_AMOUNT_COP}
           max={500_000}
           step={1_000}
-          value={[amount]}
+          value={[effectiveAmount || MIN_DONATION_AMOUNT_COP]}
           onValueChange={handleSliderChange}
         />
 
@@ -155,10 +180,12 @@ function DonationForm() {
           Wompi.
         </p>
 
-        <input type="hidden" name="amount" value={amount} />
+        <input type="hidden" name="amount" value={effectiveAmount} />
       </CardContent>
       <CardFooter>
-        <DonateSubmitButton disabled={amount < MIN_DONATION_AMOUNT_COP} />
+        <DonateSubmitButton
+          disabled={effectiveAmount < MIN_DONATION_AMOUNT_COP}
+        />
       </CardFooter>
     </form>
   );
