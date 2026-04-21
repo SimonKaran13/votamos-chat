@@ -103,6 +103,8 @@ function DonationStatusCard({ transactionId, initialTransaction }: Props) {
           <CardDescription className="pt-2 text-center">
             Gracias por apoyar a votamos.chat con{' '}
             {formatCopAmountFromCents(transaction.amount_in_cents)}.
+            <br />
+            Tu aporte refuerza la democracia.
           </CardDescription>
         </CardHeader>
         <CardFooter>
