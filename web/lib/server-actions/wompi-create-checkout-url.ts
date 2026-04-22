@@ -19,6 +19,10 @@ function parseDonationAmount(rawAmount: FormDataEntryValue | null) {
     throw new Error('Donation amount must be a whole number.');
   }
 
+  if (amount > Math.floor(Number.MAX_SAFE_INTEGER / 100)) {
+    throw new Error('Donation amount is too large.');
+  }
+
   if (amount < MIN_DONATION_AMOUNT_COP) {
     throw new Error(
       `Donation amount must be at least ${MIN_DONATION_AMOUNT_COP} COP.`,
