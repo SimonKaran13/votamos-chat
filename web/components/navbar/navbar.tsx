@@ -23,6 +23,10 @@ export default async function NavBar({ className }: Props) {
       label: 'Guía',
       href: '/how-to',
     },
+    {
+      label: 'Donar',
+      href: '/donar',
+    },
   ];
 
   return (

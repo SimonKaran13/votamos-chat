@@ -17,6 +17,10 @@ function MobileNavbarItems({ mobileClose }: Props) {
       label: 'Guía',
       href: '/how-to',
     },
+    {
+      label: 'Donar',
+      href: '/donar',
+    },
     // {
     //   label: 'Wahl Swiper',
     //   href: '/swiper',
