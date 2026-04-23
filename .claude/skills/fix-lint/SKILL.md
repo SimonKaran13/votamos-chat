@@ -7,15 +7,6 @@ description: Fix lint errors on files with uncommitted changes so the pre-commit
 
 Fix lint errors on changed files in this monorepo so `git commit` passes the husky pre-commit hook.
 
-## Repo layout
-
-This workspace contains multiple sibling repos under `/Users/simonkaran/Code/wahl-chat-oss/`:
-- `wahl-chat-app/`
-- `votamos-chat/`
-- others
-
-Each repo shares the same structure (`web/`, `ai-backend/`) and identical lint-staged config.
-
 ## Pre-commit setup (applies to each repo)
 
 - Hook: `.husky/pre-commit` runs `cd web && npx lint-staged`.
