@@ -45,7 +45,7 @@ const PROCESS_STEPS = [
   'Haces una pregunta',
   'votamos.chat busca en documentos relevantes (como programas electorales y de partido) para encontrar la información adecuada.',
   'La información relevante se utiliza para generar una respuesta comprensible y basada en fuentes.',
-  'Ahora puedes clasificar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
+  'Ahora puedes analizar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
 ];
 
 const FALLBACK_CONTEXT_NAME = 'Elecciones Presidenciales 2026 (Primera Vuelta)';
