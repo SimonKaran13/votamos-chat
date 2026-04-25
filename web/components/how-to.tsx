@@ -45,7 +45,7 @@ const PROCESS_STEPS = [
   'Haces una pregunta',
   'votamos.chat busca en documentos relevantes (como programas electorales y de partido) para encontrar la información adecuada.',
   'La información relevante se utiliza para generar una respuesta comprensible y basada en fuentes.',
-  'Ahora puedes clasificar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
+  'Ahora puedes analizar la posición de una candidatura haciendo clic en el botón debajo de la respuesta.',
 ];
 
 const FALLBACK_CONTEXT_NAME = 'Elecciones Presidenciales 2026 (Primera Vuelta)';
@@ -196,10 +196,10 @@ function buildAccordionContent({
     },
     {
       id: 'position',
-      title: 'Clasificar posición',
+      title: 'Analizar posición',
       content: {
         paragraphs: [
-          'Cuando haces clic en este botón debajo de uno de los mensajes, se clasifica la posición de la propuesta. Se tienen en cuenta los siguientes criterios: viabilidad, efectos a corto plazo y efectos a largo plazo.',
+          'Cuando haces clic en este botón debajo de uno de los mensajes, se analiza la posición de la propuesta. Se tienen en cuenta los siguientes criterios: viabilidad, efectos a corto plazo y efectos a largo plazo.',
           'Para esto utilizamos información actual y fuentes de internet proporcionadas por Perplexity.ai.',
         ],
       },
@@ -468,11 +468,11 @@ function HowTo() {
                         <Button
                           variant="outline"
                           className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-                          tooltip="Clasifica la posición en Pro o Contra"
+                          tooltip="Analiza si la posición es a favor o en contra"
                           type="button"
                         >
                           <ProConIcon />
-                          <span className="text-xs">Clasificar posición</span>
+                          <span className="text-xs">Analizar posición</span>
                         </Button>
                         <ChatActionButtonHighlight showHighlight />
                       </div>
