@@ -36,11 +36,11 @@ function ChatProConButton({ partyId, message, isLastMessage }: Props) {
       <Button
         variant="outline"
         className="h-8 px-2 group-data-[has-message-background]:bg-zinc-100 group-data-[has-message-background]:hover:bg-zinc-200 group-data-[has-message-background]:dark:bg-zinc-900 group-data-[has-message-background]:dark:hover:bg-zinc-800"
-        tooltip="Analiza si la postura es a favor o en contra"
+        tooltip="Analiza si la posición es a favor o en contra"
         onClick={handleGenerateProConPerspective}
       >
         <ProConIcon />
-        <span className="text-xs">Analizar postura</span>
+        <span className="text-xs">Analizar posición</span>
       </Button>
       <ChatActionButtonHighlight showHighlight={showHighlight} />
     </div>
