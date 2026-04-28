@@ -14,7 +14,7 @@ import {
   CollapsibleTrigger,
 } from './ui/collapsible';
 
-const INITIAL_PARTY_COUNT = 7;
+const INITIAL_PARTY_COUNT = 8;
 
 type Props = {
   className?: string;
