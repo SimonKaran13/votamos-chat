@@ -14,7 +14,7 @@ import {
   CollapsibleTrigger,
 } from './ui/collapsible';
 
-const INITIAL_PARTY_COUNT = 7;
+const INITIAL_PARTY_COUNT = 8;
 
 type Props = {
   className?: string;
@@ -57,8 +57,14 @@ function PartyCards({
     ];
   }, [parties]);
 
-  const initialParties = sortedParties.slice(0, INITIAL_PARTY_COUNT);
-  const remainingParties = sortedParties.slice(INITIAL_PARTY_COUNT);
+  const hasMore = sortedParties.length > INITIAL_PARTY_COUNT;
+  const initialParties = sortedParties.slice(
+    0,
+    hasMore ? INITIAL_PARTY_COUNT - 1 : INITIAL_PARTY_COUNT,
+  );
+  const remainingParties = hasMore
+    ? sortedParties.slice(INITIAL_PARTY_COUNT - 1)
+    : [];
 
   const defaultShowMore = !!remainingParties.find((p) =>
     selectedPartyIds?.includes(p.party_id),
