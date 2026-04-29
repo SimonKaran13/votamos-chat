@@ -97,5 +97,18 @@
     "election_manifesto_url": "https://roybarreras.com/#propuestas",
     "long_name": "La Fuerza (Roy Barreras)",
     "logo_src": ""
+  },
+  "murillo": {
+    "is_already_in_parliament": false,
+    "is_small_party": true,
+    "candidate": "Luis Gilberto Murillo y Luz María Zapata",
+    "background_color": "#FFFFFF",
+    "website_url": "https://murilloporcolombia.com/",
+    "party_id": "murillo",
+    "name": "Luis Gilberto Murillo",
+    "description": "Luis Gilberto Murillo se presenta como una candidatura de centro progresista que busca desarrollo territorial, paz, sostenibilidad ambiental y modernización productiva con enfoque social.",
+    "election_manifesto_url": "https://murilloporcolombia.com/blog/",
+    "long_name": "Luis Gilberto Murillo",
+    "logo_src": ""
   }
 }
