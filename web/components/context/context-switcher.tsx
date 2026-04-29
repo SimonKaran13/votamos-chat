@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { Context } from '@/lib/firebase/firebase.types';
-import { formatGermanDate } from '@/lib/utils';
+import { formatColombianDate } from '@/lib/utils';
 import { CheckIcon, ChevronDownIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -83,15 +83,13 @@ function ContextSwitcher({
     ? selectableContexts.find((c) => c.context_id === pendingContextId)
     : null;
 
-  const formattedDate = formatGermanDate(currentContext.date, 'medium');
+  const formattedDate = formatColombianDate(currentContext.date, 'medium');
 
   if (selectableContexts.length <= 1) {
     return (
       <div className="flex min-w-0 items-center gap-1.5 text-sm text-muted-foreground">
         <ContextIcon context={currentContext} className="size-5 shrink-0" />
-        <span className="truncate text-xs">
-          {currentContext.name}
-        </span>
+        <span className="truncate text-xs">{currentContext.name}</span>
       </div>
     );
   }
@@ -124,7 +122,7 @@ function ContextSwitcher({
           className="w-[var(--radix-popper-anchor-width)] md:w-64"
         >
           {selectableContexts.map((ctx) => {
-            const ctxDate = formatGermanDate(ctx.date, 'medium');
+            const ctxDate = formatColombianDate(ctx.date, 'medium');
             const isSelected = ctx.context_id === currentContext.context_id;
 
             return (

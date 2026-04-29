@@ -15,12 +15,12 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 import type { Context } from '@/lib/firebase/firebase.types';
-import { formatGermanDate } from '@/lib/utils';
+import { formatColombianDate } from '@/lib/utils';
 import { CalendarIcon, CheckIcon, MapPinIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 function CompactElectionContent({ context }: { context: Context }) {
-  const formattedDate = formatGermanDate(context.date, 'short');
+  const formattedDate = formatColombianDate(context.date, 'short');
 
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -53,7 +53,7 @@ function DropdownElectionContent({
   context: Context;
   isSelected?: boolean;
 }) {
-  const formattedDate = formatGermanDate(context.date, 'long');
+  const formattedDate = formatColombianDate(context.date, 'long');
 
   return (
     <div className="flex w-full items-start gap-3 py-1">
@@ -149,7 +149,7 @@ export function ElectionSelect() {
       >
         {upcomingElections.map((ctx) => {
           const isSelected = ctx.context_id === currentContext.context_id;
-          const formattedDate = formatGermanDate(ctx.date, 'long');
+          const formattedDate = formatColombianDate(ctx.date, 'long');
           const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (seleccionada)' : ''}`;
 
           return (
@@ -173,7 +173,7 @@ export function ElectionSelect() {
               </SelectLabel>
               {pastElections.map((ctx) => {
                 const isSelected = ctx.context_id === currentContext.context_id;
-                const formattedDate = formatGermanDate(ctx.date, 'long');
+                const formattedDate = formatColombianDate(ctx.date, 'long');
                 const ariaLabel = `${ctx.name}${formattedDate ? `, ${formattedDate}` : ''}${ctx.location_name ? `, ${ctx.location_name}` : ''}${isSelected ? ' (seleccionada)' : ''}`;
 
                 return (

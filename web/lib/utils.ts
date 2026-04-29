@@ -126,23 +126,25 @@ export function prettyDate(
   return new Intl.DateTimeFormat('en-DE', options).format(date);
 }
 
-export function formatGermanDate(
-  dateString: string | null | undefined,
+export function formatColombianDate(
+  dateInput: string | Date | null | undefined,
   format: 'full' | 'long' | 'medium' | 'short' = 'long',
 ): string | null {
-  if (!dateString || dateString.length === 0) return null;
+  if (!dateInput) return null;
+  if (typeof dateInput === 'string' && dateInput.length === 0) return null;
 
-  const date = new Date(dateString);
+  const date = new Date(dateInput);
 
-  if (!date) {
+  if (Number.isNaN(date.getTime())) {
     return null;
   }
 
   const options: Intl.DateTimeFormatOptions = {
     dateStyle: format,
+    timeZone: 'UTC',
   };
 
-  return new Intl.DateTimeFormat('de-DE', options).format(date);
+  return new Intl.DateTimeFormat('es-CO', options).format(date);
 }
 
 export function buildPdfUrl(source: Source) {
