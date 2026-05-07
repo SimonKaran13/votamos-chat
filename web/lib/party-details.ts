@@ -9,6 +9,7 @@ export type PartyDetails = {
   election_manifesto_url?: string;
   manifesto_url?: string;
   election_result_forecast_percent?: number;
+  is_active?: boolean;
   is_already_in_parliament?: boolean;
   is_small_party?: boolean;
   logo_src?: string;

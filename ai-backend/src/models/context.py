@@ -84,6 +84,9 @@ class ContextParty(BaseModel):
     is_already_in_parliament: bool = Field(
         True, description="Whether the party is currently in parliament"
     )
+    is_active: bool = Field(
+        True, description="Whether the party is currently active in this context"
+    )
     is_small_party: bool = Field(
         False, description="Whether the party is a small party"
     )
