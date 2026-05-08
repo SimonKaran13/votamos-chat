@@ -38,6 +38,12 @@ import type {
   SourceDocument,
 } from './firebase.types';
 
+type ContextPartyActivity = Pick<PartyDetails, 'is_active'>;
+
+function isActiveContextParty(party: ContextPartyActivity) {
+  return party.is_active !== false;
+}
+
 class ContextNotFoundError extends Error {
   constructor(contextId: string) {
     super(`Context not found: ${contextId}`);
@@ -214,13 +220,15 @@ async function getPartiesForContextImpl(contextId: string) {
       `[Firestore] Successfully fetched parties for context: ${snapshot.docs.length} parties`,
     );
 
-    return snapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        ...data,
-        party_id: doc.id,
-      } as PartyDetails;
-    });
+    return snapshot.docs
+      .map((doc) => {
+        const data = doc.data();
+        return {
+          ...data,
+          party_id: doc.id,
+        } as PartyDetails;
+      })
+      .filter(isActiveContextParty);
   } catch (error) {
     console.error(
       `[Firestore] FAILED to fetch parties "/contexts/${contextId}/parties":`,
@@ -532,32 +540,38 @@ async function getSourceDocumentsForContextImpl(contextId: string) {
   const serverDb = await getServerFirestore({ useHeaders: false });
   const partiesRef = collection(serverDb, 'contexts', contextId, 'parties');
   const partiesSnapshot = await getDocs(partiesRef);
+  const activePartyIds = partiesSnapshot.docs
+    .map((doc) => ({
+      id: doc.id,
+      data: doc.data() as ContextPartyActivity,
+    }))
+    .filter((party) => isActiveContextParty(party.data))
+    .map((party) => party.id);
 
-  const sourcesPromises = [
-    ...partiesSnapshot.docs.map((doc) => doc.id),
-    WAHL_CHAT_PARTY_ID,
-  ].map(async (partyId) => {
-    const sourcesRef = query(
-      collection(
-        serverDb,
-        'sources',
-        contextId,
-        'parties',
-        partyId,
-        'source_documents',
-      ),
-    );
-    const sourcesSnapshot = await getDocs(sourcesRef);
-    return sourcesSnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        ...data,
-        id: doc.id,
-        publish_date: firestoreTimestampToDate(data.publish_date),
-        party_id: partyId,
-      } as SourceDocument;
-    });
-  });
+  const sourcesPromises = [...activePartyIds, WAHL_CHAT_PARTY_ID].map(
+    async (partyId) => {
+      const sourcesRef = query(
+        collection(
+          serverDb,
+          'sources',
+          contextId,
+          'parties',
+          partyId,
+          'source_documents',
+        ),
+      );
+      const sourcesSnapshot = await getDocs(sourcesRef);
+      return sourcesSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          ...data,
+          id: doc.id,
+          publish_date: firestoreTimestampToDate(data.publish_date),
+          party_id: partyId,
+        } as SourceDocument;
+      });
+    },
+  );
 
   const sources = await Promise.all(sourcesPromises);
 
@@ -569,7 +583,7 @@ export const getSourceDocumentsForContext = cache(
   undefined,
   {
     revalidate: 60 * 60 * 24,
-    tags: [CacheTags.SOURCE_DOCUMENTS],
+    tags: [CacheTags.SOURCE_DOCUMENTS, CacheTags.CONTEXT_PARTIES],
   },
 );
 
