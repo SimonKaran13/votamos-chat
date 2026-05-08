@@ -26,7 +26,10 @@ credentials_filenames = (
         "wahl-chat-firebase-adminsdk.json",
     ]
     if ENV == "prod"
-    else ["votamos-chat-dev-firebase-adminsdk.json", "wahl-chat-dev-firebase-adminsdk.json"]
+    else [
+        "votamos-chat-dev-firebase-adminsdk.json",
+        "wahl-chat-dev-firebase-adminsdk.json",
+    ]
 )
 
 
@@ -166,8 +169,12 @@ async def aget_parties_for_context(context_id: str) -> list[ContextParty]:
         .collection("parties")
         .stream()
     )
-    context_parties = [ContextParty(**party.to_dict()) async for party in parties]
-    return [party for party in context_parties if party.is_active is not False]
+    context_parties = []
+    async for party in parties:
+        context_party = ContextParty(**party.to_dict())
+        if context_party.is_active:
+            context_parties.append(context_party)
+    return context_parties
 
 
 async def aget_party_for_context(

@@ -38,6 +38,12 @@ import type {
   SourceDocument,
 } from './firebase.types';
 
+type ContextPartyActivity = Pick<PartyDetails, 'is_active'>;
+
+function isActiveContextParty(party: ContextPartyActivity) {
+  return party.is_active !== false;
+}
+
 class ContextNotFoundError extends Error {
   constructor(contextId: string) {
     super(`Context not found: ${contextId}`);
@@ -222,7 +228,7 @@ async function getPartiesForContextImpl(contextId: string) {
           party_id: doc.id,
         } as PartyDetails;
       })
-      .filter((party) => party.is_active !== false);
+      .filter(isActiveContextParty);
   } catch (error) {
     console.error(
       `[Firestore] FAILED to fetch parties "/contexts/${contextId}/parties":`,
@@ -537,9 +543,9 @@ async function getSourceDocumentsForContextImpl(contextId: string) {
   const activePartyIds = partiesSnapshot.docs
     .map((doc) => ({
       id: doc.id,
-      data: doc.data() as PartyDetails,
+      data: doc.data() as ContextPartyActivity,
     }))
-    .filter((party) => party.data.is_active !== false)
+    .filter((party) => isActiveContextParty(party.data))
     .map((party) => party.id);
 
   const sourcesPromises = [...activePartyIds, WAHL_CHAT_PARTY_ID].map(
@@ -577,7 +583,7 @@ export const getSourceDocumentsForContext = cache(
   undefined,
   {
     revalidate: 60 * 60 * 24,
-    tags: [CacheTags.SOURCE_DOCUMENTS],
+    tags: [CacheTags.SOURCE_DOCUMENTS, CacheTags.CONTEXT_PARTIES],
   },
 );
 
