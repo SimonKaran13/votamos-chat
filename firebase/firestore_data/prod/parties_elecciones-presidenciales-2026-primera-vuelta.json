@@ -99,6 +99,7 @@
     "logo_src": ""
   },
   "murillo": {
+    "is_active": false,
     "is_already_in_parliament": false,
     "is_small_party": true,
     "candidate": "Luis Gilberto Murillo y Luz María Zapata",
