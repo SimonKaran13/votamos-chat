@@ -1,4 +1,16 @@
 {
+  "elecciones-presidenciales-2026-segunda-vuelta": {
+    "context_id": "elecciones-presidenciales-2026-segunda-vuelta",
+    "name": "Elecciones Presidenciales 2026 (Segunda Vuelta)",
+    "short_name": "EP 2026 P2",
+    "type": "election",
+    "date": "2026-06-21",
+    "location_name": "Colombia",
+    "is_active": true,
+    "icon_url": "/images/elecciones-presidenciales-2026-primera-vuelta.webp",
+    "supports_voting_behavior": false,
+    "relevant_area": null
+  },
   "elecciones-presidenciales-2026-primera-vuelta": {
     "context_id": "elecciones-presidenciales-2026-primera-vuelta",
     "name": "Elecciones Presidenciales 2026 (Primera Vuelta)",
