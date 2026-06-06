@@ -1,0 +1,87 @@
+{
+  "proposed_questions/pacto/questions/banner_question_1": {
+    "location": "banner",
+    "topic": "Segunda vuelta",
+    "content": "¿Qué propone el Pacto Histórico para convencer a quienes votaron por otras candidaturas?"
+  },
+  "proposed_questions/pacto/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo ajustarán su propuesta de seguridad y paz para la segunda vuelta?"
+  },
+  "proposed_questions/pacto/questions/question_2": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Qué medidas económicas priorizarían en los primeros 100 días de gobierno?"
+  },
+  "proposed_questions/pacto/questions/question_3": {
+    "location": "chat",
+    "topic": "Gobernabilidad",
+    "content": "¿Con qué sectores políticos buscarían acuerdos si ganan la presidencia?"
+  },
+  "proposed_questions/pacto/questions/question_4": {
+    "location": "chat",
+    "topic": "Comparación",
+    "content": "¿En qué se diferencia su programa del de Abelardo de la Espriella?"
+  },
+  "proposed_questions/adle/questions/banner_question_1": {
+    "location": "banner",
+    "topic": "Segunda vuelta",
+    "content": "¿Qué propone Abelardo de la Espriella para convencer a quienes votaron por otras candidaturas?"
+  },
+  "proposed_questions/adle/questions/question_1": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo ajustarán su propuesta de seguridad y paz para la segunda vuelta?"
+  },
+  "proposed_questions/adle/questions/question_2": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Qué medidas económicas priorizarían en los primeros 100 días de gobierno?"
+  },
+  "proposed_questions/adle/questions/question_3": {
+    "location": "chat",
+    "topic": "Gobernabilidad",
+    "content": "¿Con qué sectores políticos buscarían acuerdos si ganan la presidencia?"
+  },
+  "proposed_questions/adle/questions/question_4": {
+    "location": "chat",
+    "topic": "Comparación",
+    "content": "¿En qué se diferencia su programa del Pacto Histórico?"
+  },
+  "proposed_questions/group/questions/question_1": {
+    "location": "chat",
+    "topic": "Comparación",
+    "content": "Compara las propuestas de Pacto Histórico y Abelardo de la Espriella para la segunda vuelta."
+  },
+  "proposed_questions/group/questions/question_2": {
+    "location": "chat",
+    "topic": "Seguridad y paz",
+    "content": "¿Qué diferencias tienen las candidaturas en seguridad, paz y orden público?"
+  },
+  "proposed_questions/group/questions/question_3": {
+    "location": "chat",
+    "topic": "Economía",
+    "content": "¿Qué diferencias tienen las candidaturas en empleo, impuestos y costo de vida?"
+  },
+  "proposed_questions/group/questions/question_4": {
+    "location": "chat",
+    "topic": "Instituciones",
+    "content": "¿Qué diferencias tienen las candidaturas en corrupción, justicia e instituciones?"
+  },
+  "proposed_questions/wahl-chat/questions/question_1": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Qué puedo preguntar sobre la segunda vuelta?"
+  },
+  "proposed_questions/wahl-chat/questions/question_2": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Puedo comparar las dos candidaturas?"
+  },
+  "proposed_questions/wahl-chat/questions/question_3": {
+    "topic": "votamos.chat",
+    "location": "chat",
+    "content": "¿Cómo se generan las respuestas?"
+  }
+}

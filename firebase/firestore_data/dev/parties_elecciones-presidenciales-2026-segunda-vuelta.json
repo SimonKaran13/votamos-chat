@@ -1,0 +1,26 @@
+{
+  "pacto": {
+    "is_already_in_parliament": true,
+    "candidate": "Iván Cepeda y Aida Quilcué",
+    "background_color": "#FFFFFF",
+    "website_url": "https://www.movimientopactohistorico.co/",
+    "party_id": "pacto",
+    "name": "Pacto Histórico",
+    "description": "El Pacto Histórico es una coalición política progresista en Colombia. Su candidatura pasó a la segunda vuelta presidencial de 2026.",
+    "election_manifesto_url": "https://www.movimientopactohistorico.co/docs/programa-gobierno-2026-2030.pdf",
+    "long_name": "Pacto Histórico",
+    "logo_src": ""
+  },
+  "adle": {
+    "is_already_in_parliament": true,
+    "candidate": "Abelardo de la Espriella y José Manuel Restrepo",
+    "background_color": "#FF0000",
+    "website_url": "https://defensoresdelapatria.com/",
+    "party_id": "adle",
+    "name": "Defensores de la Patria",
+    "description": "Defensores de la Patria es un movimiento independiente colombiano conservador. Su candidatura pasó a la segunda vuelta presidencial de 2026.",
+    "election_manifesto_url": "https://defensoresdelapatria.com/wp-content/uploads/2026/04/PROPUESTAS-ABELARDO-DE-LA-ESPRIELLA-EL-TIGRE.pdf",
+    "long_name": "Defensores de la Patria",
+    "logo_src": ""
+  }
+}

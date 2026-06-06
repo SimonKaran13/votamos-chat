@@ -29,7 +29,7 @@ env = os.getenv("ENV", "dev")
 env_suffix = f"_{env}" if env in ["prod", "dev"] else "_dev"
 
 # Default context for backwards compatibility
-DEFAULT_CONTEXT_ID = "elecciones-presidenciales-2026-primera-vuelta"
+DEFAULT_CONTEXT_ID = "elecciones-presidenciales-2026-segunda-vuelta"
 
 # Legacy collection names (kept for backwards compatibility where needed)
 PARTY_INDEX_NAME = f"all_parties{env_suffix}"
