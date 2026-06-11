@@ -127,3 +127,60 @@ body {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+/* Second round face-off (segunda vuelta) entrance */
+@keyframes face-off-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes face-off-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes vs-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  70% {
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-face-off-left {
+  animation: face-off-left 0.5s ease-out both;
+}
+
+.animate-face-off-right {
+  animation: face-off-right 0.5s ease-out both;
+}
+
+.animate-vs-pop {
+  animation: vs-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-face-off-left,
+  .animate-face-off-right,
+  .animate-vs-pop {
+    animation: none;
+  }
+}
