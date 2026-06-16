@@ -2,9 +2,10 @@
 
 import {
   useContextParties,
-  useCurrentContext,
+  useElectionContext,
 } from '@/components/providers/context-provider';
 import { DEFAULT_CONTEXT_ID } from '@/lib/constants';
+import type { Context } from '@/lib/firebase/firebase.types';
 import { exportHowToPDF } from '@/lib/how-to-pdf-export';
 import type { PartyDetails } from '@/lib/party-details';
 import {
@@ -83,6 +84,26 @@ function formatContextDate(date: string | null | undefined) {
   }).format(parsedDate);
 }
 
+function formatContextLabel(context: Pick<Context, 'name' | 'date'>) {
+  const formattedDate = formatContextDate(context.date);
+  return formattedDate ? `${context.name} - ${formattedDate}` : context.name;
+}
+
+function getSupportedElectionLabels(
+  contexts: Context[] | undefined,
+  fallbackLabel: string,
+) {
+  const electionContexts = contexts
+    ?.filter((context) => context.type === 'election' && context.is_active)
+    .sort((left, right) => (left.date ?? '').localeCompare(right.date ?? ''));
+
+  if (!electionContexts?.length) {
+    return [fallbackLabel];
+  }
+
+  return electionContexts.map(formatContextLabel);
+}
+
 function getOrderedPartyNames(parties?: PartyDetails[]) {
   if (!parties?.length) {
     return PREFERRED_PARTY_NAMES;
@@ -134,22 +155,20 @@ function buildCompareQuestions(partyNames: string[]) {
 
 function buildAccordionContent({
   contextName,
-  contextDate,
+  supportedElectionLabels,
   locationName,
   partyNames,
   supportsVotingBehavior,
 }: {
   contextName: string;
-  contextDate: string | null;
+  supportedElectionLabels: string[];
   locationName: string;
   partyNames: string[];
   supportsVotingBehavior: boolean;
 }) {
   const partySpecificQuestions = buildPartySpecificQuestions(partyNames);
   const compareQuestions = buildCompareQuestions(partyNames);
-  const supportedContextLabel = contextDate
-    ? `${contextName} - ${contextDate}`
-    : contextName;
+  const supportsMultipleElections = supportedElectionLabels.length > 1;
 
   return [
     {
@@ -178,8 +197,10 @@ function buildAccordionContent({
       id: 'elections-supported',
       title: '¿Qué elecciones están soportadas?',
       content: {
-        intro: 'Actualmente soportamos el siguiente contexto electoral:',
-        list: [supportedContextLabel],
+        intro: supportsMultipleElections
+          ? 'Actualmente soportamos los siguientes contextos electorales:'
+          : 'Actualmente soportamos el siguiente contexto electoral:',
+        list: supportedElectionLabels,
         outro:
           'Iremos añadiendo nuevos contextos electorales a medida que estén disponibles.',
       },
@@ -324,18 +345,26 @@ const PROCESS_STEP_ICONS = [
 
 function HowTo() {
   const [isExporting, setIsExporting] = useState(false);
-  const context = useCurrentContext({ optional: true });
+  const electionContext = useElectionContext({ optional: true });
+  const context = electionContext?.context;
   const parties = useContextParties();
   const contextId = context?.context_id ?? DEFAULT_CONTEXT_ID;
 
   const partyNames = getOrderedPartyNames(parties);
   const contextName = context?.name ?? FALLBACK_CONTEXT_NAME;
   const contextDate = formatContextDate(context?.date ?? FALLBACK_CONTEXT_DATE);
+  const fallbackContextLabel = contextDate
+    ? `${contextName} - ${contextDate}`
+    : contextName;
+  const supportedElectionLabels = getSupportedElectionLabels(
+    electionContext?.contexts,
+    fallbackContextLabel,
+  );
   const locationName = context?.location_name ?? FALLBACK_LOCATION_NAME;
   const supportsVotingBehavior = context?.supports_voting_behavior ?? false;
   const accordionContent = buildAccordionContent({
     contextName,
-    contextDate,
+    supportedElectionLabels,
     locationName,
     partyNames,
     supportsVotingBehavior,
