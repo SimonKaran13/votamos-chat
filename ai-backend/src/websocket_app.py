@@ -365,6 +365,7 @@ async def chat_answer_request(sid: str, body: dict):
         party_ids=chat_message_data.party_ids,
         user_is_logged_in=chat_message_data.user_is_logged_in,
         message_id=chat_message_data.id,
+        is_proposed_question=chat_message_data.is_proposed_question,
     )
 
 

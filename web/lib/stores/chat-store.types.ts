@@ -123,7 +123,10 @@ export type ChatStoreActions = {
   addUserMessage: (
     userId: string,
     message: string,
-    fromInitialQuestion?: boolean,
+    options?: {
+      fromInitialQuestion?: boolean;
+      isProposedQuestion?: boolean;
+    },
   ) => void;
   setChatSessionId: (chatSessionId: string) => void;
   newChat: () => void;
