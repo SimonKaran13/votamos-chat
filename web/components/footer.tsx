@@ -13,7 +13,7 @@ function Footer() {
   return (
     <footer className="flex h-footer w-full flex-col items-center gap-4 border-t p-4 text-xs text-muted-foreground md:flex-row md:justify-between">
       <section className="flex items-center gap-2 self-start md:self-auto">
-        <Logo className="size-5" variant="small" />
+        <Logo className="size-5 text-foreground" variant="small" />
         <Link
           className="transition-colors hover:text-foreground"
           href="https://wahl.chat"
