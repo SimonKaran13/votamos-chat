@@ -17,6 +17,7 @@ declare global {
       WOMPI_INTEGRITY_SECRET?: string;
       NEXT_PUBLIC_STREAMING_MESSAGE_TIMEOUT_MS?: string;
       BUDGET_SPENT: TruthyKinda;
+      SITE_PAUSED?: TruthyKinda;
       REVALIDATE_SECRET: string;
       IS_EMBEDDED: TruthyKinda;
     }
