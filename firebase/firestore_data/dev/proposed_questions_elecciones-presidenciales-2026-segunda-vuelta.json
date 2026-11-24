@@ -1,73 +1,88 @@
 {
   "proposed_questions/pacto/questions/banner_question_1": {
     "location": "banner",
-    "topic": "Segunda vuelta",
-    "content": "¿Qué propone el Pacto Histórico para convencer a quienes votaron por otras candidaturas?"
+    "topic": "Seguridad y paz",
+    "content": "¿Cómo defiende el Pacto Histórico su propuesta de paz integral y seguridad humana frente a las críticas de mano dura?"
   },
   "proposed_questions/pacto/questions/question_1": {
     "location": "chat",
     "topic": "Seguridad y paz",
-    "content": "¿Cómo ajustarán su propuesta de seguridad y paz para la segunda vuelta?"
+    "content": "¿Qué propone el Pacto Histórico para enfrentar a grupos armados, proteger comunidades y reducir el reclutamiento?"
   },
   "proposed_questions/pacto/questions/question_2": {
     "location": "chat",
-    "topic": "Economía",
-    "content": "¿Qué medidas económicas priorizarían en los primeros 100 días de gobierno?"
+    "topic": "Corrupción e instituciones",
+    "content": "¿Cómo funcionaría su propuesta anticorrupción y qué cambiaría en justicia, contratación y control de regalías?"
   },
   "proposed_questions/pacto/questions/question_3": {
     "location": "chat",
-    "topic": "Gobernabilidad",
-    "content": "¿Con qué sectores políticos buscarían acuerdos si ganan la presidencia?"
+    "topic": "Salud",
+    "content": "¿Qué cambios plantea para el sistema de salud, las EPS, hospitales y acceso a medicamentos?"
   },
   "proposed_questions/pacto/questions/question_4": {
     "location": "chat",
-    "topic": "Comparación",
-    "content": "¿En qué se diferencia su programa del de Abelardo de la Espriella?"
+    "topic": "Economía y empleo",
+    "content": "¿Cómo conectan sus propuestas de empleo, pequeñas empresas, salario y costo de vida?"
+  },
+  "proposed_questions/pacto/questions/question_5": {
+    "location": "chat",
+    "topic": "Campo, ambiente y energía",
+    "content": "¿Qué implica su revolución agraria y cómo equilibraría tierra, agua, energía y protección ambiental?"
   },
   "proposed_questions/adle/questions/banner_question_1": {
     "location": "banner",
-    "topic": "Segunda vuelta",
-    "content": "¿Qué propone Abelardo de la Espriella para convencer a quienes votaron por otras candidaturas?"
+    "topic": "Seguridad",
+    "content": "¿Cómo funcionaría la propuesta de megacárceles de Abelardo de la Espriella y qué problema busca resolver?"
   },
   "proposed_questions/adle/questions/question_1": {
     "location": "chat",
-    "topic": "Seguridad y paz",
-    "content": "¿Cómo ajustarán su propuesta de seguridad y paz para la segunda vuelta?"
+    "topic": "Megacárceles y seguridad",
+    "content": "¿Qué incluye su propuesta de megacárceles y cómo la conecta con seguridad ciudadana, justicia y orden público?"
   },
   "proposed_questions/adle/questions/question_2": {
     "location": "chat",
-    "topic": "Economía",
-    "content": "¿Qué medidas económicas priorizarían en los primeros 100 días de gobierno?"
+    "topic": "Orden público",
+    "content": "¿Qué plantea para enfrentar grupos armados, ELN, narcotráfico y reclutamiento en las regiones?"
   },
   "proposed_questions/adle/questions/question_3": {
     "location": "chat",
-    "topic": "Gobernabilidad",
-    "content": "¿Con qué sectores políticos buscarían acuerdos si ganan la presidencia?"
+    "topic": "Economía",
+    "content": "¿Qué propone para empleo, costo de vida, impuestos e inversión privada?"
   },
   "proposed_questions/adle/questions/question_4": {
     "location": "chat",
-    "topic": "Comparación",
-    "content": "¿En qué se diferencia su programa del Pacto Histórico?"
+    "topic": "Ambiente y desarrollo",
+    "content": "¿Cómo explica su propuesta de milagro ambiental y su relación con energía, campo y desarrollo regional?"
+  },
+  "proposed_questions/adle/questions/question_5": {
+    "location": "chat",
+    "topic": "Constitución e instituciones",
+    "content": "¿Qué significa defender la Constitución de 1991 en su programa y qué cambios plantea para justicia e instituciones?"
   },
   "proposed_questions/group/questions/question_1": {
     "location": "chat",
-    "topic": "Comparación",
-    "content": "Compara las propuestas de Pacto Histórico y Abelardo de la Espriella para la segunda vuelta."
+    "topic": "Seguridad y paz",
+    "content": "¿Qué propone cada candidatura para enfrentar a los grupos armados: diálogo, mano dura, sometimiento o una combinación de estrategias?"
   },
   "proposed_questions/group/questions/question_2": {
     "location": "chat",
-    "topic": "Seguridad y paz",
-    "content": "¿Qué diferencias tienen las candidaturas en seguridad, paz y orden público?"
+    "topic": "Seguridad ciudadana",
+    "content": "¿Cómo cambiaría la seguridad ciudadana con cada candidatura, especialmente frente a cárceles, policía, protesta social y orden público?"
   },
   "proposed_questions/group/questions/question_3": {
     "location": "chat",
-    "topic": "Economía",
-    "content": "¿Qué diferencias tienen las candidaturas en empleo, impuestos y costo de vida?"
+    "topic": "Corrupción e instituciones",
+    "content": "¿Qué propone cada candidatura para combatir la corrupción y recuperar confianza en instituciones como justicia, salud y contratación pública?"
   },
   "proposed_questions/group/questions/question_4": {
     "location": "chat",
-    "topic": "Instituciones",
-    "content": "¿Qué diferencias tienen las candidaturas en corrupción, justicia e instituciones?"
+    "topic": "Economía",
+    "content": "¿Qué diferencias hay entre las candidaturas en empleo, costo de vida, impuestos e inversión?"
+  },
+  "proposed_questions/group/questions/question_5": {
+    "location": "chat",
+    "topic": "Campo, ambiente y energía",
+    "content": "¿Cómo equilibraría cada candidatura ambiente, transición energética, campo y desarrollo regional?"
   },
   "proposed_questions/wahl-chat/questions/question_1": {
     "topic": "votamos.chat",

@@ -219,7 +219,7 @@ export function SecondRoundFaceOff({ contextId }: Props) {
               </span>
             ))}
           </span>
-          Compáralas frente a frente
+          Compáralos frente a frente
         </Link>
       </Button>
     </section>
