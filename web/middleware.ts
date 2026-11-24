@@ -7,7 +7,6 @@ const ALLOWED_PATHS = [
   PAUSED_PATH,
   '/about-us',
   '/donar',
-  '/donate',
   '/impressum',
   '/privacidad',
 ];
